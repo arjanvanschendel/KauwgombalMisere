@@ -10,7 +10,6 @@
 *.dat
 *.xmi
 *.txt
-*.xml
 *.ini
 *.classpath
 *.project
