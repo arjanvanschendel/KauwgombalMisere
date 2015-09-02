@@ -3,7 +3,7 @@ package main;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
- 
+
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -17,6 +17,8 @@ public class Launcher {
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback   keyCallback;
     private double lastFrame;
+    private int WIDTH;
+    private int HEIGHT;
     // The window handle
     private long window;
  
@@ -54,23 +56,18 @@ public class Launcher {
         // Get the resolution of the primary monitor
         ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         
-        int WIDTH = GLFWvidmode.width(vidmode);
-        int HEIGHT = GLFWvidmode.width(vidmode);
- 
+        WIDTH = GLFWvidmode.width(vidmode)/2;
+        HEIGHT = GLFWvidmode.height(vidmode)/2;
+
         // Create the window
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", glfwGetPrimaryMonitor(), NULL);
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+        //Fullscreen
+        //window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", glfwGetPrimaryMonitor(), NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
         
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
-            @Override
-            public void invoke(long window, int key, int scancode, int action, int mods) {
-                if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                    glfwSetWindowShouldClose(window, GL_TRUE); // We will detect this in our rendering loop
-            }
-        });
-        
+
+        glfwSetKeyCallback(window, keyCallback = new Keyboard());
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
@@ -88,12 +85,18 @@ public class Launcher {
         GLContext.createFromCurrent();
  
         // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0f, 0.3f, 0.3f, 0.0f);
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, WIDTH, 0, HEIGHT, -1, 1);
+		glMatrixMode(GL11.GL_MODELVIEW);
+		
         Game game = new Game();
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            glClear(GL_COLOR_BUFFER_BIT);
+    		glLoadIdentity();
             game.update(getDelta());
             game.render();
             
