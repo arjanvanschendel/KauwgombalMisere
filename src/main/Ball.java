@@ -21,10 +21,10 @@ public class Ball extends Circle implements RenderAble,UpdateAble,Collider {
 	}
 
 	public void update(double deltaTime){
-		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 		deltaY -= deltaTime*9.81;
 		posx +=deltaX;
 		posy +=deltaY;
+		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 
 		if(!collisions.isEmpty()){
 			for(Collision collision : collisions){
