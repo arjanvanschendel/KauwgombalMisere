@@ -4,10 +4,12 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import java.awt.Color;
 
+import Interfaces.Collider;
 import Interfaces.RenderAble;
+import Interfaces.UpdateAble;
 import Shapes.Box;
 
-public class Player extends Box implements RenderAble {
+public class Player extends Box implements RenderAble,UpdateAble  {
 	private float deltaX = 0;
 	private float deltaY = 0;
 	
@@ -20,6 +22,7 @@ public class Player extends Box implements RenderAble {
 		handleInputs(deltaTime);
 		posx +=deltaX;
 		posy +=deltaY;
+		super.update();
 	}
 	
 	public void render() {
