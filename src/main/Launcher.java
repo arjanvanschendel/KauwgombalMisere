@@ -97,6 +97,7 @@ public class Launcher {
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
             glClear(GL_COLOR_BUFFER_BIT);
     		glLoadIdentity();
+    		
             game.update(getDelta());
             game.render();
             
@@ -112,7 +113,7 @@ public class Launcher {
         double time = glfwGetTime();
         double delta = time - lastFrame;
         lastFrame = time;
-             
+        
         return delta;
     }
     

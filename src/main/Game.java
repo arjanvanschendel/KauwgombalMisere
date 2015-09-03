@@ -19,7 +19,11 @@ public class Game {
 	
 	public void update(double deltaTime){
 		if(Keyboard.isKeyDown(GLFW_KEY_ESCAPE)){
-			state = 2;
+			if(state == 0){
+				state = 1;
+			} else if (state == 1){
+				state = 0;
+			}
 		}
 
 		if(state == 0){
@@ -39,15 +43,10 @@ public class Game {
 			lvl.render();
 		} else if(state == 1){
 			//Pauzed
+			lvl.render();
 			
 		} else if(state == 2){
 			//Main menu
-			glBegin(GL_TRIANGLES);
-	        glColor3f(0.1f, 0.2f, 0.3f);
-	        glVertex2f(0, 0);
-	        glVertex2f(500, 0);
-	        glVertex2f(0, 500);
-	        glEnd();
 		}
 	}
 	public int getState() {

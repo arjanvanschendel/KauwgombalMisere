@@ -9,11 +9,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import Interfaces.RenderAble;
+import Interfaces.UpdateAble;
 import Shapes.Box;
 
 public class Level {
 	private String loc;
 	private ArrayList<RenderAble> renderAbles = new ArrayList<RenderAble>();
+	private ArrayList<UpdateAble> updateAbles = new ArrayList<UpdateAble>();
+	
 	private Player player;
 	public Level(String location) {
 			
@@ -34,10 +37,12 @@ public class Level {
 					String[] para = param.split("\\,"); 
 					if( type.equals("box")){
 						addBox(para);				
+					}else if( type.equals("ball")){
+						addBall(para);				
 					} else if( type.equals("player")){
 						player = new Player(Float.parseFloat(para[0]),Float.parseFloat(para[1]));
 						renderAbles.add(player);
-						System.out.println("Player");
+						CollisionDetection.addCollider(player);
 					}
 				}
 			}
@@ -48,13 +53,25 @@ public class Level {
 		}
 
 	}
-
+	
 	private void addBox(String[] para) {
-		renderAbles.add(new Box(Float.parseFloat(para[0]),Float.parseFloat(para[1]),Float.parseFloat(para[2]),Float.parseFloat(para[3]),new Color(Float.parseFloat(para[4]),Float.parseFloat(para[5]),Float.parseFloat(para[6]))));
+		Box box = new Box(Float.parseFloat(para[0]),Float.parseFloat(para[1]),Float.parseFloat(para[2]),Float.parseFloat(para[3]),new Color(Float.parseFloat(para[4]),Float.parseFloat(para[5]),Float.parseFloat(para[6])));
+		renderAbles.add(box);
+		CollisionDetection.addCollider(box);
+	}
+
+	private void addBall(String[] para) {
+		Ball ball = new Ball(Float.parseFloat(para[0]),Float.parseFloat(para[1]),Float.parseFloat(para[2]),new Color(Float.parseFloat(para[3]),Float.parseFloat(para[4]),Float.parseFloat(para[5])));
+		renderAbles.add(ball);
+		updateAbles.add(ball);
+		CollisionDetection.addCollider(ball);
 	}
 
 	public void update(double deltaTime){
 		player.update(deltaTime);
+		for(UpdateAble update : updateAbles){
+			update.update(deltaTime);
+		}
 	}
 
 	public void render(){
