@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import Interfaces.Collider;
 import Interfaces.RenderAble;
@@ -12,18 +13,43 @@ import Shapes.Point;
 public class Ball extends Circle implements RenderAble,UpdateAble,Collider {
 	private float deltaX = 2;
 	private float deltaY = 0;
+	private float height;
 
 	public Ball(float posx, float posy,float radius, Color color) {
 		super(posx, posy, radius, color);
+		height = posy;
 	}
 
 	public void update(double deltaTime){
-		if(!CollisionDetection.collision(this).isEmpty()){
-			deltaY = -deltaY;
-		}
+		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 		deltaY -= deltaTime*9.81;
 		posx +=deltaX;
 		posy +=deltaY;
+
+		if(!collisions.isEmpty()){
+			for(Collision collision : collisions){
+				if(collision.getCol() instanceof Player){
+					((Player) collision.getCol()).die();
+				} else{
+					if(collision.getSide() == 3 ){
+						posy = ((Box)collision.getCol()).getPosy() + ((Box)collision.getCol()).getHeight() + radius;
+						float time =  (float) Math.sqrt(height/(0.5*9.81));
+						deltaY = (float) (9.81*time/10);
+						posy +=deltaY;
+					}else if(collision.getSide() == 2 ){
+						posx = ((Box)collision.getCol()).getPosx() + ((Box)collision.getCol()).getWidth() + radius;
+						deltaX = -deltaX;
+						posx +=deltaX;
+
+					}else if(collision.getSide() == 4 ){
+						posx = ((Box)collision.getCol()).getPosx() - radius;
+						deltaX = -deltaX;
+						posx +=deltaX;
+					}
+				}
+			}
+		}
+
 	}
 
 	public void render() {

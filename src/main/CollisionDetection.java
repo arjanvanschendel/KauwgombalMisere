@@ -27,12 +27,12 @@ public class CollisionDetection {
 		CollisionDetection.colliders = colliders;
 	}
 
-	public static ArrayList<Collider> collision(Collider col){
-		ArrayList<Collider> res = new ArrayList<Collider>();
+	public static ArrayList<Collision> collision(Collider col){
+		ArrayList<Collision> res = new ArrayList<Collision>();
 		for(Collider collider : colliders){
 			if(!collider.equals(col)){
 				if(col.collide(collider)!=0){
-					res.add(collider);
+					res.add(new Collision(collider,col.collide(collider)));
 				}
 			}
 		}

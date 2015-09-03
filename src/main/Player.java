@@ -80,4 +80,9 @@ public class Player extends Box implements RenderAble,UpdateAble  {
 			}
 		}
 	}
+
+	public void die() {
+		height = 0;
+		
+	}
 }

@@ -9,7 +9,7 @@ public class Circle implements RenderAble{
 	protected float posx;
 	protected float posy;
 	protected float radius;
-	private Color color;
+	protected Color color;
 	
 	public Circle(float posx, float posy,float radius, Color color){
 		this.posx = posx;
