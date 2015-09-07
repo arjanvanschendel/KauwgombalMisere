@@ -7,7 +7,7 @@ import Interfaces.Collider;
 import Interfaces.RenderAble;
 import static org.lwjgl.opengl.GL11.*;
 
-public class Box implements RenderAble, Collider{
+public class Box implements RenderAble, Collider {
 	protected float posx;
 	protected float posy;
 	protected float width;
@@ -15,28 +15,28 @@ public class Box implements RenderAble, Collider{
 	protected Point[] corners = new Point[4];
 	private Color color;
 
-	public Box(float posx, float posy,float width,float height, Color color){
+	public Box(float posx, float posy, float width, float height, Color color) {
 		this.posx = posx;
 		this.posy = posy;
 		this.width = width;
 		this.height = height;
 		this.color = color;
-		corners[0] = new Point(posx,posy);
-		corners[1] = new Point(posx+width,posy);
-		corners[2] = new Point(posx+width,posy+height);
-		corners[3] = new Point(posx,posy+height);
+		corners[0] = new Point(posx, posy);
+		corners[1] = new Point(posx + width, posy);
+		corners[2] = new Point(posx + width, posy + height);
+		corners[3] = new Point(posx, posy + height);
 	}
 
-	public void update(){
-		corners[0] = new Point(posx,posy);
-		corners[1] = new Point(posx+width,posy);
-		corners[2] = new Point(posx+width,posy+height);
-		corners[3] = new Point(posx,posy+height);
+	public void update() {
+		corners[0] = new Point(posx, posy);
+		corners[1] = new Point(posx + width, posy);
+		corners[2] = new Point(posx + width, posy + height);
+		corners[3] = new Point(posx, posy + height);
 	}
 
-	public void render(){
+	public void render() {
 		glBegin(GL_QUADS);
-		glColor3f((float)color.getRed()/255,(float)color.getGreen()/255,(float)color.getBlue()/255);
+		glColor3f((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255);
 		glVertex2f(corners[0].getX(), corners[0].getY());
 		glVertex2f(corners[1].getX(), corners[1].getY());
 		glVertex2f(corners[2].getX(), corners[2].getY());
@@ -44,8 +44,8 @@ public class Box implements RenderAble, Collider{
 		glEnd();
 	}
 
-	public boolean pointInShape(Point p){
-		if(p.getY() >= posy && p.getY() <= posy+height && p.getX() > posx && p.getX() < posx+width ){
+	public boolean pointInShape(Point p) {
+		if (p.getY() >= posy && p.getY() <= posy + height && p.getX() > posx && p.getX() < posx + width) {
 			return true;
 		}
 		return false;
@@ -53,8 +53,8 @@ public class Box implements RenderAble, Collider{
 
 	@Override
 	public int collide(Collider col) {
-		if(col instanceof Box){
-			Box Box = (Box)col;
+		if (col instanceof Box) {
+			Box Box = (Box) col;
 			float AX1 = this.posx;
 			float AX2 = this.posx + this.width;
 			float AY1 = this.posy;
@@ -65,7 +65,7 @@ public class Box implements RenderAble, Collider{
 			float BY1 = Box.getPosy();
 			float BY2 = Box.getPosy() + Box.getHeight();
 
-			if(AX1 < BX2 && AX2 > BX1 && AY1 < BY2 && AY2 > BY1){
+			if (AX1 < BX2 && AX2 > BX1 && AY1 < BY2 && AY2 > BY1) {
 				float[] distances = new float[4];
 
 				distances[0] = Math.abs(AY1 - BY2); // Hit ceiling
@@ -75,15 +75,14 @@ public class Box implements RenderAble, Collider{
 
 				float smallest = distances[0];
 				int index = 0;
-				for(int i=0;i<4;i++)
-				{
-					float num=distances[i];
-					if(num<smallest){
-						smallest=num;
+				for (int i = 0; i < 4; i++) {
+					float num = distances[i];
+					if (num < smallest) {
+						smallest = num;
 						index = i;
 					}
 				}
-				return index+1;
+				return index + 1;
 			}
 		}
 		return -1;
@@ -132,6 +131,5 @@ public class Box implements RenderAble, Collider{
 	public Point[] getCorners() {
 		return corners;
 	}
-
 
 }
