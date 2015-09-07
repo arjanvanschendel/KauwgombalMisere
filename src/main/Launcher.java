@@ -88,7 +88,7 @@ public class Launcher {
         glClearColor(0.0f, 0.3f, 0.3f, 0.0f);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, WIDTH, 0, HEIGHT, -1, 1);
+		GL11.glOrtho(-WIDTH/2, WIDTH/2, 0, HEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 		
         Game game = new Game();
