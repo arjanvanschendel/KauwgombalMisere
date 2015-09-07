@@ -14,8 +14,8 @@ import Shapes.Box;
 
 public class Level {
 	private String loc;
-	private ArrayList<RenderAble> renderAbles = new ArrayList<RenderAble>();
-	private ArrayList<UpdateAble> updateAbles = new ArrayList<UpdateAble>();
+	private static ArrayList<RenderAble> renderAbles = new ArrayList<RenderAble>();
+	private static ArrayList<UpdateAble> updateAbles = new ArrayList<UpdateAble>();
 	
 	private Player player;
 	public Level(String location) {
@@ -52,6 +52,29 @@ public class Level {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static void remove(RenderAble object) {
+		if (renderAbles.contains(object)) {
+			renderAbles.remove(object);
+		}
+		if (updateAbles.contains(object)) {
+			updateAbles.remove(object);
+		}
+		CollisionDetection.removeCollider(object);
+	}
+	
+	public static void addProjectile(Projectile projectile) {
+		
+	
+		for(RenderAble renderAble : renderAbles) {
+			if (renderAble instanceof Projectile) {
+				return;
+			}
+		}
+		renderAbles.add(projectile);
+		updateAbles.add(projectile);
+		CollisionDetection.addCollider(projectile);	
 	}
 	
 	private void addBox(String[] para) {
