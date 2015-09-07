@@ -3,8 +3,9 @@ package Shapes;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import Interfaces.Collider;
-import Interfaces.RenderAble;
+import interfaces.Collider;
+import interfaces.RenderAble;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Box implements RenderAble, Collider {

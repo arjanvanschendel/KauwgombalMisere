@@ -3,12 +3,12 @@ package main;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import Interfaces.Collider;
-import Interfaces.RenderAble;
-import Interfaces.UpdateAble;
 import Shapes.Box;
 import Shapes.Circle;
 import Shapes.Point;
+import interfaces.Collider;
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
 
 public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	private float deltaX = 2;

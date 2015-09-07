@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import Interfaces.RenderAble;
-import Interfaces.UpdateAble;
 import Shapes.Box;
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
 
 public class Level {
 	private String loc;

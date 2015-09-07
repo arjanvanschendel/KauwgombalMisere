@@ -2,7 +2,8 @@ package Shapes;
 
 import java.awt.Color;
 
-import Interfaces.RenderAble;
+import interfaces.RenderAble;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Circle implements RenderAble {

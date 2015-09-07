@@ -1,6 +1,6 @@
 package main;
 
-import Interfaces.Collider;
+import interfaces.Collider;
 
 public class Collision {
 	private Collider col;
