@@ -10,29 +10,29 @@ import Interfaces.RenderAble;
 import Interfaces.UpdateAble;
 import Shapes.Box;
 
-public class Player extends Box implements RenderAble,UpdateAble  {
+public class Player extends Box implements RenderAble, UpdateAble {
 	private float deltaX = 0;
 	private float deltaY = 0;
 
 	public Player(float posx, float posy) {
-		super(posx, posy, 50, 100, new Color(1,1,1));
+		super(posx, posy, 50, 100, new Color(1, 1, 1));
 	}
 
-	public void update(double deltaTime){
-		//First handle inputs
+	public void update(double deltaTime) {
+		// First handle inputs
 		handleInputs(deltaTime);
 
-		posx +=deltaX;
-		posy +=deltaY;
+		posx += deltaX;
+		posy += deltaY;
 
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
-		if(!collisions.isEmpty()){
-			for(Collision collision : collisions){
-				if(collision.getSide() == 4 ){
-					posx = ((Box)collision.getCol()).getPosx() - width;
+		if (!collisions.isEmpty()) {
+			for (Collision collision : collisions) {
+				if (collision.getSide() == 4) {
+					posx = ((Box) collision.getCol()).getPosx() - width;
 					deltaX = 0;
-				}else if(collision.getSide() == 2 ){
-					posx = ((Box)collision.getCol()).getPosx() + ((Box)collision.getCol()).getWidth();
+				} else if (collision.getSide() == 2) {
+					posx = ((Box) collision.getCol()).getPosx() + ((Box) collision.getCol()).getWidth();
 					deltaX = 0;
 				}
 			}
@@ -44,53 +44,50 @@ public class Player extends Box implements RenderAble,UpdateAble  {
 		super.render();
 	}
 
-	private void handleInputs(double deltaTime){
+	private void handleInputs(double deltaTime) {
 
-		if(Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)){
+		if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)) {
 			walkLeft(deltaTime);
-		}else if(Keyboard.isKeyDown(GLFW_KEY_RIGHT) || Keyboard.isKeyDown(GLFW_KEY_D)){
+		} else if (Keyboard.isKeyDown(GLFW_KEY_RIGHT) || Keyboard.isKeyDown(GLFW_KEY_D)) {
 			walkRight(deltaTime);
-		} else{
+		} else {
 			walkStop(deltaTime);
 		}
 
-		if(Keyboard.isKeyDown(GLFW_KEY_SPACE)){
+		if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
 			shoot();
 		}
-
-
 
 	}
 
 	private void shoot() {
 
-
 	}
 
 	private void walkRight(double deltaTime) {
-		deltaX += 30*deltaTime;
-		if(deltaX > 5){
-			deltaX =(float) (5);
+		deltaX += 30 * deltaTime;
+		if (deltaX > 5) {
+			deltaX = (float) (5);
 		}
 	}
 
 	public void walkLeft(double deltaTime) {
 
-		deltaX -= 30*deltaTime;
-		if(deltaX < -5){
-			deltaX =(float) (-5);
+		deltaX -= 30 * deltaTime;
+		if (deltaX < -5) {
+			deltaX = (float) (-5);
 		}
 	}
 
 	public void walkStop(double deltaTime) {
-		if (deltaX < 0){
+		if (deltaX < 0) {
 			deltaX += 30 * deltaTime;
-			if(deltaX > 0){
+			if (deltaX > 0) {
 				deltaX = 0;
 			}
-		}else if (deltaX > 0){
+		} else if (deltaX > 0) {
 			deltaX -= 30 * deltaTime;
-			if(deltaX < 0){
+			if (deltaX < 0) {
 				deltaX = 0;
 			}
 		}
