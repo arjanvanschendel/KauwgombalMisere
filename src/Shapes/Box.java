@@ -35,7 +35,7 @@ public class Box implements RenderAble, Collider{
 	}
 
 	public void render(){
-		glBegin(GL_QUADS);      
+		glBegin(GL_QUADS);
 		glColor3f((float)color.getRed()/255,(float)color.getGreen()/255,(float)color.getBlue()/255);
 		glVertex2f(corners[0].getX(), corners[0].getY());
 		glVertex2f(corners[1].getX(), corners[1].getY());
