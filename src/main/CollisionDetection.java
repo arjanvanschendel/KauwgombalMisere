@@ -11,7 +11,7 @@ public class CollisionDetection {
 		colliders.add(col);
 	}
 
-	public static void removeCollider(Collider col){
+	public static void removeCollider(Object col){
 		colliders.remove(col);
 	}
 

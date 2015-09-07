@@ -10,7 +10,12 @@ import Interfaces.RenderAble;
 import Interfaces.UpdateAble;
 import Shapes.Box;
 
-public class Player extends Box implements RenderAble,UpdateAble  {
+/**
+ * 
+ * @author Luke
+ *
+ */
+public class Player extends Box implements RenderAble, UpdateAble  {
 	private float deltaX = 0;
 	private float deltaY = 0;
 
@@ -22,18 +27,21 @@ public class Player extends Box implements RenderAble,UpdateAble  {
 		//First handle inputs
 		handleInputs(deltaTime);
 
-		posx +=deltaX;
-		posy +=deltaY;
+		posx += deltaX;
+		posy += deltaY;
 
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 		if(!collisions.isEmpty()){
-			for(Collision collision : collisions){
-				if(collision.getSide() == 4 ){
-					posx = ((Box)collision.getCol()).getPosx() - width;
-					deltaX = 0;
-				}else if(collision.getSide() == 2 ){
-					posx = ((Box)collision.getCol()).getPosx() + ((Box)collision.getCol()).getWidth();
-					deltaX = 0;
+			for(Collision collision : collisions) {
+				if (!(collision.getCol() instanceof Projectile)) {
+					if(collision.getSide() == 4 ){
+						posx = ((Box)collision.getCol()).getPosx() - width;
+						deltaX = 0;
+					} else if(collision.getSide() == 2 ) {
+						posx = ((Box)collision.getCol()).getPosx() 
+								+ ((Box)collision.getCol()).getWidth();
+						deltaX = 0;
+					}
 				}
 			}
 		}
@@ -50,7 +58,7 @@ public class Player extends Box implements RenderAble,UpdateAble  {
 			walkLeft(deltaTime);
 		}else if(Keyboard.isKeyDown(GLFW_KEY_RIGHT) || Keyboard.isKeyDown(GLFW_KEY_D)){
 			walkRight(deltaTime);
-		} else{
+		} else {
 			walkStop(deltaTime);
 		}
 
@@ -63,8 +71,8 @@ public class Player extends Box implements RenderAble,UpdateAble  {
 	}
 
 	private void shoot() {
-
-
+		Projectile p = new Projectile(this.posx + 0.5f * this.width, this.posy);
+		Level.addProjectile(p);
 	}
 
 	private void walkRight(double deltaTime) {
