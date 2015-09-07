@@ -2,6 +2,11 @@ package main;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 
+/**
+ * 
+ * JAPSER
+ *
+ */
 public class Keyboard extends GLFWKeyCallback {
 
 	public static boolean[] keys = new boolean[65536];

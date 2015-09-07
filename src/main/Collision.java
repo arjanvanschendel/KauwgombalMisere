@@ -2,6 +2,11 @@ package main;
 
 import interfaces.Collider;
 
+/**
+ * 
+ * JAPSER
+ *
+ */
 public class Collision {
 	private Collider col;
 	private int side;

@@ -11,6 +11,11 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * 
+ * JAAAAAASPSPSEEEEEERRRR
+ *
+ */
 public class Launcher {
 
 	// We need to strongly reference callback instances.

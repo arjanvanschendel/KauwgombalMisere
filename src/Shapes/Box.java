@@ -8,6 +8,11 @@ import interfaces.RenderAble;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * 
+ * JAPSEEER
+ *
+ */
 public class Box implements RenderAble, Collider {
 	protected float posx;
 	protected float posy;

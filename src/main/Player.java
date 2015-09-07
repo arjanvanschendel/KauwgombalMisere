@@ -1,23 +1,38 @@
 package main;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import Shapes.Box;
-import interfaces.Collider;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
+/**
+ * Class Player: this class represents the player of the game.
+ *
+ */
 public class Player extends Box implements RenderAble, UpdateAble {
 	private float deltaX = 0;
 	private float deltaY = 0;
 
+	/**
+	 * Player: constructor.
+	 * @param posx
+	 * @param posy
+	 */
 	public Player(float posx, float posy) {
 		super(posx, posy, 50, 100, new Color(1, 1, 1));
 	}
 
+	/**
+	 * update: Update the player's state.
+	 */
 	public void update(double deltaTime) {
 		// First handle inputs
 		handleInputs(deltaTime);
@@ -40,10 +55,17 @@ public class Player extends Box implements RenderAble, UpdateAble {
 		super.update();
 	}
 
+	/**
+	 * render: render the player's graphics.
+	 */
 	public void render() {
 		super.render();
 	}
 
+	/**
+	 * handleInputs: handle keyboard inputs for the player.
+	 * @param deltaTime
+	 */
 	private void handleInputs(double deltaTime) {
 
 		if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)) {
@@ -60,10 +82,17 @@ public class Player extends Box implements RenderAble, UpdateAble {
 
 	}
 
+	/**
+	 * shoot: lets the player shoot a vertical beam or activate a powerup.
+	 */
 	private void shoot() {
 
 	}
 
+	/**
+	 * walkRight: lets the player move right over the x-axis.
+	 * @param deltaTime
+	 */
 	private void walkRight(double deltaTime) {
 		deltaX += 30 * deltaTime;
 		if (deltaX > 5) {
@@ -71,6 +100,10 @@ public class Player extends Box implements RenderAble, UpdateAble {
 		}
 	}
 
+	/**
+	 * walkLeft: lets the player move left over the x-axis.
+	 * @param deltaTime
+	 */
 	public void walkLeft(double deltaTime) {
 
 		deltaX -= 30 * deltaTime;
@@ -79,6 +112,10 @@ public class Player extends Box implements RenderAble, UpdateAble {
 		}
 	}
 
+	/**
+	 * walkStop: stops the player from walking.
+	 * @param deltaTime
+	 */
 	public void walkStop(double deltaTime) {
 		if (deltaX < 0) {
 			deltaX += 30 * deltaTime;
@@ -93,6 +130,9 @@ public class Player extends Box implements RenderAble, UpdateAble {
 		}
 	}
 
+	/**
+	 * die: lets the player die.
+	 */
 	public void die() {
 		height = 0;
 

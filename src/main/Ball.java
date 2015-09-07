@@ -10,16 +10,30 @@ import interfaces.Collider;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
+/**
+ * Class Ball: an object of this class represents a bouncing ball in the game. They can either get destroyed or kill the player.
+ *
+ */
 public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	private float deltaX = 2;
 	private float deltaY = 0;
 	private float height;
 
+	/**
+	 * Ball: constructor.
+	 * @param posx
+	 * @param posy
+	 * @param radius
+	 * @param color
+	 */
 	public Ball(float posx, float posy, float radius, Color color) {
 		super(posx, posy, radius, color);
 		height = posy;
 	}
 
+	/**
+	 * update: update the ball's state.
+	 */
 	public void update(double deltaTime) {
 		deltaY -= deltaTime * 9.81;
 		posx += deltaX;
@@ -52,9 +66,13 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 	}
 
+	/**
+	 * render: Render ball graphics.
+	 */
 	public void render() {
 		super.render();
 	}
+
 
 	@Override
 	public boolean equals(Object that) {
@@ -68,18 +86,32 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	}
 
 	// Getters and setters
+	/**
+	 * getDeltaX.
+	 * @return float deltaX
+	 */
 	public float getDeltaX() {
 		return deltaX;
 	}
 
+	/**
+	 * setDeltaX.
+	 */
 	public void setDeltaX(float deltaX) {
 		this.deltaX = deltaX;
 	}
 
+	/**
+	 * getDeltaY.
+	 * @return float deltaY
+	 */
 	public float getDeltaY() {
 		return deltaY;
 	}
 
+	/**
+	 * setDeltaY.
+	 */
 	public void setDeltaY(float deltaY) {
 		this.deltaY = deltaY;
 	}

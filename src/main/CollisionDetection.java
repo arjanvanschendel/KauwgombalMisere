@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import interfaces.Collider;
 
+/**
+ * 
+ * JAPSER
+ *
+ */
 public class CollisionDetection {
 	private static ArrayList<Collider> colliders = new ArrayList<Collider>();
 

@@ -12,6 +12,11 @@ import Shapes.Box;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
+/**
+ * Level Class: an object of this class represents a level in the game, containing all objects in the level.
+ * 
+ *
+ */
 public class Level {
 	private String loc;
 	private ArrayList<RenderAble> renderAbles = new ArrayList<RenderAble>();
@@ -19,6 +24,10 @@ public class Level {
 
 	private Player player;
 
+	/**
+	 * Level: constructor.
+	 * @param location
+	 */
 	public Level(String location) {
 
 		loc = location;
@@ -55,6 +64,10 @@ public class Level {
 
 	}
 
+	/**
+	 * addBox: add a box to the level.
+	 * @param para
+	 */
 	private void addBox(String[] para) {
 		Box box = new Box(Float.parseFloat(para[0]), Float.parseFloat(para[1]), Float.parseFloat(para[2]),
 				Float.parseFloat(para[3]),
@@ -63,6 +76,10 @@ public class Level {
 		CollisionDetection.addCollider(box);
 	}
 
+	/**
+	 * addBall: add a ball to the level.
+	 * @param para
+	 */
 	private void addBall(String[] para) {
 		Ball ball = new Ball(Float.parseFloat(para[0]), Float.parseFloat(para[1]), Float.parseFloat(para[2]),
 				new Color(Float.parseFloat(para[3]), Float.parseFloat(para[4]), Float.parseFloat(para[5])));
@@ -71,6 +88,10 @@ public class Level {
 		CollisionDetection.addCollider(ball);
 	}
 
+	/**
+	 * update: update the level-object's state.
+	 * @param deltaTime
+	 */
 	public void update(double deltaTime) {
 		player.update(deltaTime);
 		for (UpdateAble update : updateAbles) {
@@ -78,6 +99,9 @@ public class Level {
 		}
 	}
 
+	/**
+	 * render: render the level-object's graphics.
+	 */
 	public void render() {
 		for (RenderAble render : renderAbles) {
 			render.render();
