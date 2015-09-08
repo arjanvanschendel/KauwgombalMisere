@@ -1,5 +1,8 @@
 package main;
 
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -8,8 +11,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import shapes.Box;
-import interfaces.RenderAble;
-import interfaces.UpdateAble;
 
 /**
  * Level Class: an object of this class represents a level in the game, containing all objects in the level.
@@ -29,6 +30,8 @@ public class Level {
 	 * @param location
 	 */
 	public Level(String location) {
+
+		clear();
 
 		loc = location;
 		InputStreamReader inputStreamReader;
@@ -71,6 +74,18 @@ public class Level {
 			if(temp instanceof Ball)return false;
 		}
 		return true;
+	}
+
+	/**
+	 * clear: clear the static lists and objects.
+	 */
+	public static void clear() {
+		renderAbles.clear();
+		updateAbles.clear();
+		pro = null;
+
+		CollisionDetection.clear();
+
 	}
 
 	public static void remove(RenderAble object) {
@@ -129,6 +144,7 @@ public class Level {
 		updateAbles.add(ball);
 		CollisionDetection.addCollider(ball);
 	}
+
 	/**
 	 * update: update the level-object's state.
 	 * @param deltaTime
@@ -152,5 +168,6 @@ public class Level {
 			render.render();
 		}
 	}
+
 
 }
