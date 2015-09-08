@@ -75,18 +75,20 @@ public class Game {
 	
 	public void render(){
 		switch(state){
-		case(0):
-			//game
-			lvl.render();
-			break;
-		case(1):
-			//paused
-			lvl.render();
-			break;
-		case(2):
-			break;
-		default:
-			System.out.println("INVALID STATE: "+state+". (Game.render method)");System.exit(-1);
+			case(0):
+				//game
+				lvl.render();
+				break;
+			case(1):
+				//paused
+				lvl.render();
+				break;
+			case(2):
+				//Main Menu
+				mm.render();
+				break;
+			default:
+				System.out.println("INVALID STATE: "+state+". (Game.render method)");System.exit(-1);
 		}
 	}
 	public int getState() {
