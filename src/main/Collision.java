@@ -1,12 +1,17 @@
 package main;
 
-import Interfaces.Collider;
+import interfaces.Collider;
 
+/**
+ * 
+ * JAPSER
+ *
+ */
 public class Collision {
 	private Collider col;
 	private int side;
-	
-	public Collision(Collider col, int side){
+
+	public Collision(Collider col, int side) {
 		this.setCol(col);
 		this.setSide(side);
 	}
