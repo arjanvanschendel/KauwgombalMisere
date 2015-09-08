@@ -26,7 +26,7 @@ public class Game {
 		// loadTextures();
 
 		lvl = 1;
-		maxLvl = 3;
+		maxLvl = countLevels();
 		loadLevel("levels/level" + lvl + ".lvl");
 	}
 
@@ -68,7 +68,24 @@ public class Game {
 	}
 
 	/**
+	 * countLevels: count the amount of level files.
+	 * 
+	 * @return integer result
+	 */
+	public int countLevels() {
+		int result = 0;
+		File f = new File("levels/level" + (result + 1) + ".lvl");
+		while (f.exists() && !f.isDirectory()) {
+			result++;
+			f = new File("levels/level" + (result + 1) + ".lvl");
+		}
+
+		return result;
+	}
+
+	/**
 	 * update: Update the state of the game.
+	 * 
 	 * @param deltaTime
 	 */
 	public void update(double deltaTime) {
@@ -79,59 +96,62 @@ public class Game {
 				state = 0;
 			}
 		}
-		if(Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
-			if(state == 2){
+		if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
+			if (state == 2) {
 				state = 0;
 			}
 		}
-		if(Level.levelComplete() && state == 0){
+		if (Level.levelComplete() && state == 0) {
 			nextLevel();
 		}
 
-		switch(state){
-		case(0):
-			//Playing
+		switch (state) {
+		case (0):
+			// Playing
 			currentLvl.update(deltaTime);
 			break;
-		case(1):
-			//Paused
+		case (1):
+			// Paused
 			break;
-		
-		case(2):
-			//Main Menu
-			//mm.update(deltaTime);
+
+		case (2):
+			// Main Menu
+			// mm.update(deltaTime);
 			break;
-		case(3):
+		case (3):
 			System.out.println("new state");
 			break;
 		default:
-			System.out.println("INVALID STATE: "+state+". (Game.update method)");System.exit(-1);
-		
+			System.out.println("INVALID STATE: " + state + ". (Game.update method)");
+			System.exit(-1);
+
 		}
 	}
-	
+
 	/**
 	 * render: Render the graphics of the game.
 	 */
 	public void render() {
 		switch (state) {
-		case(0):
-			//game
+		case (0):
+			// game
 			currentLvl.render();
 			break;
-		case(1):
-			//paused
+		case (1):
+			// paused
 			currentLvl.render();
 			break;
-		case(2):
+		case (2):
 			break;
 		default:
-			System.out.println("INVALID STATE: "+state+". (Game.render method)");System.exit(-1);
+			System.out.println("INVALID STATE: " + state + ". (Game.render method)");
+			System.exit(-1);
 		}
 	}
 
 	/**
 	 * getState.
+	 * 
 	 * @return int state
 	 */
 	public int getState() {
@@ -140,6 +160,7 @@ public class Game {
 
 	/**
 	 * setState.
+	 * 
 	 * @param state
 	 */
 	public void setState(int state) {
