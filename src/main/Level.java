@@ -31,6 +31,8 @@ public class Level {
 	 */
 	public Level(String location) {
 
+		clear();
+
 		loc = location;
 		InputStreamReader inputStreamReader;
 		try {
@@ -72,6 +74,18 @@ public class Level {
 			if(temp instanceof Ball)return false;
 		}
 		return true;
+	}
+
+	/**
+	 * clear: clear the static lists and objects.
+	 */
+	public static void clear() {
+		renderAbles.clear();
+		updateAbles.clear();
+		pro = null;
+
+		CollisionDetection.clear();
+
 	}
 
 	public static void remove(RenderAble object) {
@@ -154,5 +168,6 @@ public class Level {
 			render.render();
 		}
 	}
+
 
 }
