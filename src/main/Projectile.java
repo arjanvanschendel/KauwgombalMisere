@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import Interfaces.UpdateAble;
 import Shapes.Box;
@@ -13,6 +14,7 @@ import Shapes.Box;
 public class Projectile extends Box implements UpdateAble {
 
 	private float speed = 500;
+	private boolean hitBall = false;
 	
 	/**
 	 * 
@@ -28,7 +30,27 @@ public class Projectile extends Box implements UpdateAble {
 	 * 
 	 */
 	@Override
-	public void update(double deltaTime) {
+	public void update( double deltaTime ) {
+		
+
+		ArrayList<Collision> collisions = CollisionDetection.collision(this);
+		Ball ball = null;
+		if(!collisions.isEmpty()){
+			for(Collision collision : collisions){
+				if (collision.getCol() instanceof Box && collision.getSide() == 3){
+					Level.setProjectile(null);					
+				}else if (collision.getCol() instanceof Ball){
+					ball = (Ball)collision.getCol();
+					hitBall = true;
+				}
+			}
+		}
+		
+		if(hitBall){
+			ball.hit();
+			Level.setProjectile(null);
+		}
+		
 		height += speed * deltaTime;
 		super.update();
 		

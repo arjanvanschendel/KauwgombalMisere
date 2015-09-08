@@ -86,7 +86,7 @@ public class Box implements RenderAble, Collider{
 				return index+1;
 			}
 		}
-		return -1;
+		return 0;
 	}
 
 	public float getPosx() {

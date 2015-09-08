@@ -33,7 +33,10 @@ public class Player extends Box implements RenderAble, UpdateAble  {
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 		if(!collisions.isEmpty()){
 			for(Collision collision : collisions) {
-				if (!(collision.getCol() instanceof Projectile)) {
+
+				if(collision.getCol() instanceof Ball){
+					die();
+				} else if (!(collision.getCol() instanceof Projectile)) {
 					if(collision.getSide() == 4 ){
 						posx = ((Box)collision.getCol()).getPosx() - width;
 						deltaX = 0;

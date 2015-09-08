@@ -26,14 +26,9 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 		posy += deltaY;
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 
-		if(!collisions.isEmpty()){
+		if (!collisions.isEmpty()) {
 			for(Collision collision : collisions){
-				if(collision.getCol() instanceof Player){
-					((Player) collision.getCol()).die();
-					
-				} else if(collision.getCol() instanceof Projectile) {
-					hit((Projectile)collision.getCol());
-				} else {
+				if(!(collision.getCol() instanceof Projectile || collision.getCol() instanceof Player)) {
 					if(collision.getSide() == 3){
 						posy = ((Box)collision.getCol()).getPosy() + ((Box)collision.getCol()).getHeight() + radius;
 						float time =  (float) Math.sqrt(height/(0.5*9.81));
@@ -55,9 +50,21 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 	}
 
-	private void hit(Projectile p) {
+	void hit() {
 		Level.remove(this);
-		//Level.remove(p);
+		Ball ball = new Ball(posx, posy, radius/2, new Color(color.getGreen(),color.getBlue(), color.getRed()));
+		Ball ball2 = new Ball(posx, posy, radius/2, new Color(color.getGreen(),color.getBlue(), color.getRed()));
+		if(ball.getRadius() > 10){
+			ball2.deltaX = -deltaX;
+			ball.deltaX = deltaX;
+			ball.height = height - height/3;
+			ball2.height = height - height/3;
+			ball.deltaY = 5;
+			ball2.deltaY = 5;
+			Level.addBall(ball);
+			Level.addBall(ball2);
+		}
+		
 	}
 
 	public void render() {
