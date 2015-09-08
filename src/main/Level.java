@@ -65,6 +65,13 @@ public class Level {
 		}
 
 	}
+	
+	public static boolean levelComplete(){
+		for( UpdateAble temp : updateAbles){
+			if(temp instanceof Ball)return false;
+		}
+		return true;
+	}
 
 	public static void remove(RenderAble object) {
 		if (renderAbles.contains(object)) {
