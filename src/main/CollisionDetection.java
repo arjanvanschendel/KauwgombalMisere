@@ -2,8 +2,13 @@ package main;
 
 import java.util.ArrayList;
 
-import Interfaces.Collider;
+import interfaces.Collider;
 
+/**
+ * 
+ * JAPSER
+ *
+ */
 public class CollisionDetection {
 	private static ArrayList<Collider> colliders = new ArrayList<Collider>();
 

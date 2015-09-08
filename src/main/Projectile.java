@@ -3,8 +3,8 @@ package main;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import Interfaces.UpdateAble;
-import Shapes.Box;
+import shapes.Box;
+import interfaces.UpdateAble;
 
 /**
  * Projectile class
