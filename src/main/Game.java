@@ -26,7 +26,7 @@ public class Game {
 		// loadTextures();
 
 		lvl = 1;
-		maxLvl = 1;
+		maxLvl = 3;
 		loadLevel("levels/level" + lvl + ".lvl");
 	}
 
