@@ -55,6 +55,19 @@ public class Game {
 	}
 
 	/**
+	 * nextLevel: moves the player to the next level.
+	 */
+	public void nextLevel() {
+		if (lvl < maxLvl) {
+			lvl++;
+			loadLevel("levels/level" + lvl + ".lvl");
+		} else {
+			// game won wohoo
+		}
+
+	}
+
+	/**
 	 * update: Update the state of the game.
 	 * @param deltaTime
 	 */
