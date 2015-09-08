@@ -59,29 +59,34 @@ public class Game {
 			//Playing
 			lvl.update(deltaTime);break;
 		case(1):
-			//Pauzed
+			//Paused
 			break;
 		
 		case(2):
 			//Main Menu
 			//mm.update(deltaTime);
 			break;
-		default:System.out.println("INVALID STATE: "+state+".");System.exit(-1);
+		default:
+			System.out.println("INVALID STATE: "+state+". (Game.update method)");System.exit(-1);
 		
 		
 		}
 	}
 	
 	public void render(){
-		if(state == 0){
-			//Playing
+		switch(state){
+		case(0):
+			//game
 			lvl.render();
-		} else if(state == 1){
-			//Pauzed
+			break;
+		case(1):
+			//paused
 			lvl.render();
-			
-		} else if(state == 2){
-			//Main menu
+			break;
+		case(2):
+			break;
+		default:
+			System.out.println("INVALID STATE: "+state+". (Game.render method)");System.exit(-1);
 		}
 	}
 	public int getState() {
