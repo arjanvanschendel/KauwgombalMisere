@@ -84,6 +84,9 @@ public class Game {
 				state = 0;
 			}
 		}
+		if(Level.levelComplete() && state == 0){
+			state = 3;
+		}
 
 		switch(state){
 		case(0):
@@ -97,6 +100,9 @@ public class Game {
 		case(2):
 			//Main Menu
 			//mm.update(deltaTime);
+			break;
+		case(3):
+			System.out.println("new state");
 			break;
 		default:
 			System.out.println("INVALID STATE: "+state+". (Game.update method)");System.exit(-1);

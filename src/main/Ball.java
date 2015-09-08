@@ -86,6 +86,7 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 			Level.addBall(ball);
 			Level.addBall(ball2);
 		}
+		System.out.println(Level.levelComplete());
 
 	}
 
