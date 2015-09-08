@@ -5,145 +5,174 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import org.lwjgl.opengl.GL11;
 
 import shapes.Box;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
-
 /**
  * Class Player: this class represents the player of the game.
+ * 
  * @author Luke
  *
  */
-public class Player extends Box implements RenderAble, UpdateAble  {
-	private float deltaX = 0;
-	private float deltaY = 0;
+public class Player extends Box implements RenderAble, UpdateAble {
+    private float deltaX = 0;
+    private float deltaY = 0;
+    private Texture texture;
 
-	/**
-	 * Player: constructor.
-	 * @param posx
-	 * @param posy
-	 */
-	public Player(float posx, float posy) {
-		super(posx, posy, 50, 100, new Color(1, 1, 1));
-	}
+    /**
+     * Player: constructor.
+     * 
+     * @param posx
+     * @param posy
+     */
+    public Player(float posx, float posy) {
+	super(posx, posy, 50, 100, new Color(1, 1, 1));
+	texture = new Texture("res/figure.png", GL11.GL_NEAREST, GL11.GL_REPEAT);
+    }
 
-	/**
-	 * update: Update the player's state.
-	 */
-	public void update(double deltaTime) {
-		// First handle inputs
-		handleInputs(deltaTime);
+    /**
+     * update: Update the player's state.
+     */
+    public void update(double deltaTime) {
+	// First handle inputs
+	handleInputs(deltaTime);
 
-		posx += deltaX;
-		posy += deltaY;
+	posx += deltaX;
+	posy += deltaY;
 
-		ArrayList<Collision> collisions = CollisionDetection.collision(this);
-		if(!collisions.isEmpty()){
-			for(Collision collision : collisions) {
+	ArrayList<Collision> collisions = CollisionDetection.collision(this);
+	if (!collisions.isEmpty()) {
+	    for (Collision collision : collisions) {
 
-				if(collision.getCol() instanceof Ball){
-					die();
-				} else if (!(collision.getCol() instanceof Projectile)) {
-					if(collision.getSide() == 4 ){
-						posx = ((Box)collision.getCol()).getPosx() - width;
-						deltaX = 0;
-					} else if(collision.getSide() == 2 ) {
-						posx = ((Box)collision.getCol()).getPosx() 
-								+ ((Box)collision.getCol()).getWidth();
-						deltaX = 0;
-					}
-				}
-			}
+		if (collision.getCol() instanceof Ball) {
+		    die();
+		} else if (!(collision.getCol() instanceof Projectile)) {
+		    if (collision.getSide() == 4) {
+			posx = ((Box) collision.getCol()).getPosx() - width;
+			deltaX = 0;
+		    } else if (collision.getSide() == 2) {
+			posx = ((Box) collision.getCol()).getPosx()
+				+ ((Box) collision.getCol()).getWidth();
+			deltaX = 0;
+		    }
 		}
-		super.update();
+	    }
+	}
+	super.update();
+    }
+
+    /**
+     * render: render the player's graphics.
+     */
+    @Override
+    public void render() {
+	
+	texture.bind();
+	GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex2f(corners[0].getX(), corners[0].getY());
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex2f(corners[1].getX(), corners[1].getY());
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex2f(corners[2].getX(), corners[2].getY());
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex2f(corners[3].getX(), corners[3].getY());
+	glEnd();
+	GL11.glDisable(GL11.GL_TEXTURE_2D);
+    }
+
+    /**
+     * handleInputs: handle keyboard inputs for the player.
+     * 
+     * @param deltaTime
+     */
+    private void handleInputs(double deltaTime) {
+
+	if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)) {
+	    walkLeft(deltaTime);
+	} else if (Keyboard.isKeyDown(GLFW_KEY_RIGHT)
+		|| Keyboard.isKeyDown(GLFW_KEY_D)) {
+	    walkRight(deltaTime);
+	} else {
+	    walkStop(deltaTime);
 	}
 
-	/**
-	 * render: render the player's graphics.
-	 */
-	public void render() {
-		super.render();
+	if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
+	    shoot();
 	}
 
-	/**
-	 * handleInputs: handle keyboard inputs for the player.
-	 * @param deltaTime
-	 */
-	private void handleInputs(double deltaTime) {
+    }
 
-		if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)) {
-			walkLeft(deltaTime);
-		} else if (Keyboard.isKeyDown(GLFW_KEY_RIGHT) || Keyboard.isKeyDown(GLFW_KEY_D)) {
-			walkRight(deltaTime);
-		} else {
-			walkStop(deltaTime);
-		}
+    /**
+     * shoot: lets the player shoot a vertical beam or activate a powerup.
+     */
+    private void shoot() {
+	Projectile p = new Projectile(this.posx + 0.5f * this.width, this.posy);
+	Level.addProjectile(p);
+    }
 
-		if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
-			shoot();
-		}
-
+    /**
+     * walkRight: lets the player move right over the x-axis.
+     * 
+     * @param deltaTime
+     */
+    private void walkRight(double deltaTime) {
+	deltaX += 30 * deltaTime;
+	if (deltaX > 5) {
+	    deltaX = (float) (5);
 	}
+    }
 
-	/**
-	 * shoot: lets the player shoot a vertical beam or activate a powerup.
-	 */
-	private void shoot() {
-		Projectile p = new Projectile(this.posx + 0.5f * this.width, this.posy);
-		Level.addProjectile(p);
+    /**
+     * walkLeft: lets the player move left over the x-axis.
+     * 
+     * @param deltaTime
+     */
+    public void walkLeft(double deltaTime) {
+
+	deltaX -= 30 * deltaTime;
+	if (deltaX < -5) {
+	    deltaX = (float) (-5);
 	}
+    }
 
-	/**
-	 * walkRight: lets the player move right over the x-axis.
-	 * @param deltaTime
-	 */
-	private void walkRight(double deltaTime) {
-		deltaX += 30 * deltaTime;
-		if (deltaX > 5) {
-			deltaX = (float) (5);
-		}
+    /**
+     * walkStop: stops the player from walking.
+     * 
+     * @param deltaTime
+     */
+    public void walkStop(double deltaTime) {
+	if (deltaX < 0) {
+	    deltaX += 30 * deltaTime;
+	    if (deltaX > 0) {
+		deltaX = 0;
+	    }
+	} else if (deltaX > 0) {
+	    deltaX -= 30 * deltaTime;
+	    if (deltaX < 0) {
+		deltaX = 0;
+	    }
 	}
+    }
 
-	/**
-	 * walkLeft: lets the player move left over the x-axis.
-	 * @param deltaTime
-	 */
-	public void walkLeft(double deltaTime) {
+    /**
+     * die: lets the player die.
+     */
+    public void die() {
+	height = 0;
 
-		deltaX -= 30 * deltaTime;
-		if (deltaX < -5) {
-			deltaX = (float) (-5);
-		}
-	}
-
-	/**
-	 * walkStop: stops the player from walking.
-	 * @param deltaTime
-	 */
-	public void walkStop(double deltaTime) {
-		if (deltaX < 0) {
-			deltaX += 30 * deltaTime;
-			if (deltaX > 0) {
-				deltaX = 0;
-			}
-		} else if (deltaX > 0) {
-			deltaX -= 30 * deltaTime;
-			if (deltaX < 0) {
-				deltaX = 0;
-			}
-		}
-	}
-
-	/**
-	 * die: lets the player die.
-	 */
-	public void die() {
-		height = 0;
-
-	}
+    }
 }

@@ -55,7 +55,7 @@ public class Launcher {
 	private long window;
 
 	public void run() {
-		System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
+		//System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
 
 		try {
 			init();
@@ -120,6 +120,8 @@ public class Launcher {
 
 		// Set the clear color
 		glClearColor(0.0f, 0.3f, 0.3f, 0.0f);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(-WIDTH / 2, WIDTH / 2, 0, HEIGHT, -1, 1);
