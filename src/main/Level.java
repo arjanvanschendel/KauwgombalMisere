@@ -22,6 +22,11 @@ public class Level {
 	private static ArrayList<UpdateAble> updateAbles = new ArrayList<UpdateAble>();
 
 	private Player player;
+	
+	/**
+	 * Gravity in this level.
+	 */
+	private static float gravity;
 	private static Projectile pro;
 
 	/**
@@ -46,7 +51,9 @@ public class Level {
 					String param = line.substring(parameterStart + 1,
 							parameterEnd);
 					String[] para = param.split("\\,");
-					if (type.equals("box")) {
+					if (type.equals("gravity")) {
+						gravity = Float.parseFloat(para[0]);
+					}else if (type.equals("box")) {
 						addBox(para);
 					} else if (type.equals("ball")) {
 						addBall(para);
@@ -65,7 +72,7 @@ public class Level {
 		}
 
 	}
-
+	
 	public static void remove(RenderAble object) {
 		if (renderAbles.contains(object)) {
 			renderAbles.remove(object);
@@ -122,6 +129,13 @@ public class Level {
 		updateAbles.add(ball);
 		CollisionDetection.addCollider(ball);
 	}
+	/**
+	 * @return the gravity
+	 */
+	public static float getGravity() {
+		return gravity;
+	}
+	
 	/**
 	 * update: update the level-object's state.
 	 * @param deltaTime

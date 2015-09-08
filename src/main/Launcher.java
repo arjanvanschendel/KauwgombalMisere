@@ -63,14 +63,14 @@ public class Launcher {
 		// Get the resolution of the primary monitor
 		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-		WIDTH = GLFWvidmode.width(vidmode) / 2;
-		HEIGHT = GLFWvidmode.height(vidmode) / 2;
+		WIDTH = GLFWvidmode.width(vidmode) ;
+		HEIGHT = GLFWvidmode.height(vidmode) ;
 
 		// Create the window
-		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+		//window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
 		// Fullscreen
-		// window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
-		// glfwGetPrimaryMonitor(), NULL);
+		 window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
+		 glfwGetPrimaryMonitor(), NULL);
 		if (window == NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 

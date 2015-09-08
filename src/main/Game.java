@@ -16,7 +16,7 @@ import org.newdawn.slick.opengl.TextureLoader;
  *
  */
 public class Game {
-	private int state;
+	private int state = 1;
 	private Level lvl;
 
 	/**
