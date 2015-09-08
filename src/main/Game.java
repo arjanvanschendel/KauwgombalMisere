@@ -1,6 +1,7 @@
 package main;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,20 +12,19 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 /**
  * Class Game: a Game object represents a game, holding all the levels.
- * 
- * @author Matthias
- *
  */
 public class Game {
 	private int state;
-	private Level lvl;
+	private Level currentLvl;
+	private int lvl;
 
 	/**
 	 * Game: constructor.
 	 */
 	public Game() {
 		// loadTextures();
-		loadLevel("levels/level1.lvl");
+		lvl = 1;
+		loadLevel("levels/level" + lvl + ".lvl");
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class Game {
 	 * @param location
 	 */
 	public void loadLevel(String location) {
-		lvl = new Level(location);
+		currentLvl = new Level(location);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class Game {
 				state = 0;
 			}
 		}
-		if(Keyboard.isKeyReleased(GLFW_KEY_SPACE)){
+		if(Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
 			if(state == 2){
 				state = 0;
 			}
@@ -72,7 +72,8 @@ public class Game {
 		switch(state){
 		case(0):
 			//Playing
-			lvl.update(deltaTime);break;
+			currentLvl.update(deltaTime);
+			break;
 		case(1):
 			//Paused
 			break;
@@ -90,15 +91,15 @@ public class Game {
 	/**
 	 * render: Render the graphics of the game.
 	 */
-	public void render(){
-		switch(state){
+	public void render() {
+		switch (state) {
 		case(0):
 			//game
-			lvl.render();
+			currentLvl.render();
 			break;
 		case(1):
 			//paused
-			lvl.render();
+			currentLvl.render();
 			break;
 		case(2):
 			break;
