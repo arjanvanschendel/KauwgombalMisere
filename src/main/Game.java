@@ -62,7 +62,7 @@ public class Game {
 			lvl++;
 			loadLevel("levels/level" + lvl + ".lvl");
 		} else {
-			// game won wohoo
+			state = 3;
 		}
 
 	}
@@ -85,7 +85,7 @@ public class Game {
 			}
 		}
 		if(Level.levelComplete() && state == 0){
-			state = 3;
+			nextLevel();
 		}
 
 		switch(state){
