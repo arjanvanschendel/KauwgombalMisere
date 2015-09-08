@@ -17,13 +17,16 @@ public class Game {
 	private int state;
 	private Level currentLvl;
 	private int lvl;
+	private int maxLvl;
 
 	/**
 	 * Game: constructor.
 	 */
 	public Game() {
 		// loadTextures();
+
 		lvl = 1;
+		maxLvl = 1;
 		loadLevel("levels/level" + lvl + ".lvl");
 	}
 

@@ -1,5 +1,8 @@
 package main;
 
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -8,8 +11,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import shapes.Box;
-import interfaces.RenderAble;
-import interfaces.UpdateAble;
 
 /**
  * Level Class: an object of this class represents a level in the game, containing all objects in the level.
@@ -122,6 +123,7 @@ public class Level {
 		updateAbles.add(ball);
 		CollisionDetection.addCollider(ball);
 	}
+
 	/**
 	 * update: update the level-object's state.
 	 * @param deltaTime
