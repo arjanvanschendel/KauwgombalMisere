@@ -48,15 +48,27 @@ public class Game {
 				state = 0;
 			}
 		}
+		if(Keyboard.isKeyReleased(GLFW_KEY_SPACE)){
+			if(state == 2){
+				state = 0;
+			}
+		}
 
-		if(state == 0){
+		switch(state){
+		case(0):
 			//Playing
-			lvl.update(deltaTime);
-		} else if(state == 1){
+			lvl.update(deltaTime);break;
+		case(1):
 			//Pauzed
-			
-		} else if(state == 2){
-			//Main menu
+			break;
+		
+		case(2):
+			//Main Menu
+			//mm.update(deltaTime);
+			break;
+		default:System.out.println("INVALID STATE: "+state+".");System.exit(-1);
+		
+		
 		}
 	}
 	
