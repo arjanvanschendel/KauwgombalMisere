@@ -3,15 +3,16 @@ package main;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import Shapes.Box;
-import Shapes.Circle;
-import Shapes.Point;
+import shapes.Box;
+import shapes.Circle;
+import shapes.Point;
 import interfaces.Collider;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
 /**
- * Class Ball: an object of this class represents a bouncing ball in the game. They can either get destroyed or kill the player.
+ * Class Ball: an object of this class represents a bouncing ball in the game.
+ * They can either get destroyed or kill the player.
  *
  */
 public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
@@ -21,6 +22,7 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 	/**
 	 * Ball: constructor.
+	 * 
 	 * @param posx
 	 * @param posy
 	 * @param radius
@@ -42,19 +44,21 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 		if (!collisions.isEmpty()) {
 			for (Collision collision : collisions) {
-				if (collision.getCol() instanceof Player) {
-					((Player) collision.getCol()).die();
-				} else {
+				if (!(collision.getCol() instanceof Projectile || collision
+						.getCol() instanceof Player)) {
 					if (collision.getSide() == 3) {
-						posy = ((Box) collision.getCol()).getPosy() + ((Box) collision.getCol()).getHeight() + radius;
+						posy = ((Box) collision.getCol()).getPosy()
+								+ ((Box) collision.getCol()).getHeight()
+								+ radius;
 						float time = (float) Math.sqrt(height / (0.5 * 9.81));
 						deltaY = (float) (9.81 * time / 10);
 						posy += deltaY;
 					} else if (collision.getSide() == 2) {
-						posx = ((Box) collision.getCol()).getPosx() + ((Box) collision.getCol()).getWidth() + radius;
+						posx = ((Box) collision.getCol()).getPosx()
+								+ ((Box) collision.getCol()).getWidth()
+								+ radius;
 						deltaX = -deltaX;
 						posx += deltaX;
-
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
@@ -66,13 +70,31 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 	}
 
+	void hit() {
+		Level.remove(this);
+		Ball ball = new Ball(posx, posy, radius / 2, new Color(
+				color.getGreen(), color.getBlue(), color.getRed()));
+		Ball ball2 = new Ball(posx, posy, radius / 2, new Color(
+				color.getGreen(), color.getBlue(), color.getRed()));
+		if (ball.getRadius() > 10) {
+			ball2.deltaX = -deltaX;
+			ball.deltaX = deltaX;
+			ball.height = height - height / 3;
+			ball2.height = height - height / 3;
+			ball.deltaY = 5;
+			ball2.deltaY = 5;
+			Level.addBall(ball);
+			Level.addBall(ball2);
+		}
+
+	}
+
 	/**
 	 * render: Render ball graphics.
 	 */
 	public void render() {
 		super.render();
 	}
-
 
 	@Override
 	public boolean equals(Object that) {
@@ -88,6 +110,7 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	// Getters and setters
 	/**
 	 * getDeltaX.
+	 * 
 	 * @return float deltaX
 	 */
 	public float getDeltaX() {
@@ -103,6 +126,7 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 	/**
 	 * getDeltaY.
+	 * 
 	 * @return float deltaY
 	 */
 	public float getDeltaY() {

@@ -16,7 +16,7 @@ public class CollisionDetection {
 		colliders.add(col);
 	}
 
-	public static void removeCollider(Collider col) {
+	public static void removeCollider(Object col) {
 		colliders.remove(col);
 	}
 
@@ -36,9 +36,14 @@ public class CollisionDetection {
 		ArrayList<Collision> res = new ArrayList<Collision>();
 		for (Collider collider : colliders) {
 			if (!collider.equals(col)) {
-				if (col.collide(collider) != 0) {
+				if (collider instanceof Ball) {
+					if (collider.collide(col) != 0) {
+						res.add(new Collision(collider, collider.collide(col)));
+					}
+				} else if (col.collide(collider) != 0) {
 					res.add(new Collision(collider, col.collide(collider)));
 				}
+
 			}
 		}
 		return res;

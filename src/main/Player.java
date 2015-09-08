@@ -9,15 +9,17 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import Shapes.Box;
+import shapes.Box;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
+
 /**
  * Class Player: this class represents the player of the game.
+ * @author Luke
  *
  */
-public class Player extends Box implements RenderAble, UpdateAble {
+public class Player extends Box implements RenderAble, UpdateAble  {
 	private float deltaX = 0;
 	private float deltaY = 0;
 
@@ -41,14 +43,20 @@ public class Player extends Box implements RenderAble, UpdateAble {
 		posy += deltaY;
 
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
-		if (!collisions.isEmpty()) {
-			for (Collision collision : collisions) {
-				if (collision.getSide() == 4) {
-					posx = ((Box) collision.getCol()).getPosx() - width;
-					deltaX = 0;
-				} else if (collision.getSide() == 2) {
-					posx = ((Box) collision.getCol()).getPosx() + ((Box) collision.getCol()).getWidth();
-					deltaX = 0;
+		if(!collisions.isEmpty()){
+			for(Collision collision : collisions) {
+
+				if(collision.getCol() instanceof Ball){
+					die();
+				} else if (!(collision.getCol() instanceof Projectile)) {
+					if(collision.getSide() == 4 ){
+						posx = ((Box)collision.getCol()).getPosx() - width;
+						deltaX = 0;
+					} else if(collision.getSide() == 2 ) {
+						posx = ((Box)collision.getCol()).getPosx() 
+								+ ((Box)collision.getCol()).getWidth();
+						deltaX = 0;
+					}
 				}
 			}
 		}
@@ -86,7 +94,8 @@ public class Player extends Box implements RenderAble, UpdateAble {
 	 * shoot: lets the player shoot a vertical beam or activate a powerup.
 	 */
 	private void shoot() {
-
+		Projectile p = new Projectile(this.posx + 0.5f * this.width, this.posy);
+		Level.addProjectile(p);
 	}
 
 	/**
