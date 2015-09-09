@@ -16,4 +16,8 @@
       </plugin>
     </plugins>
   </build>
+  <ciManagement>
+  	<url>https://travis-ci.org/arjanvanschendel/KauwgombalMisere</url>
+  	<system>Travis</system>
+  </ciManagement>
 </project>
