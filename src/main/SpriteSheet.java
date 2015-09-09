@@ -12,7 +12,6 @@ public class SpriteSheet {
     private int columns;
     private int row;
     private int column;
-    private boolean mirrored;
     
     /**
      * 
@@ -26,7 +25,6 @@ public class SpriteSheet {
 	this.columns = height;
 	row = 1;
 	column = 1;
-	mirrored = false;
     }
     
     /**
@@ -63,10 +61,6 @@ public class SpriteSheet {
 	coordinates[2] = ((getRow() - 1) * frameHeight) / getTexture().getHeight();
 	coordinates[3] = (getRow() * frameHeight) / getTexture().getHeight();
 	return coordinates;
-    }
-    
-    public void Mirror() {
-	mirrored = !mirrored;
     }
     
     public int getRow() {
