@@ -8,7 +8,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.2</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -16,4 +16,8 @@
       </plugin>
     </plugins>
   </build>
+  <ciManagement>
+  	<url>https://travis-ci.org/arjanvanschendel/KauwgombalMisere</url>
+  	<system>Travis</system>
+  </ciManagement>
 </project>
