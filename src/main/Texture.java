@@ -19,6 +19,8 @@ import de.matthiasmann.twl.utils.PNGDecoder.Format;
  */
 public class Texture {
 
+    private int width;
+    private int height;
     private int id;
 
     /**
@@ -28,15 +30,18 @@ public class Texture {
      * @param wrap
      */
     public Texture(String src, int filter, int wrap) {
+	
+	InputStream input = null; 
 	try {
-	    InputStream input = new FileInputStream(src);
+	    input = new FileInputStream(src);
 	    PNGDecoder decoder = new PNGDecoder(input);
 	    ByteBuffer buffer = ByteBuffer.allocateDirect(4
 		    * decoder.getWidth() * decoder.getHeight());
 	    decoder.decode(buffer, decoder.getWidth() * 4, Format.RGBA);
 	    buffer.flip();
-	    input.close();
-
+	    
+	    width = decoder.getWidth();
+	    height = decoder.getHeight();
 	    id = GL11.glGenTextures();
 
 	    bind();
@@ -58,15 +63,35 @@ public class Texture {
 	    e.printStackTrace();
 	} catch (IOException e) {
 	    e.printStackTrace();
+	} finally {
+	    if(input != null) {
+		try {
+		    input.close();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	    }
 	}
     }
 
+    public int getWidth() {
+	return width;
+    }
+    
+    public int getHeight() {
+	return height;
+    }
+    
     /**
      * Bind texture
      */
     public void bind() {
 	GL11.glEnable(GL11.GL_TEXTURE_2D);
 	GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+    }
+    
+    public static void disable() {
+	GL11.glDisable(GL11.GL_TEXTURE_2D);
     }
 
 }
