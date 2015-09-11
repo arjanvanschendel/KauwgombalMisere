@@ -29,6 +29,10 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import org.lwjgl.Sys;
@@ -37,6 +41,8 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
+
+import font.FontTT;
 
 /**
  * 
@@ -53,8 +59,9 @@ public class Launcher {
 	private int HEIGHT;
 	// The window handle
 	private long window;
+	public static FontTT myFont;
 
-	public void run() {
+	public void run() throws FontFormatException, IOException {
 		System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
 
 		try {
@@ -71,14 +78,15 @@ public class Launcher {
 		}
 	}
 
-	private void init() {
+	private void init() throws FontFormatException, IOException {
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
 		glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
 
 		// Initialize GLFW. Most GLFW functions will not work before doing this.
-		if (glfwInit() != GL11.GL_TRUE)
+		if (glfwInit() != GL11.GL_TRUE) {
 			throw new IllegalStateException("Unable to initialize GLFW");
+		}
 
 		// Configure our window
 		glfwDefaultWindowHints(); // optional, the current window hints are
@@ -86,7 +94,6 @@ public class Launcher {
 		glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden
 												// after creation
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
-
 		// Get the resolution of the primary monitor
 		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
@@ -110,7 +117,7 @@ public class Launcher {
 		glfwShowWindow(window);
 	}
 
-	private void loop() {
+	private void loop() throws FontFormatException, IOException {
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
@@ -124,6 +131,9 @@ public class Launcher {
 		GL11.glLoadIdentity();
 		GL11.glOrtho(-WIDTH / 2, WIDTH / 2, 0, HEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
+
+		int fontresolution = 16;		
+		myFont = new FontTT(Font.createFont(Font.TRUETYPE_FONT, new File("levels/COOPBL.TTF")), fontresolution, 0 );
 
 		Game game = new Game();
 		// Run the rendering loop until the user has attempted to close
@@ -152,7 +162,15 @@ public class Launcher {
 	}
 
 	public static void main(String[] args) {
-		new Launcher().run();
+		try {
+			new Launcher().run();
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

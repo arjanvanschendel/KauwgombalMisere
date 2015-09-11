@@ -1,5 +1,6 @@
 package main;
 
+import font.Color4f;
 import interfaces.RenderAble;
 import interfaces.UpdateAble;
 
@@ -181,6 +182,7 @@ public class Level {
 		for (RenderAble render : renderAbles) {
 			render.render();
 		}
+		Launcher.myFont.drawText("TEST", 16, 200, 200, 0, Color4f.BLUE, 0, 0, 0, false);
 	}
 
 
