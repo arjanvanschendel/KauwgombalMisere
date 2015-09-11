@@ -68,8 +68,8 @@ public class Player extends Box implements RenderAble, UpdateAble {
     public void update(double deltaTime) {
 	// First handle inputs
 	handleInputs(deltaTime);
-	posx += deltaX;
-	posy += deltaY;
+	posx += deltaX*60*deltaTime;
+	posy += deltaY*60*deltaTime;
 	ArrayList<Collision> collisions = CollisionDetection.collision(this);
 	if (!collisions.isEmpty()) {
 	    for (Collision collision : collisions) {

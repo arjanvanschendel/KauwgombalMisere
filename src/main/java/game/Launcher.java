@@ -128,7 +128,7 @@ public class Launcher {
 		GL11.glLoadIdentity();
 		GL11.glOrtho(-WIDTH / 2, WIDTH / 2, 0, HEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
-
+		lastFrame = glfwGetTime();
 		Game game = new Game();
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.

@@ -59,8 +59,8 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	 */
 	public final void update(final double deltaTime) {
 		deltaY -= deltaTime * Level.getGravity();
-		posx += deltaX;
-		posy += deltaY;
+		posx += deltaX*60*deltaTime;
+		posy += deltaY*60*deltaTime;
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 
 		if (!collisions.isEmpty()) {
@@ -74,17 +74,17 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 						float time = (float) Math.sqrt(height
 								/ (Level.getGravity() / 2));
 						deltaY = (float) (Level.getGravity() * time / 10);
-						posy += deltaY;
+						posy += deltaY*60*deltaTime;
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
 								+ ((Box) collision.getCol()).getWidth()
 								+ radius;
 						deltaX = -deltaX;
-						posx += deltaX;
+						posx += deltaX*60*deltaTime;
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
-						posx += deltaX;
+						posx += deltaX*60*deltaTime;
 					}
 				}
 			}
