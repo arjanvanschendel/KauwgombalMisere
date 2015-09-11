@@ -1,19 +1,103 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>KM</groupId>
-  <artifactId>KM</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>KM</groupId>
+	<artifactId>KM</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<ciManagement>
+		<url>https://travis-ci.org/arjanvanschendel/KauwgombalMisere</url>
+		<system>Travis</system>
+	</ciManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<natives.version>0.0.7</natives.version>
+		<lwjgl.version>3.0.0a</lwjgl.version>
+		<junit.version>4.12</junit.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.lwjgl</groupId>
+			<artifactId>lwjgl</artifactId>
+			<version>${lwjgl.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.lwjgl</groupId>
+			<artifactId>lwjgl-platform</artifactId>
+			<version>${lwjgl.version}</version>
+			<classifier>natives-windows</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.l33tlabs.twl</groupId>
+			<artifactId>pngdecoder</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>mavenNatives</id>
+			<name>Maven Natives Repository</name>
+			<url>http://mavennatives.googlecode.com/svn/repo</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>slick</id>
+			<name>slick</name>
+			<url>http://slick.cokeandcode.com/mavenrepo</url>
+		</repository>
+	</repositories>
+
+
+
+	<build>
+
+		<sourceDirectory>src\main\java</sourceDirectory>
+		<testSourceDirectory>src\test\java</testSourceDirectory>
+		<outputDirectory>target\classes</outputDirectory>
+		<testOutputDirectory>target\test-classes</testOutputDirectory>
+
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.mavennatives</groupId>
+				<artifactId>maven-nativedependencies-plugin</artifactId>
+				<version>${natives.version}</version>
+				<executions>
+					<execution>
+						<id>unpacknatives</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+
+
+	</reporting>
+
 </project>
