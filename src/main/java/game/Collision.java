@@ -1,6 +1,6 @@
 package game;
 
-import interfaces.Collider;
+import objects.GameObject;
 
 /**
  * 
@@ -8,20 +8,20 @@ import interfaces.Collider;
  *
  */
 public class Collision {
-	private Collider col;
+	private GameObject col;
 	private int side;
 
-	public Collision(Collider col, int side) {
-		this.setCol(col);
+	public Collision(GameObject collider, int side) {
+		this.setCol(collider);
 		this.setSide(side);
 	}
 
-	public Collider getCol() {
+	public GameObject getCol() {
 		return col;
 	}
 
-	public void setCol(Collider col) {
-		this.col = col;
+	public void setCol(GameObject collider) {
+		this.col = collider;
 	}
 
 	public int getSide() {

@@ -1,6 +1,7 @@
 package game;
 
 import static org.junit.Assert.assertTrue;
+import objects.Projectile;
 
 import org.junit.Before;
 import org.junit.Test;
