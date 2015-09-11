@@ -34,7 +34,7 @@ import utillities.Texture;
 public class Player extends Box implements GameObject {
 	private float deltaX = 0;
 	private float deltaY = 0;
-	private Texture texture;
+	private boolean alive = true;
 	private SpriteSheet idle;
 	private SpriteSheet running;
 	private SpriteSheet selected;
@@ -52,7 +52,6 @@ public class Player extends Box implements GameObject {
 	 */
 	public Player(float posx, float posy) {
 		super(posx, posy, 60, 100, new Color(1, 1, 1));
-		texture = new Texture("res/figure.png", GL11.GL_NEAREST, GL11.GL_REPEAT);
 		idle = new SpriteSheet(new Texture("res/IdleSprite.png",
 				GL11.GL_NEAREST, GL11.GL_REPEAT), 2, 31);
 		running = new SpriteSheet(new Texture("res/Run.png", GL11.GL_NEAREST,
@@ -206,7 +205,14 @@ public class Player extends Box implements GameObject {
 	 * die: lets the player die.
 	 */
 	public void die() {
-		height = 0;
-
+		alive = false;
 	}
+
+	/**
+	 * @return the alive
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
+	
 }

@@ -37,49 +37,8 @@ public class Level {
 	 * @param location
 	 */
 	public Level(String location) {
-
-		clear();
-
 		loc = location;
-		InputStreamReader inputStreamReader;
-		try {
-			inputStreamReader = new InputStreamReader(new FileInputStream(
-					location));
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-
-				int parameterStart = line.indexOf('(');
-				int parameterEnd = line.indexOf(')');
-
-				if (parameterStart != -1 && parameterEnd != -1) {
-					String type = line.substring(0, parameterStart);
-					String param = line.substring(parameterStart + 1,
-							parameterEnd);
-					String[] para = param.split("\\,");
-					if (type.equals("gravity")) {
-						gravity = Float.parseFloat(para[0]);
-					} else if (type.equals("box")) {
-						Wall wall = ObjectGenerator.genWall(para);
-						objects.add(wall);
-						CollisionDetection.addCollider(wall);
-					} else if (type.equals("ball")) {
-						Ball ball = ObjectGenerator.genBall(para);
-						objects.add(ball);
-						CollisionDetection.addCollider(ball);
-					} else if (type.equals("player")) {
-						player = ObjectGenerator.genPlayer(para);
-						objects.add(0, player);
-						CollisionDetection.addCollider(player);
-					}
-				}
-			}
-			bufferedReader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		loadLevel();
 
 	}
 
@@ -142,6 +101,9 @@ public class Level {
 		}
 		if (pro != null)
 			pro.update(deltaTime);
+
+		if(!player.isAlive())
+			loadLevel();
 	}
 
 	/**
@@ -153,6 +115,50 @@ public class Level {
 		for (GameObject render : objects) {
 			render.render();
 		}
+	}
+
+	public void loadLevel() {
+		clear();
+		InputStreamReader inputStreamReader;
+		try {
+			inputStreamReader = new InputStreamReader(new FileInputStream(
+					loc));
+			BufferedReader bufferedReader = new BufferedReader(
+					inputStreamReader);
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+
+				int parameterStart = line.indexOf('(');
+				int parameterEnd = line.indexOf(')');
+
+				if (parameterStart != -1 && parameterEnd != -1) {
+					String type = line.substring(0, parameterStart);
+					String param = line.substring(parameterStart + 1,
+							parameterEnd);
+					String[] para = param.split("\\,");
+					if (type.equals("gravity")) {
+						gravity = Float.parseFloat(para[0]);
+					} else if (type.equals("box")) {
+						Wall wall = ObjectGenerator.genWall(para);
+						objects.add(wall);
+						CollisionDetection.addCollider(wall);
+					} else if (type.equals("ball")) {
+						Ball ball = ObjectGenerator.genBall(para);
+						objects.add(ball);
+						CollisionDetection.addCollider(ball);
+					} else if (type.equals("player")) {
+						player = ObjectGenerator.genPlayer(para);
+						objects.add(0, player);
+						CollisionDetection.addCollider(player);
+					}
+				}
+			}
+			bufferedReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
