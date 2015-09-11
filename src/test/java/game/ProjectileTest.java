@@ -17,8 +17,8 @@ public class ProjectileTest {
     
     @Before
     public void setup() {
-	GLContext.createFromCurrent();
-	projectile = new Projectile(0, 0);
+	//GLContext.createFromCurrent();
+	//projectile = new Projectile(0, 0);
     }
     
     @Test
