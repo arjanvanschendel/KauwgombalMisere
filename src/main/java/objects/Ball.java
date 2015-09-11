@@ -1,23 +1,21 @@
-package game;
+package objects;
 
-import interfaces.Collider;
-import interfaces.RenderAble;
-import interfaces.UpdateAble;
+import game.Collision;
+import game.CollisionDetection;
+import game.Level;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import shapes.Box;
 import shapes.Circle;
-import shapes.Point;
-
 
 /**
  * Class Ball: an object of this class represents a bouncing ball in the game.
  * They can either get destroyed or kill the player.
  *
  */
-public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
+public class Ball extends Circle implements GameObject {
 	/**
 	 * deltaX the force in the X direction.
 	 */
@@ -59,8 +57,8 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	 */
 	public final void update(final double deltaTime) {
 		deltaY -= deltaTime * Level.getGravity();
-		posx += deltaX*60*deltaTime;
-		posy += deltaY*60*deltaTime;
+		posx += deltaX * 60 * deltaTime;
+		posy += deltaY * 60 * deltaTime;
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 
 		if (!collisions.isEmpty()) {
@@ -74,17 +72,17 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 						float time = (float) Math.sqrt(height
 								/ (Level.getGravity() / 2));
 						deltaY = (float) (Level.getGravity() * time / 10);
-						posy += deltaY*60*deltaTime;
+						posy += deltaY * 60 * deltaTime;
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
 								+ ((Box) collision.getCol()).getWidth()
 								+ radius;
 						deltaX = -deltaX;
-						posx += deltaX*60*deltaTime;
+						posx += deltaX * 60 * deltaTime;
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
-						posx += deltaX*60*deltaTime;
+						posx += deltaX * 60 * deltaTime;
 					}
 				}
 			}
@@ -121,11 +119,11 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	public final void render() {
 		super.render();
 	}
-	
+
 	/**
-	 *  
-	 *  @param that 
-	 *  @return boolean 
+	 * 
+	 * @param that
+	 * @return boolean
 	 */
 	@Override
 	public final boolean equals(final Object that) {
@@ -150,6 +148,7 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 
 	/**
 	 * setDeltaX.
+	 * 
 	 * @param float deltaX
 	 */
 	public final void setDeltaX(float deltaX) {
@@ -170,24 +169,6 @@ public class Ball extends Circle implements RenderAble, UpdateAble, Collider {
 	 */
 	public void setDeltaY(float deltaY) {
 		this.deltaY = deltaY;
-	}
-
-	@Override
-	public int collide(Collider col) {
-		if (col instanceof Box) {
-			Box box = (Box) col;
-			Point[] corners = box.getCorners();
-			if (lineIntersect(corners[0], corners[1])) {
-				return 1;
-			} else if (lineIntersect(corners[1], corners[2])) {
-				return 2;
-			} else if (lineIntersect(corners[2], corners[3])) {
-				return 3;
-			} else if (lineIntersect(corners[3], corners[0])) {
-				return 4;
-			}
-		}
-		return 0;
 	}
 
 }

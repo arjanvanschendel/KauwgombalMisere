@@ -1,10 +1,6 @@
 package shapes;
 
-import interfaces.Collider;
-import interfaces.RenderAble;
-
 import java.awt.Color;
-import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -13,7 +9,7 @@ import static org.lwjgl.opengl.GL11.*;
  * JAPSEEER
  *
  */
-public class Box implements RenderAble, Collider {
+public class Box {
 	protected float posx;
 	protected float posy;
 	protected float width;
@@ -55,43 +51,6 @@ public class Box implements RenderAble, Collider {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public int collide(Collider col) {
-		if (col instanceof Box) {
-			Box Box = (Box) col;
-			float AX1 = this.posx;
-			float AX2 = this.posx + this.width;
-			float AY1 = this.posy;
-			float AY2 = this.posy + this.height;
-
-			float BX1 = Box.getPosx();
-			float BX2 = Box.getPosx() + Box.getWidth();
-			float BY1 = Box.getPosy();
-			float BY2 = Box.getPosy() + Box.getHeight();
-
-			if (AX1 < BX2 && AX2 > BX1 && AY1 < BY2 && AY2 > BY1) {
-				float[] distances = new float[4];
-
-				distances[0] = Math.abs(AY1 - BY2); // Hit ceiling
-				distances[1] = Math.abs(AX1 - BX2); // Hit left of wall
-				distances[2] = Math.abs(BY1 - AY2); // Hit floor
-				distances[3] = Math.abs(BX1 - AX2); // Hit Right of wall
-
-				float smallest = distances[0];
-				int index = 0;
-				for (int i = 0; i < 4; i++) {
-					float num = distances[i];
-					if (num < smallest) {
-						smallest = num;
-						index = i;
-					}
-				}
-				return index + 1;
-			}
-		}
-		return 0;
 	}
 
 	public float getPosx() {
