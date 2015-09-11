@@ -1,5 +1,7 @@
 package game;
 
+import interfaces.Collider;
+
 /**
  * 
  * JAPSER

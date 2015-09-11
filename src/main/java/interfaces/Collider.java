@@ -1,4 +1,4 @@
-package game;
+package interfaces;
 
 /**
  * Collider interface used in CollisionDetection to calculate collisions.

@@ -1,4 +1,7 @@
-package game;
+package shapes;
+
+import interfaces.Collider;
+import interfaces.RenderAble;
 
 import java.awt.Color;
 import java.util.ArrayList;

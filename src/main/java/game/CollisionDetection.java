@@ -1,5 +1,7 @@
 package game;
 
+import interfaces.Collider;
+
 import java.util.ArrayList;
 
 /**

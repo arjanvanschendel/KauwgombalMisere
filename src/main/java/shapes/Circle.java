@@ -1,4 +1,6 @@
-package game;
+package shapes;
+
+import interfaces.RenderAble;
 
 import java.awt.Color;
 

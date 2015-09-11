@@ -11,11 +11,18 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glColor4f;
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
+
+import shapes.Box;
+import utillities.Keyboard;
+import utillities.SpriteSheet;
+import utillities.Texture;
 
 /**
  * Class Player: this class represents the player of the game.

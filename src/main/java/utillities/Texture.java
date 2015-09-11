@@ -1,4 +1,4 @@
-package game;
+package utillities;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

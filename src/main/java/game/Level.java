@@ -1,11 +1,16 @@
 package game;
 
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import shapes.Box;
 /**
  * Level Class: an object of this class represents a level in the game, containing all objects in the level.
  * 

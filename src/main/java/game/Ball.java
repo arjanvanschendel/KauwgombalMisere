@@ -1,7 +1,15 @@
 package game;
 
+import interfaces.Collider;
+import interfaces.RenderAble;
+import interfaces.UpdateAble;
+
 import java.awt.Color;
 import java.util.ArrayList;
+
+import shapes.Box;
+import shapes.Circle;
+import shapes.Point;
 
 
 /**

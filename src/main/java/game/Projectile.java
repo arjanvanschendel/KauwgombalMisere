@@ -6,11 +6,15 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 import static org.lwjgl.opengl.GL11.glColor4f;
+import interfaces.UpdateAble;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
+
+import shapes.Box;
+import utillities.Texture;
 
 /**
  * Projectile class
