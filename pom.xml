@@ -9,6 +9,14 @@
 		<url>https://travis-ci.org/arjanvanschendel/KauwgombalMisere</url>
 		<system>Travis</system>
 	</ciManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<natives.version>0.0.7</natives.version>
+		<lwjgl.version>3.0.0a</lwjgl.version>
+		<junit.version>4.12</junit.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.lwjgl</groupId>
@@ -33,12 +41,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<natives.version>0.0.7</natives.version>
-		<lwjgl.version>3.0.0a</lwjgl.version>
-		<junit.version>4.12</junit.version>
-	</properties>
+
 	<repositories>
 		<repository>
 			<id>mavenNatives</id>
@@ -59,6 +62,13 @@
 
 
 	<build>
+
+		<sourceDirectory>src\main\java</sourceDirectory>
+		<testSourceDirectory>src\test\java</testSourceDirectory>
+		<outputDirectory>target\classes</outputDirectory>
+		<testOutputDirectory>target\test-classes</testOutputDirectory>
+
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -85,5 +95,9 @@
 		</plugins>
 	</build>
 
+	<reporting>
+
+
+	</reporting>
 
 </project>

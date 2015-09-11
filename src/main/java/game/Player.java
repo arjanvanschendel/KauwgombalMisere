@@ -39,6 +39,9 @@ public class Player extends Box implements RenderAble, UpdateAble {
     private SpriteSheet selected;
     private int state;
     private boolean mirrored;
+    private double lastFrame;
+    private double targetDelta = 1/60;
+    private double target;
 
     /**
      * Player: constructor.
@@ -55,6 +58,8 @@ public class Player extends Box implements RenderAble, UpdateAble {
 		GL11.GL_NEAREST, GL11.GL_REPEAT), 2, 20);
 	state = 0;
 	mirrored = false;
+	lastFrame = System.currentTimeMillis();
+	target = lastFrame + targetDelta;
     }
 
     /**
@@ -97,7 +102,11 @@ public class Player extends Box implements RenderAble, UpdateAble {
 	    selected = running;
 	}
 	selected.bind();
-	selected.nextSprite();
+	if (System.currentTimeMillis() >= target) {
+	    selected.nextSprite();
+	    lastFrame = System.currentTimeMillis();
+	    target = lastFrame + targetDelta;
+	}
 	float [] c = selected.returnCoordinates(mirrored);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
