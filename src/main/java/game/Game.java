@@ -3,10 +3,16 @@ package game;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
+import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Keyboard;
 
@@ -25,8 +31,6 @@ public class Game {
 	 * Game: constructor.
 	 */
 	public Game() {
-		// loadTextures();
-
 		lvl = 1;
 		maxLvl = countLevels();
 		loadLevel("levels/level" + lvl + ".lvl");
@@ -35,17 +39,18 @@ public class Game {
 	/**
 	 * loadTextures: load the textures onto memory.
 	 */
-//	private void loadTextures() {
-//		try {
-//			TextureLoader.getTexture("PNG", new FileInputStream(new File("res/image.png")));
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//			System.exit(1);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			System.exit(1);
-//		}
-//	}
+	// private void loadTextures() {
+	// try {
+	// TextureLoader.getTexture("PNG", new FileInputStream(new
+	// File("res/image.png")));
+	// } catch (FileNotFoundException e) {
+	// e.printStackTrace();
+	// System.exit(1);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// System.exit(1);
+	// }
+	// }
 
 	/**
 	 * loadLevel: load a level.
@@ -124,7 +129,8 @@ public class Game {
 			System.out.println("new state");
 			break;
 		default:
-			System.out.println("INVALID STATE: " + state + ". (Game.update method)");
+			System.out.println("INVALID STATE: " + state
+					+ ". (Game.update method)");
 			System.exit(-1);
 
 		}
@@ -138,15 +144,25 @@ public class Game {
 		case (0):
 			// game
 			currentLvl.render();
+			GL11.glScalef(1, -1, 1);
+			TextureImpl.bindNone();
+			Launcher.font.drawString(-50, -100, "Level " + lvl + ": " + currentLvl.getName(), Color.black);
+			GL11.glScalef(1, -1, 1);
 			break;
 		case (1):
 			// paused
 			currentLvl.render();
+			GL11.glScalef(1, -1, 1);
+			TextureImpl.bindNone();
+			Launcher.font.drawString(-50, -300, "PAUSED", Color.yellow);
+			GL11.glScalef(1, -1, 1);
+
 			break;
 		case (2):
 			break;
 		default:
-			System.out.println("INVALID STATE: " + state + ". (Game.render method)");
+			System.out.println("INVALID STATE: " + state
+					+ ". (Game.render method)");
 			System.exit(-1);
 		}
 	}

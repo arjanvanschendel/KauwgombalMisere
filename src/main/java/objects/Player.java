@@ -56,6 +56,7 @@ public class Player extends Box implements GameObject {
 				GL11.GL_NEAREST, GL11.GL_REPEAT), 2, 31);
 		running = new SpriteSheet(new Texture("res/Run.png", GL11.GL_NEAREST,
 				GL11.GL_REPEAT), 2, 20);
+		selected = idle;
 		state = 0;
 		mirrored = false;
 		lastFrame = System.currentTimeMillis();
@@ -88,6 +89,16 @@ public class Player extends Box implements GameObject {
 				}
 			}
 		}
+		if (state == 0) {
+			selected = idle;
+		} else {
+			selected = running;
+		}
+		if (System.currentTimeMillis() >= target) {
+			selected.nextSprite();
+			lastFrame = System.currentTimeMillis();
+			target = lastFrame + targetDelta;
+		}
 		super.update();
 	}
 
@@ -96,17 +107,7 @@ public class Player extends Box implements GameObject {
 	 */
 	@Override
 	public void render() {
-		if (state == 0) {
-			selected = idle;
-		} else {
-			selected = running;
-		}
 		selected.bind();
-		if (System.currentTimeMillis() >= target) {
-			selected.nextSprite();
-			lastFrame = System.currentTimeMillis();
-			target = lastFrame + targetDelta;
-		}
 		float[] c = selected.returnCoordinates(mirrored);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		glBegin(GL_QUADS);
