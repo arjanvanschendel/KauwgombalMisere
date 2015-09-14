@@ -24,6 +24,13 @@
 			<version>${lwjgl.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.slickutil3</groupId>
+			<artifactId>slickutil3</artifactId>
+			<version>0.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/slick/slick-util3.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-platform</artifactId>
 			<version>${lwjgl.version}</version>
