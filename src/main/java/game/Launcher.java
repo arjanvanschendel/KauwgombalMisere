@@ -56,7 +56,7 @@ public class Launcher {
 	private long window;
 
 	public void run() {
-		//System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
+		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
 
 		try {
 			init();
@@ -91,14 +91,14 @@ public class Launcher {
 		// Get the resolution of the primary monitor
 		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-		WIDTH = 1000;//GLFWvidmode.width(vidmode);
-		HEIGHT = 600;GLFWvidmode.height(vidmode);
+		WIDTH = GLFWvidmode.width(vidmode);
+		HEIGHT = GLFWvidmode.height(vidmode);
 
 		// Create the window
-		 window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+		window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL, NULL);
 		// Fullscreen
-		//window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
-		//		glfwGetPrimaryMonitor(), NULL);
+		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
+				glfwGetPrimaryMonitor(), NULL);
 		if (window == NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -126,7 +126,20 @@ public class Launcher {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(-WIDTH / 2, WIDTH / 2, 0, HEIGHT, -1, 1);
+
+		// Change CAMHEIGHT to change zoom level
+		int CAMWIDTH = 0;
+		int CAMHEIGHT = 0;
+		double aRatio = (double) WIDTH / (double) HEIGHT;
+		if (aRatio < 1.8) {
+			CAMWIDTH = 1000;
+			CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+
+		} else {
+			CAMHEIGHT = 550;
+			CAMWIDTH = (int) (CAMHEIGHT * aRatio);
+		}
+		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 		lastFrame = glfwGetTime();
 		Game game = new Game();
