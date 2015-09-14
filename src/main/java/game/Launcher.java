@@ -29,6 +29,7 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.awt.Font;
 import java.nio.ByteBuffer;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -36,6 +37,7 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
+import org.newdawn.slick.TrueTypeFont;
 
 import utillities.Keyboard;
 
@@ -54,6 +56,7 @@ public class Launcher {
 	private int HEIGHT;
 	// The window handle
 	private long window;
+	static TrueTypeFont font;
 
 	public void run() {
 		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
@@ -95,7 +98,7 @@ public class Launcher {
 		HEIGHT = GLFWvidmode.height(vidmode);
 
 		// Create the window
-		window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL, NULL);
+		//window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL, NULL);
 		// Fullscreen
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
 				glfwGetPrimaryMonitor(), NULL);
@@ -110,8 +113,8 @@ public class Launcher {
 		// Make the window visible
 		glfwShowWindow(window);
 	}
-
-	private void loop() {
+	
+	private void InitOpenGL(){
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
@@ -141,8 +144,19 @@ public class Launcher {
 		}
 		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
-		lastFrame = glfwGetTime();
+
+	}
+	
+	private void loop() {
+		
+		InitOpenGL();
+		
+		// load a default java font
+		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+		font = new TrueTypeFont(awtFont, true);
+		
 		Game game = new Game();
+		lastFrame = glfwGetTime();
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while (glfwWindowShouldClose(window) == GL_FALSE) {

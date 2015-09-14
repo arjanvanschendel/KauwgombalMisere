@@ -24,6 +24,7 @@ public class Level {
 	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();
 
 	private Player player;
+	private String name = "";
 
 	/**
 	 * Gravity in this level.
@@ -150,6 +151,8 @@ public class Level {
 						player = ObjectGenerator.genPlayer(para);
 						objects.add(0, player);
 						CollisionDetection.addCollider(player);
+					} else if (type.equals("name")) {
+						name = para[0];
 					}
 				}
 			}
@@ -159,6 +162,10 @@ public class Level {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }
