@@ -24,9 +24,7 @@ public class ObjectGenerator {
 	
 	public static Ball genBall(String[] args){
 		Ball res = new Ball(Float.parseFloat(args[0]),
-				Float.parseFloat(args[1]), Float.parseFloat(args[2]),
-				new Color(Float.parseFloat(args[3]), Float.parseFloat(args[4]),
-						Float.parseFloat(args[5])));
+				Float.parseFloat(args[1]), Float.parseFloat(args[2]));
 		return res;
 	}
 }

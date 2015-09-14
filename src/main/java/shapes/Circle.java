@@ -16,6 +16,13 @@ public class Circle {
 		this.color = color;
 	}
 
+	public Circle(float posx, float posy, float radius) {
+		this.posx = posx;
+		this.posy = posy;
+		this.radius = radius;
+		this.color = new Color(0,0,0);
+	}
+	
 	public void render() {
 		// Draw Circle
 		glColor4f((float) color.getRed() / 255, (float) color.getGreen() / 255,

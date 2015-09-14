@@ -43,9 +43,15 @@ public class Ball extends Circle implements GameObject {
 	 * @param color
 	 *            color of the ball
 	 */
-	public Ball(final float posx, final float posy, final float radius,
-			final Color color) {
-		super(posx, posy, radius, color);
+	public Ball(final float posx, final float posy, final float radius) {
+		super(posx, posy, radius);
+		
+		switch ((int) radius) {
+		case 50: color = Color.red; break;
+		case (50/2): color = Color.blue; break;
+		case (50/4): color = Color.green; break;
+		}
+		
 		height = posy;
 	}
 
@@ -95,10 +101,8 @@ public class Ball extends Circle implements GameObject {
 	 */
 	final void hit() {
 		Level.remove(this);
-		Ball ball = new Ball(posx, posy, radius / 2, new Color(
-				color.getGreen(), color.getBlue(), color.getRed()));
-		Ball ball2 = new Ball(posx, posy, radius / 2, new Color(
-				color.getGreen(), color.getBlue(), color.getRed()));
+		Ball ball = new Ball(posx, posy, radius / 2);
+		Ball ball2 = new Ball(posx, posy, radius / 2);
 		if (ball.getRadius() > 10) {
 			ball2.deltaX = -deltaX;
 			ball.deltaX = deltaX;
