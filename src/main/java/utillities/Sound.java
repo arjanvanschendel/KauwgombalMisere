@@ -66,5 +66,14 @@ public class Sound {
 		AudioPlayer.player.start(continuousaudiostream);
 	}
 
+	/**
+	 * stop: stop the sound.
+	 */
+	public void stop() {
+		if (audiostream != null)
+			AudioPlayer.player.stop(audiostream);
+		if (continuousaudiostream != null)
+			AudioPlayer.player.stop(continuousaudiostream);
+	}
 
 }
