@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -15,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Keyboard;
+import utillities.Texture;
 
 //import org.newdawn.slick.opengl.TextureLoader;
 
@@ -26,11 +28,13 @@ public class Game {
 	private Level currentLvl;
 	private int lvl;
 	private int maxLvl;
+	public static ArrayList<Texture> textures = new ArrayList<Texture>();
 
 	/**
 	 * Game: constructor.
 	 */
 	public Game() {
+		loadTextures();
 		lvl = 1;
 		maxLvl = countLevels();
 		loadLevel("levels/level" + lvl + ".lvl");
@@ -39,18 +43,12 @@ public class Game {
 	/**
 	 * loadTextures: load the textures onto memory.
 	 */
-	// private void loadTextures() {
-	// try {
-	// TextureLoader.getTexture("PNG", new FileInputStream(new
-	// File("res/image.png")));
-	// } catch (FileNotFoundException e) {
-	// e.printStackTrace();
-	// System.exit(1);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// System.exit(1);
-	// }
-	// }
+	private void loadTextures() {
+		textures.add(0, new Texture("res/IdleSprite.png", GL11.GL_NEAREST,
+				GL11.GL_REPEAT));
+		textures.add(1, new Texture("res/Run.png", GL11.GL_NEAREST,
+				GL11.GL_REPEAT));
+	}
 
 	/**
 	 * loadLevel: load a level.
@@ -146,7 +144,8 @@ public class Game {
 			currentLvl.render();
 			GL11.glScalef(1, -1, 1);
 			TextureImpl.bindNone();
-			Launcher.font.drawString(-50, -100, "Level " + lvl + ": " + currentLvl.getName(), Color.black);
+			Launcher.font.drawString(-50, -100, "Level " + lvl + ": "
+					+ currentLvl.getName(), Color.black);
 			GL11.glScalef(1, -1, 1);
 			break;
 		case (1):
