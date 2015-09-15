@@ -1,9 +1,11 @@
 package game;
 
 import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
+import static org.lwjgl.glfw.Callbacks.glfwSetCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -20,6 +22,7 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
@@ -31,14 +34,18 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.awt.Font;
 import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback.SAM;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
 
+import shapes.Point;
 import utillities.Keyboard;
 
 /**
@@ -52,10 +59,12 @@ public class Launcher {
 	private GLFWErrorCallback errorCallback;
 	private GLFWKeyCallback keyCallback;
 	private double lastFrame;
-	private int WIDTH;
-	private int HEIGHT;
+	private static int CAMWIDTH;
+	private static int CAMHEIGHT;
+	private static int WIDTH;
+	private static int HEIGHT;
 	// The window handle
-	private long window;
+	private static long window;
 	static TrueTypeFont font;
 
 	public void run() {
@@ -98,7 +107,8 @@ public class Launcher {
 		HEIGHT = GLFWvidmode.height(vidmode);
 
 		// Create the window
-		//window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL, NULL);
+		// window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL,
+		// NULL);
 		// Fullscreen
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
 				glfwGetPrimaryMonitor(), NULL);
@@ -113,8 +123,8 @@ public class Launcher {
 		// Make the window visible
 		glfwShowWindow(window);
 	}
-	
-	private void InitOpenGL(){
+
+	private void InitOpenGL() {
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
@@ -131,8 +141,6 @@ public class Launcher {
 		GL11.glLoadIdentity();
 
 		// Change CAMHEIGHT to change zoom level
-		int CAMWIDTH = 0;
-		int CAMHEIGHT = 0;
 		double aRatio = (double) WIDTH / (double) HEIGHT;
 		if (aRatio < 1.8) {
 			CAMWIDTH = 1000;
@@ -146,17 +154,42 @@ public class Launcher {
 		glMatrixMode(GL11.GL_MODELVIEW);
 
 	}
-	
+
 	private void loop() {
-		
+
 		InitOpenGL();
-		
+
 		// load a default java font
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, true);
-		
+
 		Game game = new Game();
 		lastFrame = glfwGetTime();
+
+		glfwSetCallback(window, GLFWWindowSizeCallback(new SAM() {
+			@Override
+			public void invoke(long window, int width, int height) {
+				WIDTH = width;
+				HEIGHT = height;
+				// Change CAMHEIGHT to change zoom level
+				double aRatio = (double) WIDTH / (double) HEIGHT;
+				if (aRatio < 1.8) {
+					CAMWIDTH = 1000;
+					CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+
+				} else {
+					CAMHEIGHT = 550;
+					CAMWIDTH = (int) (CAMHEIGHT * aRatio);
+				}
+				GL11.glViewport(0, 0, width, height);
+				GL11.glMatrixMode(GL11.GL_PROJECTION);
+				GL11.glLoadIdentity();
+				GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
+				GL11.glMatrixMode(GL11.GL_MODELVIEW); 
+				GL11.glLoadIdentity(); 
+
+			}
+		}));
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while (glfwWindowShouldClose(window) == GL_FALSE) {
@@ -178,8 +211,28 @@ public class Launcher {
 		double time = glfwGetTime();
 		double delta = time - lastFrame;
 		lastFrame = time;
+		if (delta < 0.07) {
+			return delta;
+		} else {
+			return 0.07;
+		}
+	}
 
-		return delta;
+	public static Point getCursorPos() {
+
+		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
+		DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
+
+		glfwGetCursorPos(window, x, y);
+		x.rewind();
+		y.rewind();
+		float xf = (float) x.get();
+		float yf = -(float) y.get();
+		xf = (xf / WIDTH) * CAMWIDTH - CAMWIDTH / 2;
+		yf = (yf / HEIGHT) * CAMHEIGHT - CAMHEIGHT;
+		Point res = new Point(xf, yf);
+		return res;
+
 	}
 
 	public static void main(String[] args) {
