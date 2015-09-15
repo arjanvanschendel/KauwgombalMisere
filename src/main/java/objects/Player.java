@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Collision;
 import game.CollisionDetection;
+import game.Game;
 import game.Level;
 
 import java.awt.Color;
@@ -52,10 +53,8 @@ public class Player extends Box implements GameObject {
 	 */
 	public Player(float posx, float posy) {
 		super(posx, posy, 60, 100, new Color(1, 1, 1));
-		idle = new SpriteSheet(new Texture("res/IdleSprite.png",
-				GL11.GL_NEAREST, GL11.GL_REPEAT), 2, 31);
-		running = new SpriteSheet(new Texture("res/Run.png", GL11.GL_NEAREST,
-				GL11.GL_REPEAT), 2, 20);
+		idle = new SpriteSheet(Game.textures.get(0), 2, 31);
+		running = new SpriteSheet(Game.textures.get(1), 2, 20);
 		selected = idle;
 		state = 0;
 		mirrored = false;
