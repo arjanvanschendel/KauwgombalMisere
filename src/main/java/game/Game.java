@@ -26,6 +26,7 @@ public class Game {
 	private Level currentLvl;
 	private int lvl;
 	private int maxLvl;
+	private MainMenu mm;
 
 	/**
 	 * Game: constructor.
@@ -34,6 +35,8 @@ public class Game {
 		lvl = 1;
 		maxLvl = countLevels();
 		loadLevel("levels/level" + lvl + ".lvl");
+		mm = new MainMenu();
+		state = 2;
 	}
 
 	/**
@@ -159,6 +162,7 @@ public class Game {
 
 			break;
 		case (2):
+			mm.render();
 			break;
 		default:
 			System.out.println("INVALID STATE: " + state
