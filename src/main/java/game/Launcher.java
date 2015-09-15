@@ -98,7 +98,8 @@ public class Launcher {
 		HEIGHT = GLFWvidmode.height(vidmode);
 
 		// Create the window
-		//window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL, NULL);
+		// window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL,
+		// NULL);
 		// Fullscreen
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
 				glfwGetPrimaryMonitor(), NULL);
@@ -113,8 +114,8 @@ public class Launcher {
 		// Make the window visible
 		glfwShowWindow(window);
 	}
-	
-	private void InitOpenGL(){
+
+	private void InitOpenGL() {
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
@@ -146,15 +147,15 @@ public class Launcher {
 		glMatrixMode(GL11.GL_MODELVIEW);
 
 	}
-	
+
 	private void loop() {
-		
+
 		InitOpenGL();
-		
+
 		// load a default java font
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		font = new TrueTypeFont(awtFont, true);
-		
+
 		Game game = new Game();
 		lastFrame = glfwGetTime();
 		// Run the rendering loop until the user has attempted to close
@@ -178,8 +179,11 @@ public class Launcher {
 		double time = glfwGetTime();
 		double delta = time - lastFrame;
 		lastFrame = time;
-
-		return delta;
+		if (delta < 0.07) {
+			return delta;
+		} else{
+			return 0.07;
+		}
 	}
 
 	public static void main(String[] args) {
