@@ -68,8 +68,8 @@ public class Player extends Box implements GameObject {
 	public void update(double deltaTime) {
 		// First handle inputs
 		handleInputs(deltaTime);
-		posx += deltaX * 60 * deltaTime;
-		posy += deltaY * 60 * deltaTime;
+		setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
+		setPosy((float) (getPosy() + deltaY * 60 * deltaTime));
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 		if (!collisions.isEmpty()) {
 			for (Collision collision : collisions) {
@@ -78,11 +78,11 @@ public class Player extends Box implements GameObject {
 					die();
 				} else if (!(collision.getCol() instanceof Projectile)) {
 					if (collision.getSide() == 4) {
-						posx = ((Box) collision.getCol()).getPosx() - width;
+						setPosx(((Box) collision.getCol()).getPosx() - getWidth());
 						deltaX = 0;
 					} else if (collision.getSide() == 2) {
-						posx = ((Box) collision.getCol()).getPosx()
-								+ ((Box) collision.getCol()).getWidth();
+						setPosx(((Box) collision.getCol()).getPosx()
+								+ ((Box) collision.getCol()).getWidth());
 						deltaX = 0;
 					}
 				}
@@ -98,7 +98,6 @@ public class Player extends Box implements GameObject {
 			lastFrame = System.currentTimeMillis();
 			target = lastFrame + targetDelta;
 		}
-		super.update();
 	}
 
 	/**
@@ -153,7 +152,7 @@ public class Player extends Box implements GameObject {
 	 * shoot: lets the player shoot a vertical beam or activate a powerup.
 	 */
 	private void shoot() {
-		Projectile p = new Projectile(this.posx + 0.5f * this.width, this.posy);
+		Projectile p = new Projectile(this.getPosx() + 0.5f * this.getWidth(), this.getPosy());
 		Level.setProjectile(p);
 	}
 
