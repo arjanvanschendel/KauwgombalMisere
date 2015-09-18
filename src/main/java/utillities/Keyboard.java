@@ -14,7 +14,6 @@ public class Keyboard extends GLFWKeyCallback {
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
-		// TODO Auto-generated method stub
 		keys[key] = action != 0;
 		releasedKeys[key] = action == 0;
 	}
