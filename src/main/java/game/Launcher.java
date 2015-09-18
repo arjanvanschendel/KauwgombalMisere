@@ -61,7 +61,7 @@ public class Launcher {
 	private static int WIDTH;
 	private static int HEIGHT;
 	private static long window;
-	static TrueTypeFont font;
+	public static TrueTypeFont font;
 
 	public void run() {
 		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
@@ -73,6 +73,7 @@ public class Launcher {
 			// Release window and window callbacks
 			glfwDestroyWindow(window);
 			keyCallback.release();
+			mouseCallback.release();
 		} finally {
 			// Terminate GLFW and release the GLFWerrorfun
 			glfwTerminate();
@@ -134,10 +135,7 @@ public class Launcher {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
 
-		// Change CAMHEIGHT to change zoom level
 		double aRatio = (double) WIDTH / (double) HEIGHT;
 		if (aRatio < 1.8) {
 			CAMWIDTH = 1000;
@@ -147,21 +145,10 @@ public class Launcher {
 			CAMHEIGHT = 550;
 			CAMWIDTH = (int) (CAMHEIGHT * aRatio);
 		}
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
 		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
-
-	}
-
-	private void loop() {
-
-		InitOpenGL();
-
-		// load a default java font
-		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		font = new TrueTypeFont(awtFont, true);
-
-		Game game = new Game();
-		lastFrame = glfwGetTime();
 
 		glfwSetCallback(window, GLFWWindowSizeCallback(new SAM() {
 			@Override
@@ -187,6 +174,19 @@ public class Launcher {
 
 			}
 		}));
+	}
+
+	private void loop() {
+
+		InitOpenGL();
+
+		// load a default java font
+		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+		font = new TrueTypeFont(awtFont, true);
+
+		Game game = new Game();
+		lastFrame = glfwGetTime();
+
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while (glfwWindowShouldClose(window) == GL_FALSE) {
