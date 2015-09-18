@@ -18,7 +18,7 @@ public class ProjectileTest {
     
     @Before
     public void setup() {
-	//GLContext.createFromCurrent();
+	Launcher launcher = new Launcher();
 	//projectile = new Projectile(0, 0);
     }
     
