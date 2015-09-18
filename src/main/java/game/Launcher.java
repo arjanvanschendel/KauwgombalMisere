@@ -5,7 +5,6 @@ import static org.lwjgl.glfw.Callbacks.glfwSetCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
-import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -16,6 +15,7 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
@@ -34,9 +34,6 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.awt.Font;
 import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback.SAM;
@@ -44,9 +41,8 @@ import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
-
-import shapes.Point;
 import utillities.Keyboard;
+import utillities.Mouse;
 
 /**
  * 
@@ -57,13 +53,13 @@ public class Launcher {
 
 	// We need to strongly reference callback instances.
 	private GLFWErrorCallback errorCallback;
-	private GLFWKeyCallback keyCallback;
+	private Keyboard keyCallback;
 	private double lastFrame;
+	private Mouse mouseCallback;
 	private static int CAMWIDTH;
 	private static int CAMHEIGHT;
 	private static int WIDTH;
 	private static int HEIGHT;
-	// The window handle
 	private static long window;
 	static TrueTypeFont font;
 
@@ -116,6 +112,7 @@ public class Launcher {
 			throw new RuntimeException("Failed to create the GLFW window");
 
 		glfwSetKeyCallback(window, keyCallback = new Keyboard());
+		glfwSetMouseButtonCallback(window,mouseCallback = new Mouse());
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
@@ -218,25 +215,44 @@ public class Launcher {
 		}
 	}
 
-	public static Point getCursorPos() {
-
-		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
-		DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
-
-		glfwGetCursorPos(window, x, y);
-		x.rewind();
-		y.rewind();
-		float xf = (float) x.get();
-		float yf = -(float) y.get();
-		xf = (xf / WIDTH) * CAMWIDTH - CAMWIDTH / 2;
-		yf = (yf / HEIGHT) * CAMHEIGHT - CAMHEIGHT;
-		Point res = new Point(xf, yf);
-		return res;
-
-	}
 
 	public static void main(String[] args) {
 		new Launcher().run();
+	}
+
+	/**
+	 * @return the window
+	 */
+	public static long getWindow() {
+		return window;
+	}
+
+	/**
+	 * @return the cAMWIDTH
+	 */
+	public static int getCAMWIDTH() {
+		return CAMWIDTH;
+	}
+
+	/**
+	 * @return the cAMHEIGHT
+	 */
+	public static int getCAMHEIGHT() {
+		return CAMHEIGHT;
+	}
+
+	/**
+	 * @return the wIDTH
+	 */
+	public static int getWIDTH() {
+		return WIDTH;
+	}
+
+	/**
+	 * @return the hEIGHT
+	 */
+	public static int getHEIGHT() {
+		return HEIGHT;
 	}
 
 }
