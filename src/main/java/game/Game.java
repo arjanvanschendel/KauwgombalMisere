@@ -146,6 +146,8 @@ public class Game {
 			TextureImpl.bindNone();
 			Launcher.font.drawString(-50, -100, "Level " + lvl + ": "
 					+ currentLvl.getName(), Color.black);
+			Launcher.font.drawString(-400, -540, "Score : "+Level.getScore()+""
+					, Color.blue);
 			GL11.glScalef(1, -1, 1);
 			break;
 		case (1):

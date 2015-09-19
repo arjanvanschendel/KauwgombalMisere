@@ -101,6 +101,7 @@ public class Ball extends Circle implements GameObject {
 	 */
 	final void hit() {
 		Level.remove(this);
+		Level.setScore(Level.getScore() + 10);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);
 		if (ball.getRadius() > 10) {
@@ -113,7 +114,7 @@ public class Ball extends Circle implements GameObject {
 			Level.addBall(ball);
 			Level.addBall(ball2);
 		}
-		System.out.println(Level.levelComplete());
+		System.out.println(Level.getScore());
 
 	}
 

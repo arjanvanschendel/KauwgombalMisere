@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class Level {
 	 */
 	private static float gravity;
 	private static Projectile pro;
+	private static int score;
 
 	/**
 	 * Level: constructor.
@@ -83,7 +85,7 @@ public class Level {
 		objects.add(ball);
 		CollisionDetection.addCollider(ball);
 	}
-
+	
 	/**
 	 * @return the gravity
 	 */
@@ -166,6 +168,14 @@ public class Level {
 
 	public String getName() {
 		return name;
+	}
+
+	public static int getScore() {
+		return score;
+	}
+
+	public static void setScore(int s) {
+		score = s;
 	}
 
 }
