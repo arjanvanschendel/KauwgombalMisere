@@ -8,7 +8,22 @@ import java.util.Calendar;
 public class Logger {
 
 	public static String log;
-
+	public static boolean printLog;
+	public static boolean writeLog;
+	
+	/**
+	 * init: initialize logger, set default variables.
+	 */
+	public static void init() {
+		Logger.log = "";
+		Logger.printLog = true;
+		Logger.writeLog = true;
+	}
+	
+	/**
+	 * add: add a string to the log.
+	 * @param s
+	 */
 	public static void add(String s) {
 		Calendar cal = Calendar.getInstance();
 
@@ -28,6 +43,11 @@ public class Logger {
 		System.out.println(boodschap);
 	}
 
+	/**
+	 * appendLog: appends a line s to the log file.
+	 * @param filename
+	 * @param s
+	 */
 	public static void appendLog(String filename, String s) {
 		try {
 			FileWriter fw = new FileWriter(filename, true);
