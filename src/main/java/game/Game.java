@@ -15,6 +15,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
+import Menu.MainMenu;
 import utillities.Keyboard;
 import utillities.Logger;
 import utillities.Sound;
@@ -26,10 +27,11 @@ import utillities.Texture;
  * Class Game: a Game object represents a game, holding all the levels.
  */
 public class Game {
-	private int state;
-	private Level currentLvl;
-	private int lvl;
+	private static int state;
+	private static Level currentLvl;
+	private static int lvl;
 	private int maxLvl;
+	private MainMenu mm;
 	public static ArrayList<Texture> textures = new ArrayList<Texture>();
 	public static ArrayList<Sound> sounds = new ArrayList<Sound>();
 
@@ -44,7 +46,9 @@ public class Game {
 		loadSounds();
 		lvl = 1;
 		maxLvl = countLevels();
-		loadLevel("levels/level" + lvl + ".lvl");
+		loadLevel(lvl);
+		mm = new MainMenu();
+		state = 2;
 	}
 
 	private void loadSounds() {
@@ -76,9 +80,10 @@ public class Game {
 	 * 
 	 * @param location
 	 */
-	public void loadLevel(String location) {
+	public static void loadLevel(int number) {
+		lvl = number;
 		Logger.add("loading in new level");
-		currentLvl = new Level(location);
+		currentLvl = new Level("levels/level" + number + ".lvl");
 	}
 
 	/**
@@ -88,7 +93,7 @@ public class Game {
 		if (lvl < maxLvl) {
 			Logger.add("next level");
 			lvl++;
-			loadLevel("levels/level" + lvl + ".lvl");
+			loadLevel(lvl);
 		} else {
 			Logger.add("game won");
 			state = 3;
@@ -120,8 +125,8 @@ public class Game {
 	public void update(double deltaTime) {
 		if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
 			if (state == 0) {
-				state = 1;
-			} else if (state == 1) {
+				state = 2;
+			} else if (state == 2) {
 				state = 0;
 			}
 		}
@@ -145,7 +150,7 @@ public class Game {
 
 		case (2):
 			// Main Menu
-			// mm.update(deltaTime);
+			mm.update(deltaTime);
 			break;
 		case (3):
 			System.out.println("new state");
@@ -173,7 +178,8 @@ public class Game {
 			Launcher.font.drawString(-400, -540, "Score : "+Level.getScore()+""
 					, Color.blue);
 			GL11.glScalef(1, -1, 1);
-		//	ballhit();
+
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			break;
 		case (1):
 			// paused
@@ -182,9 +188,11 @@ public class Game {
 			TextureImpl.bindNone();
 			Launcher.font.drawString(-50, -300, "PAUSED", Color.yellow);			
 			GL11.glScalef(1, -1, 1);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
 
 			break;
 		case (2):
+			mm.render();
 			break;
 		default:
 			System.out.println("INVALID STATE: " + state
@@ -217,7 +225,7 @@ public class Game {
 	 * 
 	 * @param state
 	 */
-	public void setState(int state) {
-		this.state = state;
+	public static void setState(int newState) {
+		state = newState;
 	}
 }

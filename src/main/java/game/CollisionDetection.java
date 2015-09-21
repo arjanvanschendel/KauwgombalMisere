@@ -1,6 +1,5 @@
 package game;
 
-
 import java.util.ArrayList;
 
 import objects.Ball;
@@ -58,6 +57,15 @@ public class CollisionDetection {
 					if (collider instanceof Ball) {
 						int side = collideBoxBall((Ball) collider, (Box) col);
 						if (side != 0) {
+							if (side == 1) {
+								side = 3;
+							} else if (side == 2) {
+								side = 4;
+							} else if (side == 3) {
+								side = 1;
+							} else if (side == 4) {
+								side = 2;
+							}
 							res.add(new Collision(collider, side));
 						}
 					} else if (collider instanceof Box) {
@@ -74,27 +82,44 @@ public class CollisionDetection {
 		return res;
 	}
 
-	private static int collideBoxBox(Box A, Box B) {
+	
+	
+
+	/**
+	 * 
+	 *  collideBoxBox calculates the side which side box B collides with box A.
+	 *  
+	 *  Hit Sides
+	 * 		3
+	 * 	2		4
+	 * 		1
+	 *  0 = no hit
+	 *  
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	private static int collideBoxBox(final Box a, final Box b) {
 
 		int side = 0;
 
-		float AX1 = A.getPosx();
-		float AX2 = A.getPosx() + A.getWidth();
-		float AY1 = A.getPosy();
-		float AY2 = A.getPosy() + A.getHeight();
+		float aX1 = a.getPosx();
+		float aX2 = a.getPosx() + a.getWidth();
+		float aY1 = a.getPosy();
+		float aY2 = a.getPosy() + a.getHeight();
 
-		float BX1 = B.getPosx();
-		float BX2 = B.getPosx() + B.getWidth();
-		float BY1 = B.getPosy();
-		float BY2 = B.getPosy() + B.getHeight();
+		float bX1 = b.getPosx();
+		float bX2 = b.getPosx() + b.getWidth();
+		float bY1 = b.getPosy();
+		float bY2 = b.getPosy() + b.getHeight();
 
-		if (AX1 < BX2 && AX2 > BX1 && AY1 < BY2 && AY2 > BY1) {
+		if (aX1 <= bX2 && aX2 >= bX1 && aY1 <= bY2 && aY2 >= bY1) {
 			float[] distances = new float[4];
 
-			distances[0] = Math.abs(AY1 - BY2); // Hit ceiling
-			distances[1] = Math.abs(AX1 - BX2); // Hit left of wall
-			distances[2] = Math.abs(BY1 - AY2); // Hit floor
-			distances[3] = Math.abs(BX1 - AX2); // Hit Right of wall
+			distances[0] = Math.abs(aY1 - bY2); // Hit ceiling
+			distances[1] = Math.abs(aX1 - bX2); // Hit left of B
+			distances[2] = Math.abs(bY1 - aY2); // Hit floor
+			distances[3] = Math.abs(bX1 - aX2); // Hit Right of B
 
 			float smallest = distances[0];
 			int index = 0;
@@ -111,20 +136,35 @@ public class CollisionDetection {
 		return side;
 	}
 
-	private static int collideBoxBall(Ball A, Box B) {
+
+	/**
+	 * 
+	 *  collideBoxBox calculates the side which side box B collides with ball A.
+	 *  
+	 *  Hit Sides
+	 * 		3
+	 * 	2		4
+	 * 		1
+	 *  0 = no hit
+	 *  
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	private static int collideBoxBall(final Ball A, final Box B) {
 
 		int side = 0;
 
 		Point[] corners = B.getCorners();
 		if (lineCircleIntersect(corners[0], corners[1], A.getPosx(),
 				A.getPosy(), A.getRadius())) {
-			side = 1;
+			side = 3;
 		} else if (lineCircleIntersect(corners[1], corners[2], A.getPosx(),
 				A.getPosy(), A.getRadius())) {
 			side = 2;
 		} else if (lineCircleIntersect(corners[2], corners[3], A.getPosx(),
 				A.getPosy(), A.getRadius())) {
-			side = 3;
+			side = 1;
 		} else if (lineCircleIntersect(corners[3], corners[0], A.getPosx(),
 				A.getPosy(), A.getRadius())) {
 			side = 4;
