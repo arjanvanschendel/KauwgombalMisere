@@ -11,6 +11,7 @@ import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
 import objects.Wall;
+import utillities.Logger;
 import utillities.ObjectGenerator;
 
 /**
@@ -72,6 +73,7 @@ public class Level {
 	public static void setProjectile(Projectile projectile) {
 
 		if (pro == null) {
+			Logger.add("projectile shot");
 			pro = projectile;
 		} else if (projectile == null) {
 			pro = null;
