@@ -52,6 +52,7 @@ public class MainMenu {
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
 		font.drawString(0, -500, "Kauwgombal Misere" , Color.cyan);
+		font.drawString(-500, -300, "Fancy plaatje hier" , Color.black);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}

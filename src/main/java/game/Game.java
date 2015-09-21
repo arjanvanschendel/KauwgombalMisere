@@ -125,8 +125,8 @@ public class Game {
 	public void update(double deltaTime) {
 		if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
 			if (state == 0) {
-				state = 2;
-			} else if (state == 2) {
+				state = 1;
+			} else if (state == 1) {
 				state = 0;
 			}
 		}
