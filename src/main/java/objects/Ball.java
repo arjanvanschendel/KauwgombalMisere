@@ -71,7 +71,7 @@ public class Ball extends Circle implements GameObject {
 			for (Collision collision : collisions) {
 				if (!(collision.getCol() instanceof Projectile || collision
 						.getCol() instanceof Player)) {
-					if (collision.getSide() == 3) {
+					if (collision.getSide() == 1) {
 						posy = ((Box) collision.getCol()).getPosy()
 								+ ((Box) collision.getCol()).getHeight()
 								+ radius;
