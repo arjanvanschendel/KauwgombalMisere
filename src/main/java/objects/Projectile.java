@@ -65,8 +65,7 @@ public class Projectile extends Box implements GameObject {
 			Level.setProjectile(null);
 		}
 
-		height += speed * deltaTime;
-		super.update();
+		setHeight((float) (getHeight() + speed * deltaTime));
 
 	}
 

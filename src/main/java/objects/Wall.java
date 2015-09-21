@@ -13,9 +13,8 @@ public class Wall extends Box implements GameObject {
 
 	@Override
 	public void update(double deltaTime) {
-		posx += (float) (deltaX * deltaTime);
-		posy += (float) (deltaY * deltaTime);
-		super.update();
+		setPosx(getPosx() + (float) (deltaX * deltaTime));
+		setPosy(getPosy() + (float) (deltaY * deltaTime));
 	}
 
 }
