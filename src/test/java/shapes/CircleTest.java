@@ -38,6 +38,16 @@ public void radiusTest(){
 }
 
 @Test
+public void changeParametersTest(){
+	_circle.setPosx(-100);
+	_circle.setPosy(300);
+	_circle.setRadius(50);
+	assertEquals((long)_circle.getPosx(), -100);
+	assertEquals((long)_circle.getPosy(), 300);
+	assertEquals((long)_circle.getRadius(), 50);
+}
+
+@Test
 public void positionTest(){
 	assertEquals((long)_circle.getPosx(), 0);
 	assertEquals((long)_circle.getPosy(), 400);
@@ -51,6 +61,8 @@ public void noColorConstructor(){
 @Test
 public void equalsTest(){
 	assertNotEquals(_circle1, _circle);
+	Circle duplicate = _circle;
+	assertEquals(duplicate, _circle);
 }
 	
 	
