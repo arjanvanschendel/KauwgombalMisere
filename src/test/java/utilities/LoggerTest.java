@@ -27,8 +27,8 @@ public class LoggerTest {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm" + ":ss");
 		String currTime = sdf.format(cal.getTime());
 		
-		Logger.add("hey!");
-		assertEquals(Logger.log, currTime + " - hey!\n");
+		Logger.add("<Running test>");
+		assertEquals(Logger.log, currTime + " - <Running test>\n");
 	}
 
 }
