@@ -17,6 +17,8 @@ import game.Game;
 import game.Level;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -208,6 +210,15 @@ public class Player extends Box implements GameObject {
 	 * die: lets the player die.
 	 */
 	public void die() {
+		try {
+			Game.sounds.get(4).play();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		alive = false;
 	}
 
