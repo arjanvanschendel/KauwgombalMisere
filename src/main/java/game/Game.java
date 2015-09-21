@@ -16,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Keyboard;
+import utillities.Logger;
 import utillities.Texture;
 
 //import org.newdawn.slick.opengl.TextureLoader;
@@ -34,6 +35,9 @@ public class Game {
 	 * Game: constructor.
 	 */
 	public Game() {
+		
+		Logger.add("game started");
+		
 		loadTextures();
 		lvl = 1;
 		maxLvl = countLevels();
@@ -56,6 +60,7 @@ public class Game {
 	 * @param location
 	 */
 	public void loadLevel(String location) {
+		Logger.add("loading in new level");
 		currentLvl = new Level(location);
 	}
 
@@ -64,9 +69,11 @@ public class Game {
 	 */
 	public void nextLevel() {
 		if (lvl < maxLvl) {
+			Logger.add("next level");
 			lvl++;
 			loadLevel("levels/level" + lvl + ".lvl");
 		} else {
+			Logger.add("game won");
 			state = 3;
 		}
 
@@ -146,14 +153,17 @@ public class Game {
 			TextureImpl.bindNone();
 			Launcher.font.drawString(-50, -100, "Level " + lvl + ": "
 					+ currentLvl.getName(), Color.black);
+			Launcher.font.drawString(-400, -540, "Score : "+Level.getScore()+""
+					, Color.blue);
 			GL11.glScalef(1, -1, 1);
+		//	ballhit();
 			break;
 		case (1):
 			// paused
 			currentLvl.render();
 			GL11.glScalef(1, -1, 1);
 			TextureImpl.bindNone();
-			Launcher.font.drawString(-50, -300, "PAUSED", Color.yellow);
+			Launcher.font.drawString(-50, -300, "PAUSED", Color.yellow);			
 			GL11.glScalef(1, -1, 1);
 
 			break;
@@ -165,7 +175,17 @@ public class Game {
 			System.exit(-1);
 		}
 	}
-
+	
+	public static void ballhit(float x, float y, char size){
+	String s;
+	if(size == 'b'){
+		s = "20";
+	}else{
+		s = "10";
+	}
+	
+	
+	}
 	/**
 	 * getState.
 	 * 

@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 
 import shapes.Box;
 import utillities.Keyboard;
+import utillities.Logger;
 import utillities.SpriteSheet;
 import utillities.Texture;
 
@@ -75,6 +76,7 @@ public class Player extends Box implements GameObject {
 			for (Collision collision : collisions) {
 
 				if (collision.getCol() instanceof Ball) {
+					Logger.add("player died");
 					die();
 				} else if (!(collision.getCol() instanceof Projectile)) {
 					if (collision.getSide() == 4) {
@@ -152,7 +154,9 @@ public class Player extends Box implements GameObject {
 	 * shoot: lets the player shoot a vertical beam or activate a powerup.
 	 */
 	private void shoot() {
-		Projectile p = new Projectile(this.getPosx() + 0.5f * this.getWidth(), this.getPosy());
+		Projectile p = new Projectile(this.getPosx() 
+				+ (this.getWidth() / 2), this.getPosy());
+
 		Level.setProjectile(p);
 	}
 
