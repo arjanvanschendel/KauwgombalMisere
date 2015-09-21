@@ -8,9 +8,12 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Collision;
 import game.CollisionDetection;
+import game.Game;
 import game.Level;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -53,6 +56,16 @@ public class Projectile extends Box implements GameObject {
 				if (collision.getCol() instanceof Box
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
+
+					try {
+						Game.sounds.get(1).play();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else if (collision.getCol() instanceof Ball) {
 					ball = (Ball) collision.getCol();
 					hitBall = true;
@@ -61,6 +74,15 @@ public class Projectile extends Box implements GameObject {
 		}
 
 		if (hitBall) {
+			try {
+				Game.sounds.get(0).play();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			ball.hit();
 			Level.setProjectile(null);
 		}

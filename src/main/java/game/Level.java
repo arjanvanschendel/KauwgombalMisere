@@ -2,6 +2,7 @@ package game;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -72,6 +73,15 @@ public class Level {
 	public static void setProjectile(Projectile projectile) {
 
 		if (pro == null) {
+			try {
+				Game.sounds.get(2).play();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			pro = projectile;
 		} else if (projectile == null) {
 			pro = null;

@@ -16,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Keyboard;
+import utillities.Sound;
 import utillities.Texture;
 
 //import org.newdawn.slick.opengl.TextureLoader;
@@ -29,15 +30,30 @@ public class Game {
 	private int lvl;
 	private int maxLvl;
 	public static ArrayList<Texture> textures = new ArrayList<Texture>();
+	public static ArrayList<Sound> sounds = new ArrayList<Sound>();
 
 	/**
 	 * Game: constructor.
 	 */
 	public Game() {
 		loadTextures();
+		loadSounds();
 		lvl = 1;
 		maxLvl = countLevels();
 		loadLevel("levels/level" + lvl + ".lvl");
+	}
+
+	private void loadSounds() {
+
+		try {
+			sounds.add(new Sound("sounds/arrowHitBall.wav"));
+			sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+			sounds.add(new Sound("sounds/arrowShoot.wav"));
+			sounds.add(new Sound("sounds/ballBounce.wav"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

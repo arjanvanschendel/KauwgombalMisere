@@ -2,9 +2,12 @@ package objects;
 
 import game.Collision;
 import game.CollisionDetection;
+import game.Game;
 import game.Level;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import shapes.Box;
@@ -79,16 +82,45 @@ public class Ball extends Circle implements GameObject {
 								/ (Level.getGravity() / 2));
 						deltaY = (float) (Level.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
+						try {
+							Game.sounds.get(3).play();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
 								+ ((Box) collision.getCol()).getWidth()
 								+ radius;
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
+
+						try {
+							Game.sounds.get(3).play();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
+
+						try {
+							Game.sounds.get(3).play();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}
