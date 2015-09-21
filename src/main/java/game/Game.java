@@ -18,6 +18,7 @@ import org.newdawn.slick.opengl.TextureImpl;
 import Menu.MainMenu;
 import utillities.Keyboard;
 import utillities.Logger;
+import utillities.Sound;
 import utillities.Texture;
 
 //import org.newdawn.slick.opengl.TextureLoader;
@@ -32,6 +33,7 @@ public class Game {
 	private int maxLvl;
 	private MainMenu mm;
 	public static ArrayList<Texture> textures = new ArrayList<Texture>();
+	public static ArrayList<Sound> sounds = new ArrayList<Sound>();
 
 	/**
 	 * Game: constructor.
@@ -41,14 +43,28 @@ public class Game {
 		Logger.add("game started");
 		
 		loadTextures();
+		loadSounds();
 		lvl = 1;
 		maxLvl = countLevels();
 		loadLevel(lvl);
 		mm = new MainMenu();
 		state = 2;
 	}
-	
-	
+
+	private void loadSounds() {
+
+		try {
+			sounds.add(new Sound("sounds/arrowHitBall.wav"));
+			sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+			sounds.add(new Sound("sounds/arrowShoot.wav"));
+			sounds.add(new Sound("sounds/ballBounce.wav"));
+			sounds.add(new Sound("sounds/playerHit.wav"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * loadTextures: load the textures onto memory.
 	 */

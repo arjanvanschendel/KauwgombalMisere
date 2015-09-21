@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -77,6 +78,15 @@ public class Level {
 		if (pro == null) {
 			Logger.add("projectile shot");
 			pro = projectile;
+			try {
+				Game.sounds.get(2).play();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (projectile == null) {
 			pro = null;
 		}
