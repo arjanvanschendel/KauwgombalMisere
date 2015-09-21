@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import shapes.Box;
 import shapes.Circle;
+import utillities.Logger;
 
 /**
  * Class Ball: an object of this class represents a bouncing ball in the game.
@@ -102,10 +103,13 @@ public class Ball extends Circle implements GameObject {
 	 */
 	final void hit() {
 		this.updateScore();
+		Logger.add("ball hit");
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);
 		if (ball.getRadius() > 10) {
+			Logger.add("ball splits");
+
 			ball2.deltaX = -deltaX;
 			ball.deltaX = deltaX;
 			ball.height = height - height / 3;

@@ -16,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Keyboard;
+import utillities.Logger;
 import utillities.Texture;
 
 //import org.newdawn.slick.opengl.TextureLoader;
@@ -34,6 +35,9 @@ public class Game {
 	 * Game: constructor.
 	 */
 	public Game() {
+		
+		Logger.add("game started");
+		
 		loadTextures();
 		lvl = 1;
 		maxLvl = countLevels();
@@ -56,6 +60,7 @@ public class Game {
 	 * @param location
 	 */
 	public void loadLevel(String location) {
+		Logger.add("loading in new level");
 		currentLvl = new Level(location);
 	}
 
@@ -64,9 +69,11 @@ public class Game {
 	 */
 	public void nextLevel() {
 		if (lvl < maxLvl) {
+			Logger.add("next level");
 			lvl++;
 			loadLevel("levels/level" + lvl + ".lvl");
 		} else {
+			Logger.add("game won");
 			state = 3;
 		}
 

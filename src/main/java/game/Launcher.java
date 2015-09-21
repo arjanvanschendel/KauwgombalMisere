@@ -40,6 +40,7 @@ import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
 
 import utillities.Keyboard;
+import utillities.Logger;
 
 /**
  * 
@@ -187,6 +188,9 @@ public class Launcher {
 	}
 
 	public static void main(String[] args) {
+		Logger.init();
+		Logger.printLog = false;
+		
 		new Launcher().run();
 	}
 
