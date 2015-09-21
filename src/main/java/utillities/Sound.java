@@ -27,6 +27,8 @@ public class Sound {
 	private AudioData audiodata;
 	private AudioDataStream audiostream;
 	private ContinuousAudioDataStream continuousaudiostream;
+	
+	private boolean playing;
 
 
 	/**
@@ -41,6 +43,8 @@ public class Sound {
 		audiodata = audioStream.getData();
 		audiostream = null;
 		continuousaudiostream = null;
+		
+		playing = false;
 	}
 
 	/**
@@ -53,6 +57,7 @@ public class Sound {
 	public void play() throws FileNotFoundException, IOException {
 		audiostream = new AudioDataStream(audiodata);
 		AudioPlayer.player.start(audiostream);
+		playing = true;
 	}
 
 	/**
@@ -64,16 +69,25 @@ public class Sound {
 	public void loop() throws FileNotFoundException, IOException {
 		continuousaudiostream = new ContinuousAudioDataStream(audiodata);
 		AudioPlayer.player.start(continuousaudiostream);
+		
+		playing = true;
 	}
 
 	/**
 	 * stop: stop the sound.
 	 */
 	public void stop() {
-		if (audiostream != null)
+		if (audiostream != null) {
 			AudioPlayer.player.stop(audiostream);
-		if (continuousaudiostream != null)
+			playing = false;
+		}
+		if (continuousaudiostream != null) {
 			AudioPlayer.player.stop(continuousaudiostream);
+			playing = false;
+		}
 	}
 
+	public boolean isPlaying() {
+		return playing;
+	}
 }
