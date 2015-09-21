@@ -48,6 +48,7 @@ public class Game {
 				GL11.GL_REPEAT));
 		textures.add(1, new Texture("res/Run.png", GL11.GL_NEAREST,
 				GL11.GL_REPEAT));
+		textures.add(2, new Texture("res/arrow.png", GL11.GL_NEAREST, GL11.GL_CLAMP));
 	}
 
 	/**
