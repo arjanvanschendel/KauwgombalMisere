@@ -50,6 +50,7 @@ public class Game {
 			sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
 			sounds.add(new Sound("sounds/arrowShoot.wav"));
 			sounds.add(new Sound("sounds/ballBounce.wav"));
+			sounds.add(new Sound("sounds/playerHit.wav"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
