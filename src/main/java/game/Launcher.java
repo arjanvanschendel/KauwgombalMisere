@@ -1,6 +1,7 @@
 package game;
 
 import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
+import static org.lwjgl.glfw.Callbacks.glfwSetCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -14,12 +15,14 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
@@ -31,16 +34,18 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.awt.Font;
 import java.nio.ByteBuffer;
-
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback.SAM;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
-
 import utillities.Keyboard;
+
 import utillities.Logger;
+
+import utillities.Mouse;
 
 /**
  * 
@@ -51,13 +56,15 @@ public class Launcher {
 
 	// We need to strongly reference callback instances.
 	private GLFWErrorCallback errorCallback;
-	private GLFWKeyCallback keyCallback;
+	private Keyboard keyCallback;
 	private double lastFrame;
-	private int WIDTH;
-	private int HEIGHT;
-	// The window handle
-	private long window;
-	static TrueTypeFont font;
+	private Mouse mouseCallback;
+	private static int CAMWIDTH;
+	private static int CAMHEIGHT;
+	private static int WIDTH;
+	private static int HEIGHT;
+	private static long window;
+	public static TrueTypeFont font;
 
 	public void run() {
 		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
@@ -69,6 +76,7 @@ public class Launcher {
 			// Release window and window callbacks
 			glfwDestroyWindow(window);
 			keyCallback.release();
+			mouseCallback.release();
 		} finally {
 			// Terminate GLFW and release the GLFWerrorfun
 			glfwTerminate();
@@ -108,6 +116,7 @@ public class Launcher {
 			throw new RuntimeException("Failed to create the GLFW window");
 
 		glfwSetKeyCallback(window, keyCallback = new Keyboard());
+		glfwSetMouseButtonCallback(window,mouseCallback = new Mouse());
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
@@ -129,12 +138,7 @@ public class Launcher {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
 
-		// Change CAMHEIGHT to change zoom level
-		int CAMWIDTH = 0;
-		int CAMHEIGHT = 0;
 		double aRatio = (double) WIDTH / (double) HEIGHT;
 		if (aRatio < 1.8) {
 			CAMWIDTH = 1000;
@@ -144,9 +148,35 @@ public class Launcher {
 			CAMHEIGHT = 550;
 			CAMWIDTH = (int) (CAMHEIGHT * aRatio);
 		}
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
 		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 
+		glfwSetCallback(window, GLFWWindowSizeCallback(new SAM() {
+			@Override
+			public void invoke(long window, int width, int height) {
+				WIDTH = width;
+				HEIGHT = height;
+				// Change CAMHEIGHT to change zoom level
+				double aRatio = (double) WIDTH / (double) HEIGHT;
+				if (aRatio < 1.8) {
+					CAMWIDTH = 1000;
+					CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+
+				} else {
+					CAMHEIGHT = 550;
+					CAMWIDTH = (int) (CAMHEIGHT * aRatio);
+				}
+				GL11.glViewport(0, 0, width, height);
+				GL11.glMatrixMode(GL11.GL_PROJECTION);
+				GL11.glLoadIdentity();
+				GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
+				GL11.glMatrixMode(GL11.GL_MODELVIEW); 
+				GL11.glLoadIdentity(); 
+
+			}
+		}));
 	}
 
 	private void loop() {
@@ -159,6 +189,7 @@ public class Launcher {
 
 		Game game = new Game();
 		lastFrame = glfwGetTime();
+
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while (glfwWindowShouldClose(window) == GL_FALSE) {
@@ -182,16 +213,52 @@ public class Launcher {
 		lastFrame = time;
 		if (delta < 0.07) {
 			return delta;
-		} else{
+		} else {
 			return 0.07;
 		}
 	}
+
 
 	public static void main(String[] args) {
 		Logger.init();
 		Logger.printLog = false;
 		
 		new Launcher().run();
+	}
+
+	/**
+	 * @return the window
+	 */
+	public static long getWindow() {
+		return window;
+	}
+
+	/**
+	 * @return the cAMWIDTH
+	 */
+	public static int getCAMWIDTH() {
+		return CAMWIDTH;
+	}
+
+	/**
+	 * @return the cAMHEIGHT
+	 */
+	public static int getCAMHEIGHT() {
+		return CAMHEIGHT;
+	}
+
+	/**
+	 * @return the wIDTH
+	 */
+	public static int getWIDTH() {
+		return WIDTH;
+	}
+
+	/**
+	 * @return the hEIGHT
+	 */
+	public static int getHEIGHT() {
+		return HEIGHT;
 	}
 
 }

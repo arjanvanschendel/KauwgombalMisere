@@ -106,4 +106,9 @@ public class Box {
 		return corners;
 	}
 
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
