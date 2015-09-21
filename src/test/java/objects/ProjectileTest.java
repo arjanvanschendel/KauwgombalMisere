@@ -1,4 +1,4 @@
-package game;
+package objects;
 
 import static org.junit.Assert.assertTrue;
 import objects.Projectile;
