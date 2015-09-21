@@ -8,7 +8,10 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 import shapes.Circle;
 
-
+/**
+ * @author Bart
+ *
+ */
 public class CircleTest {
 
 private Circle _circle;

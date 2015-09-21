@@ -8,6 +8,11 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 import shapes.Box;
 
+/**
+ * @author Bart
+ *
+ */
+
 public class BoxTest {
 
 Box _box;

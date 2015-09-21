@@ -4,6 +4,11 @@ import org.junit.Before;
 
 import static org.junit.Assert.*;
 import shapes.Point;
+
+/**
+ * @author Bart
+ *
+ */
 public class PointTest {
 
 
