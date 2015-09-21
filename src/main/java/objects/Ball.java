@@ -2,6 +2,7 @@ package objects;
 
 import game.Collision;
 import game.CollisionDetection;
+import game.Game;
 import game.Level;
 
 import java.awt.Color;
@@ -100,8 +101,8 @@ public class Ball extends Circle implements GameObject {
 	 * Hit method is called when a projectile hits the ball.
 	 */
 	final void hit() {
+		this.updateScore();
 		Level.remove(this);
-		Level.setScore(Level.getScore() + 10);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);
 		if (ball.getRadius() > 10) {
@@ -116,6 +117,22 @@ public class Ball extends Circle implements GameObject {
 		}
 		System.out.println(Level.getScore());
 
+	}
+	
+	final void updateScore(){
+		
+		char ballsize = this.getRadius() > 20 ? 'b' : 's' ;
+		Game.ballhit(this.getPosx(), this.getPosy(), ballsize);
+		switch (ballsize) {
+		case 'b':
+			Level.setScore(Level.getScore() + 20);
+			break;
+		case 's': 
+			Level.setScore(Level.getScore() + 10);
+		default:
+			break;
+		}
+		
 	}
 
 	/**
