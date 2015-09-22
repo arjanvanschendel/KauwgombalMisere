@@ -26,6 +26,8 @@ public class MainMenu {
 	private TrueTypeFont font = new TrueTypeFont(awtFont, true);
 	private ArrayList<Button> buttons  = new ArrayList<Button>();
 	private Button playBtn;
+	private Button exitBtn;
+	private Button optBtn;
 	private Texture Background;
 	private int WIDTH;
 	private int HEIGHT;
@@ -34,9 +36,15 @@ public class MainMenu {
 	 * A class to draw and maintain the main menu.
 	 */
 	public MainMenu() {
-		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 
+		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3+40, 
 				150, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
+		optBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 
+				150, 25, java.awt.Color.white, "Options");
+		buttons.add(optBtn);
+		exitBtn = new Button(-75, Launcher.getCAMHEIGHT()/3-40, 
+				150, 25, java.awt.Color.white, "Exit");
+		buttons.add(exitBtn);
 		Background = new Texture("res/KMmain.png",
 				GL11.GL_NEAREST, GL11.GL_CLAMP);
 		
@@ -70,6 +78,13 @@ public class MainMenu {
 		if (playBtn.isClicked()) {
 			Game.loadLevel(1);
 			Game.setState(0);
+		}
+		if (optBtn.isClicked()) {
+			System.out.println("Options button clicked");
+		}
+		if (exitBtn.isClicked()) {
+			System.out.println("Exiting system via exit button");
+			Game.setState(3);
 		}
 	}
 
