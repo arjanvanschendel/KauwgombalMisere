@@ -1,7 +1,10 @@
 package objects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import game.Level;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,11 +16,11 @@ import org.junit.Test;
 
 public class BallTest {
 
-	Ball g;
-	Ball g1;
-	Ball g2;
-	Ball b;
-	Ball r;
+	private Ball g;
+	private Ball g1;
+	private Ball g2;
+	private Ball b;
+	private Ball r;
 
 	@Before
 	public void setup() {
@@ -35,4 +38,21 @@ public class BallTest {
 		assertNotEquals(b, r);
 	}
 
+	@Test
+	public void hitTestSmallBall() {
+		Level.clear();
+		Level.addBall(g);
+		assertFalse(Level.levelComplete());
+		g.hit();
+		assertTrue(Level.levelComplete());
+	}
+
+	@Test
+	public void hitTestBigBall() {
+		Level.clear();
+		Level.addBall(r);
+		assertFalse(Level.levelComplete());
+		r.hit();
+		assertFalse(Level.levelComplete());
+	}
 }
