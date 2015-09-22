@@ -119,15 +119,17 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 				<configuration>
-					<failOnViolation>true</failOnViolation>
+					<failOnViolation>false</failOnViolation>
+					<printFailingErrors>true</printFailingErrors>
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
 					<rulesets>
-						<ruleset>pmd-rules.xml</ruleset>
+						<ruleset>${basedir}/pmd-rules.xml</ruleset>
 					</rulesets>
 				</configuration>
 				<executions>
 					<execution>
+						<phase>validate</phase>
 						<goals>
 							<goal>check</goal>
 							<goal>cpd-check</goal>
@@ -171,6 +173,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -220,6 +223,26 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-pmd-plugin
+										</artifactId>
+										<versionRange>
+											[3.4,)
+										</versionRange>
+										<goals>
+											<goal>check</goal>
+											<goal>cpd-check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -254,7 +277,7 @@
 					<skipEmptyReport>false</skipEmptyReport>
 					<includeTests>true</includeTests>
 					<rulesets>
-						<ruleset>pmd-rules.xml</ruleset>
+						<ruleset>${basedir}/pmd-rules.xml</ruleset>
 					</rulesets>
 				</configuration>
 			</plugin>
