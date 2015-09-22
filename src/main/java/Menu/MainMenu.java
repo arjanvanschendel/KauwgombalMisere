@@ -2,6 +2,7 @@ package Menu;
 
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
 import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Game;
 import game.Launcher;
 
@@ -14,10 +15,10 @@ import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.opengl.Texture;
+
+import utillities.Texture;
+
 import org.newdawn.slick.opengl.TextureImpl;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 
 
 public class MainMenu {
@@ -31,18 +32,22 @@ public class MainMenu {
 	private int HEIGHT;
 	
 	public MainMenu(){
-		playBtn = new Button(0, Launcher.getCAMHEIGHT()/2, 75, 25, java.awt.Color.white, "Play");
+		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 150, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
-		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-		WIDTH = GLFWvidmode.width(vidmode);
-		HEIGHT = GLFWvidmode.height(vidmode);
+		texture = new Texture("res/KMmain.png",GL11.GL_NEAREST,GL11.GL_CLAMP);
+		
+		WIDTH = Launcher.getCAMWIDTH();
+		HEIGHT = Launcher.getCAMHEIGHT();
 		System.out.println("WxH = "+WIDTH+"x"+HEIGHT);
-		try {
-			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/KMmain.png"));
-		} catch (IOException e) {
-			System.out.println(e);;
+		
+	}
+	
+	public static int findNextTwo(int number){
+		int result = 1;
+		while(result<number){
+			result*=2;
 		}
+		return result;
 	}
 	
 	/**
@@ -63,35 +68,32 @@ public class MainMenu {
 	 * render: render the level-object's graphics.
 	 */
 	public final void render() {
+        texture.bind(); // or GL11.glBind(texture.getTextureID());
+         
+        GL11.glBegin(GL11.GL_QUADS);
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		Color.white.bind();
-		texture.bind();
-		
-		GL11.glBegin(GL11.GL_QUADS);
-		
-		GL11.glTexCoord2f(1,0);
-		GL11.glVertex2f(WIDTH/4,HEIGHT/2);
-		
-		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(-WIDTH/4,HEIGHT/2);
-		
-		GL11.glTexCoord2f(0,1);
-		GL11.glVertex2f(-WIDTH/4,0);
-		
-		GL11.glTexCoord2f(1,1);
-		GL11.glVertex2f(WIDTH/4,0);
-		
-		GL11.glEnd();
-		
-		
+            GL11.glTexCoord2f(0,0);
+            GL11.glVertex2f(-WIDTH/2,HEIGHT);
+            
+            GL11.glTexCoord2f(1,0);
+            GL11.glVertex2f(WIDTH/2,HEIGHT);
+            
+            GL11.glTexCoord2f(1,1);
+            GL11.glVertex2f(WIDTH/2,0);
+            
+            GL11.glTexCoord2f(0,1);
+            GL11.glVertex2f(-WIDTH/2,0);
+        GL11.glEnd();
+        Texture.disable();
+        
 		for (Button btn : buttons) {
 			btn.render();
 		}
 		
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
-		font.drawString(0, -500, "Kauwgombal Misere" , Color.cyan);
-		font.drawString(-500, -300, "Fancy plaatje hier" , Color.black);
+		font.drawString(0, -100, "sample text" , Color.cyan);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
