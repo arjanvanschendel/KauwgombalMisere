@@ -94,10 +94,8 @@ public class Ball extends Circle implements GameObject {
 						try {
 							Game.sounds.get(3).play();
 						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					} else if (collision.getSide() == 2) {
@@ -110,10 +108,8 @@ public class Ball extends Circle implements GameObject {
 						try {
 							Game.sounds.get(3).play();
 						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					} else if (collision.getSide() == 4) {
@@ -124,10 +120,8 @@ public class Ball extends Circle implements GameObject {
 						try {
 							Game.sounds.get(3).play();
 						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
