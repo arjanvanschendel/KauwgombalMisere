@@ -1,58 +1,108 @@
 package Menu;
 
+import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Game;
 import game.Launcher;
 
 import java.awt.Font;
 import java.util.ArrayList;
 
-import objects.GameObject;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.TrueTypeFont;
 
+import utillities.Texture;
 
+import org.newdawn.slick.opengl.TextureImpl;
+
+/**
+ * Draws and updates the main menu.
+ * @author Arjan
+ *
+ */
 public class MainMenu {
+		
+	private Font awtFont = new Font("Courier New", Font.BOLD, 48);
+	private TrueTypeFont font = new TrueTypeFont(awtFont, true);
+	private ArrayList<Button> buttons  = new ArrayList<Button>();
+	private Button playBtn;
+	private Texture Background;
+	private int WIDTH;
+	private int HEIGHT;
 	
-
-	
-	Font awtFont = new Font("Comic Sans MS", Font.PLAIN, 48);
-	TrueTypeFont font = new TrueTypeFont(awtFont, true);
-	ArrayList<Button> buttons  = new ArrayList<Button>();
-	Button playBtn;
-	
-	public MainMenu(){
-		playBtn = new Button(0, Launcher.getCAMHEIGHT()/2, 75, 25, java.awt.Color.white, "Play");
+	/**
+	 * A class to draw and maintain the main menu.
+	 */
+	public MainMenu() {
+		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 
+				150, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
+		Background = new Texture("res/KMmain.png",
+				GL11.GL_NEAREST, GL11.GL_CLAMP);
+		
+		WIDTH = Launcher.getCAMWIDTH();
+		HEIGHT = Launcher.getCAMHEIGHT();
+		System.out.println("WxH = " + WIDTH + "x" + HEIGHT);
+		
 	}
 	
 	/**
-	 * update: update the level-object's state.
-	 * @param deltaTime
+	 * Finds first positive power of two above the given input.
+	 * @param number any integer
+	 * @return a power of two
+	 */
+	public static int findNextTwo(final int number) {
+		int result = 1;
+		while (result < number){
+			result *= 2;
+		}
+		return result;
+	}
+	
+	/**
+	 * update: update the menu-object's state.
+	 * @param deltaTime The speed of the game
 	 */
 	public final void update(final double deltaTime) {
 		for (Button btn : buttons) {
 			btn.update(deltaTime);
 		}
-		if(playBtn.isClicked()){
+		if (playBtn.isClicked()) {
 			Game.loadLevel(1);
 			Game.setState(0);
 		}
 	}
 
 	/**
-	 * render: render the level-object's graphics.
+	 * render: render the main menu's background, text, and objects.
 	 */
 	public final void render() {
+		Background.bind(); // or GL11.glBind(texture.getTextureID());
+         
+        GL11.glBegin(GL11.GL_QUADS);
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		
+            GL11.glTexCoord2f(0, 0);
+            GL11.glVertex2f(-WIDTH / 2, HEIGHT);
+            
+            GL11.glTexCoord2f(1, 0);
+            GL11.glVertex2f(WIDTH / 2, HEIGHT);
+            
+            GL11.glTexCoord2f(1, 1);
+            GL11.glVertex2f(WIDTH / 2, 0);
+            
+            GL11.glTexCoord2f(0, 1);
+            GL11.glVertex2f(-WIDTH / 2, 0);
+        GL11.glEnd();
+        Texture.disable();
+        
 		for (Button btn : buttons) {
 			btn.render();
 		}
+		
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
-		font.drawString(0, -500, "Kauwgombal Misere" , Color.cyan);
-		font.drawString(-500, -300, "Fancy plaatje hier" , Color.black);
+		font.drawString(0, -100, "sample text", Color.cyan);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
