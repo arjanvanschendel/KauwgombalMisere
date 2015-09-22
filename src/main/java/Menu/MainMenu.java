@@ -1,31 +1,48 @@
 package Menu;
 
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import game.Game;
 import game.Launcher;
 
 import java.awt.Font;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import objects.GameObject;
-
+import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureImpl;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 
 public class MainMenu {
-	
-
-	
-	Font awtFont = new Font("Comic Sans MS", Font.PLAIN, 48);
-	TrueTypeFont font = new TrueTypeFont(awtFont, true);
-	ArrayList<Button> buttons  = new ArrayList<Button>();
-	Button playBtn;
+		
+	private Font awtFont = new Font("Courier New", Font.BOLD, 48);
+	private TrueTypeFont font = new TrueTypeFont(awtFont, true);
+	private ArrayList<Button> buttons  = new ArrayList<Button>();
+	private Button playBtn;
+	private Texture texture;
+	private int WIDTH;
+	private int HEIGHT;
 	
 	public MainMenu(){
 		playBtn = new Button(0, Launcher.getCAMHEIGHT()/2, 75, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
+		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+		WIDTH = GLFWvidmode.width(vidmode);
+		HEIGHT = GLFWvidmode.height(vidmode);
+		System.out.println("WxH = "+WIDTH+"x"+HEIGHT);
+		try {
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/KMmain.png"));
+		} catch (IOException e) {
+			System.out.println(e);;
+		}
 	}
 	
 	/**
@@ -46,9 +63,31 @@ public class MainMenu {
 	 * render: render the level-object's graphics.
 	 */
 	public final void render() {
+		
+		Color.white.bind();
+		texture.bind();
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		
+		GL11.glTexCoord2f(1,0);
+		GL11.glVertex2f(WIDTH/4,HEIGHT/2);
+		
+		GL11.glTexCoord2f(0,0);
+		GL11.glVertex2f(-WIDTH/4,HEIGHT/2);
+		
+		GL11.glTexCoord2f(0,1);
+		GL11.glVertex2f(-WIDTH/4,0);
+		
+		GL11.glTexCoord2f(1,1);
+		GL11.glVertex2f(WIDTH/4,0);
+		
+		GL11.glEnd();
+		
+		
 		for (Button btn : buttons) {
 			btn.render();
 		}
+		
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
 		font.drawString(0, -500, "Kauwgombal Misere" , Color.cyan);
