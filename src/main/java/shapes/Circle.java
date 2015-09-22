@@ -1,6 +1,7 @@
 package shapes;
 
 import java.awt.Color;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Circle {
@@ -8,6 +9,7 @@ public class Circle {
 	protected float posy;
 	protected float radius;
 	protected Color color;
+	private static final float epsilon = 0.000001f;
 
 	public Circle(float posx, float posy, float radius, Color color) {
 		this.posx = posx;
@@ -35,19 +37,41 @@ public class Circle {
 		glEnd();
 	}
 
+	/**
+	 * Compare floats properly.
+	 * @param x
+	 * @param y
+	 * @return true if equal, false if not
+	 */
+	protected boolean compareFloats(final float x, final float y) {
+		return Math.abs(x - y) < epsilon;
+	}
+	
+	/**
+	 * Equals method.
+	 */
 	@Override
 	public boolean equals(Object that) {
 
 		if (that instanceof Circle) {
 			Circle circle2 = (Circle) that;
-			if (circle2.getColor().equals(color) && circle2.getPosx() == posx
-					&& circle2.getPosy() == posy
-					&& circle2.getRadius() == radius) {
+			if (circle2.getColor().equals(color) 
+					&& compareFloats(posx, circle2.getPosx())
+					&& compareFloats(posy, circle2.getPosy())
+					&& compareFloats(radius, circle2.getRadius())) {
 				return true;
 			}
 		}
-
 		return false;
+	}
+
+	/**
+	 * Hashcode not used.
+	 */
+	@Override
+	public final int hashCode() {
+		assert false : "hashCode not designed";
+		return 42;
 	}
 
 

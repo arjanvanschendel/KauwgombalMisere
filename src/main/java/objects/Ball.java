@@ -49,13 +49,21 @@ public class Ball extends Circle implements GameObject {
 	 */
 	public Ball(final float posx, final float posy, final float radius) {
 		super(posx, posy, radius);
-		
+
 		switch ((int) radius) {
-		case 50: color = Color.red; break;
-		case (50/2): color = Color.blue; break;
-		case (50/4): color = Color.green; break;
+		case 50:
+			color = Color.red;
+			break;
+		case (50 / 2):
+			color = Color.blue;
+			break;
+		case (50 / 4):
+			color = Color.green;
+			break;
+		default:
+			color = Color.green;
+			break;
 		}
-		
 		height = posy;
 	}
 
@@ -165,6 +173,7 @@ public class Ball extends Circle implements GameObject {
 		case 's': 
 			Level.setScore(Level.getScore() + 10);
 		default:
+			Level.setScore(Level.getScore());
 			break;
 		}
 		
@@ -186,14 +195,14 @@ public class Ball extends Circle implements GameObject {
 	public final boolean equals(final Object that) {
 		if (that instanceof Ball && super.equals(that)) {
 			Ball ball2 = (Ball) that;
-			if (ball2.getDeltaX() == deltaX && ball2.getDeltaY() == deltaY) {
+			if (compareFloats(deltaX, ball2.getDeltaX())
+					&& compareFloats(deltaY, ball2.getDeltaY())) {
 				return super.equals(that);
 			}
 		}
 		return false;
 	}
-
-	// Getters and setters
+	
 	/**
 	 * getDeltaX.
 	 * 

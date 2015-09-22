@@ -10,6 +10,11 @@ import org.newdawn.slick.opengl.TextureImpl;
 import shapes.Box;
 import utillities.Mouse;
 
+/**
+ * 
+ * @author Luke
+ *
+ */
 public class Button extends Box {
 
 	private String buttonString = "";
@@ -34,9 +39,9 @@ public class Button extends Box {
 		super.render();
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
-		Launcher.font.drawString(
-				(getPosx() + getWidth() / 2) - Launcher.font.getWidth(buttonString)/2,
-				-getPosy() - Launcher.font.getHeight(buttonString),
+		Launcher.getFont().drawString(
+				(getPosx() + getWidth() / 2f) - Launcher.getFont().getWidth(buttonString) / 2f,
+				-getPosy() - Launcher.getFont().getHeight(buttonString),
 				buttonString, org.newdawn.slick.Color.black);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

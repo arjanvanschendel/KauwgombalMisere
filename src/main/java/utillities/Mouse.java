@@ -19,8 +19,8 @@ import shapes.Point;
  */
 public class Mouse extends GLFWMouseButtonCallback{
 
-	public static boolean[] buttons = new boolean[8];
-	public static boolean[] releasedButtons = new boolean[8];
+	private static final boolean[] buttons = new boolean[8];
+	private static final boolean[] releasedButtons = new boolean[8];
 	
 	public static boolean isButtonDown(int keycode) {
 		return glfwGetMouseButton(Launcher.getWindow(), keycode) == 1;
@@ -43,7 +43,7 @@ public class Mouse extends GLFWMouseButtonCallback{
 		y.rewind();
 		float xf = (float) x.get();
 		float yf = (float) y.get();
-		xf = (xf / Launcher.getWIDTH()) * Launcher.getCAMWIDTH() - Launcher.getCAMWIDTH() / 2;
+		xf = (xf / Launcher.getWIDTH()) * Launcher.getCAMWIDTH() - Launcher.getCAMWIDTH() / 2f;
 		yf = -((yf / Launcher.getHEIGHT()) * Launcher.getCAMHEIGHT() - Launcher.getCAMHEIGHT());
 		Point res = new Point(xf, yf);
 		return res;

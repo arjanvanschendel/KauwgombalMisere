@@ -28,7 +28,7 @@ public class LoggerTest {
 		String currTime = sdf.format(cal.getTime());
 		
 		Logger.add("<Running test>");
-		assertEquals(Logger.log, currTime + " - <Running test>\n");
+		assertEquals(Logger.getLog(), currTime + " - <Running test>\n");
 	}
 
 }

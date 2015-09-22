@@ -8,10 +8,20 @@ import org.lwjgl.glfw.GLFWKeyCallback;
  *
  */
 public class Keyboard extends GLFWKeyCallback {
+	
+	/**
+	 * 
+	 */
+	private static boolean[] keys = new boolean[65536];
+	
+	/**
+	 * 
+	 */
+	private static boolean[] releasedKeys = new boolean[65536];
 
-	public static boolean[] keys = new boolean[65536];
-	public static boolean[] releasedKeys = new boolean[65536];
-
+	/**
+	 * 
+	 */
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
 		// TODO Auto-generated method stub
@@ -30,5 +40,4 @@ public class Keyboard extends GLFWKeyCallback {
 		Keyboard.releasedKeys[keycode] = false;
 		return res;
 	}
-
 }

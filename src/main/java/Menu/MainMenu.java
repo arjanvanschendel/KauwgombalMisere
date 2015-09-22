@@ -24,7 +24,7 @@ public class MainMenu {
 	Button playBtn;
 	
 	public MainMenu(){
-		playBtn = new Button(0, Launcher.getCAMHEIGHT()/2, 75, 25, java.awt.Color.white, "Play");
+		playBtn = new Button(0, Launcher.getCAMHEIGHT() / 2f, 75, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
 	}
 	

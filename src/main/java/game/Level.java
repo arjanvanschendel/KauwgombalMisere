@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import objects.Ball;
@@ -79,7 +80,9 @@ public class Level {
 			Logger.add("projectile shot");
 			pro = projectile;
 			try {
-				Game.sounds.get(2).play();
+				if (!Game.sounds.isEmpty()) {
+					Game.sounds.get(2).play();
+				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -131,13 +134,16 @@ public class Level {
 			render.render();
 		}
 	}
-
+	
+	/**
+	 * Load level
+	 */
 	public void loadLevel() {
 		clear();
 		InputStreamReader inputStreamReader;
 		try {
 			inputStreamReader = new InputStreamReader(new FileInputStream(
-					loc));
+					loc), StandardCharsets.UTF_8);
 			BufferedReader bufferedReader = new BufferedReader(
 					inputStreamReader);
 			String line;
@@ -152,7 +158,7 @@ public class Level {
 							parameterEnd);
 					String[] para = param.split("\\,");
 					if (type.equals("gravity")) {
-						gravity = Float.parseFloat(para[0]);
+						setGravity(Float.parseFloat(para[0]));
 					} else if (type.equals("box")) {
 						Wall wall = ObjectGenerator.genWall(para);
 						objects.add(wall);
@@ -178,8 +184,20 @@ public class Level {
 		
 	}
 
+	/**
+	 * Get name of level.
+	 * @return
+	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * Set gravity of level.
+	 * @param g
+	 */
+	public static void setGravity(float g) {
+		Level.gravity = g;
 	}
 
 	public static int getScore() {

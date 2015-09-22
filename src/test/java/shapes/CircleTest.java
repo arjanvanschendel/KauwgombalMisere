@@ -18,7 +18,7 @@ private Circle _circle;
 private Circle _circle1;
 
 @Before
-public void Before(){
+public void before(){
 _circle = new Circle(0,400,25, Color.CYAN);
 _circle1 = new Circle(0,400,25);
 }
