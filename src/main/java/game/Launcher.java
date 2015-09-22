@@ -34,17 +34,17 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.awt.Font;
 import java.nio.ByteBuffer;
+
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback.SAM;
 import org.lwjgl.glfw.GLFWvidmode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
+
 import utillities.Keyboard;
-
 import utillities.Logger;
-
 import utillities.Mouse;
 
 /**
@@ -59,6 +59,7 @@ public class Launcher {
 	private Keyboard keyCallback;
 	private double lastFrame;
 	private Mouse mouseCallback;
+	private GLFWWindowSizeCallback WindowResize;
 	private static int CAMWIDTH;
 	private static int CAMHEIGHT;
 	private static int WIDTH;
@@ -116,7 +117,7 @@ public class Launcher {
 			throw new RuntimeException("Failed to create the GLFW window");
 
 		glfwSetKeyCallback(window, keyCallback = new Keyboard());
-		glfwSetMouseButtonCallback(window,mouseCallback = new Mouse());
+		glfwSetMouseButtonCallback(window, mouseCallback = new Mouse());
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
@@ -152,31 +153,32 @@ public class Launcher {
 		GL11.glLoadIdentity();
 		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
+		glfwSetCallback(window,
+				WindowResize = GLFWWindowSizeCallback(new SAM() {
+					@Override
+					public void invoke(long window, int width, int height) {
+						WIDTH = width;
+						HEIGHT = height;
+						// Change CAMHEIGHT to change zoom level
+						double aRatio = (double) WIDTH / (double) HEIGHT;
+						if (aRatio < 1.8) {
+							CAMWIDTH = 1000;
+							CAMHEIGHT = (int) (CAMWIDTH / aRatio);
 
-		glfwSetCallback(window, GLFWWindowSizeCallback(new SAM() {
-			@Override
-			public void invoke(long window, int width, int height) {
-				WIDTH = width;
-				HEIGHT = height;
-				// Change CAMHEIGHT to change zoom level
-				double aRatio = (double) WIDTH / (double) HEIGHT;
-				if (aRatio < 1.8) {
-					CAMWIDTH = 1000;
-					CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+						} else {
+							CAMHEIGHT = 550;
+							CAMWIDTH = (int) (CAMHEIGHT * aRatio);
+						}
+						GL11.glViewport(0, 0, width, height);
+						GL11.glMatrixMode(GL11.GL_PROJECTION);
+						GL11.glLoadIdentity();
+						GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT,
+								-1, 1);
+						GL11.glMatrixMode(GL11.GL_MODELVIEW);
+						GL11.glLoadIdentity();
 
-				} else {
-					CAMHEIGHT = 550;
-					CAMWIDTH = (int) (CAMHEIGHT * aRatio);
-				}
-				GL11.glViewport(0, 0, width, height);
-				GL11.glMatrixMode(GL11.GL_PROJECTION);
-				GL11.glLoadIdentity();
-				GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
-				GL11.glMatrixMode(GL11.GL_MODELVIEW); 
-				GL11.glLoadIdentity(); 
-
-			}
-		}));
+					}
+				}));
 	}
 
 	private void loop() {
@@ -218,11 +220,10 @@ public class Launcher {
 		}
 	}
 
-
 	public static void main(String[] args) {
 		Logger.init();
 		Logger.printLog = false;
-		
+
 		new Launcher().run();
 	}
 
