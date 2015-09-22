@@ -51,7 +51,7 @@ public class Point {
 	 * @param d
 	 * @return float
 	 */
-	public float Dot(Point d) {
+	public float dot(Point d) {
 		return x * d.getX() + y * d.getY();
 	}
 }

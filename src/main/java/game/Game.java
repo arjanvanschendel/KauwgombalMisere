@@ -28,7 +28,7 @@ public class Game {
 	private Level currentLvl;
 	private int lvl;
 	private int maxLvl;
-	public static ArrayList<Texture> textures = new ArrayList<Texture>();
+	public static final ArrayList<Texture> textures = new ArrayList<Texture>();
 
 	/**
 	 * Game: constructor.
@@ -130,7 +130,8 @@ public class Game {
 		default:
 			System.out.println("INVALID STATE: " + state
 					+ ". (Game.update method)");
-			System.exit(-1);
+			state = 2;
+			//System.exit(1);
 
 		}
 	}
@@ -163,7 +164,8 @@ public class Game {
 		default:
 			System.out.println("INVALID STATE: " + state
 					+ ". (Game.render method)");
-			System.exit(-1);
+			// System.exit(1);
+			state = 2;
 		}
 	}
 

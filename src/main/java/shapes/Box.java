@@ -103,7 +103,7 @@ public class Box {
     }
 
     public Point[] getCorners() {
-	return corners;
+	return corners.clone();
     }
 
 }

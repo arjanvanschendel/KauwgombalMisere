@@ -137,13 +137,13 @@ public class Launcher {
 		double aRatio = (double) WIDTH / (double) HEIGHT;
 		if (aRatio < 1.8) {
 			CAMWIDTH = 1000;
-			CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+			CAMHEIGHT = (int) (CAMWIDTH / (double) aRatio);
 
 		} else {
 			CAMHEIGHT = 550;
 			CAMWIDTH = (int) (CAMHEIGHT * aRatio);
 		}
-		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
+		GL11.glOrtho(-CAMWIDTH / (double) 2, CAMWIDTH / (double) 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 
 	}
