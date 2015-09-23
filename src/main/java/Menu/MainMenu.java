@@ -5,6 +5,8 @@ import game.Game;
 import game.Launcher;
 
 import java.awt.Font;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -72,9 +74,20 @@ public class MainMenu {
 	 * @param deltaTime The speed of the game
 	 */
 	public final void update(final double deltaTime) {
+		if(!Game.sounds.get(5).isPlaying()){
+			try {
+				Game.sounds.get(5).play();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		for (Button btn : buttons) {
 			btn.update(deltaTime);
 		}
+		
 		if (playBtn.isClicked()) {
 			Game.loadLevel(1);
 			Game.setState(0);

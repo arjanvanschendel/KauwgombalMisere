@@ -60,6 +60,9 @@ public class Game {
 			sounds.add(new Sound("sounds/arrowShoot.wav"));
 			sounds.add(new Sound("sounds/ballBounce.wav"));
 			sounds.add(new Sound("sounds/playerHit.wav"));
+			// Main menu sound
+			sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,6 +136,9 @@ public class Game {
 		}
 		if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
 			if (state == 2) {
+				if (Game.sounds.get(5).isPlaying()) {
+					Game.sounds.get(5).stop();
+				}
 				state = 0;
 			}
 		}
