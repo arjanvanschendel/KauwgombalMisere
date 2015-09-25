@@ -208,4 +208,8 @@ public class Level {
 		score = s;
 	}
 
+	public static Projectile getProjectile() {
+		return pro;
+	}
+
 }
