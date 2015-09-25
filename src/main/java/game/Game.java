@@ -18,6 +18,7 @@ import org.newdawn.slick.opengl.TextureImpl;
 import Menu.MainMenu;
 import utillities.Keyboard;
 import utillities.Logger;
+import utillities.Mouse;
 import utillities.Sound;
 import utillities.Texture;
 
@@ -126,9 +127,9 @@ public class Game {
 	public void update(double deltaTime) {
 		if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
 			if (state == 0) {
-				setState(2);
-			} else if (state == 2) {
-				setState(0);
+				state = 1;
+			} else if (state == 1) {
+				state = 0;
 			}
 		}
 		if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
@@ -163,6 +164,8 @@ public class Game {
 			//System.exit(1);
 
 		}
+		Mouse.resetReleased();
+		Keyboard.resetReleased();
 	}
 
 	/**
@@ -175,10 +178,9 @@ public class Game {
 			currentLvl.render();
 			GL11.glScalef(1, -1, 1);
 			TextureImpl.bindNone();
-			Launcher.getFont().drawString(-50, -100, "Level " + lvl + ": "
-					+ currentLvl.getName(), Color.black);
-			Launcher.getFont().drawString(-400, -540, "Score : "+Level.getScore()+""
-					, Color.blue);
+			String levelString = "Level " + lvl + ": "
+					+ currentLvl.getName();
+			Launcher.getFont().drawString(-Launcher.getFont().getWidth(levelString)/2, -100, levelString, Color.black);
 			GL11.glScalef(1, -1, 1);
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);

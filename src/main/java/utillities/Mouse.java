@@ -4,6 +4,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import game.Launcher;
 
 import java.nio.DoubleBuffer;
+import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -17,11 +18,12 @@ import shapes.Point;
  * JAPSER
  *
  */
-public class Mouse extends GLFWMouseButtonCallback{
+public class Mouse extends GLFWMouseButtonCallback {
 
-	private static final boolean[] buttons = new boolean[8];
-	private static final boolean[] releasedButtons = new boolean[8];
-	
+	public static boolean[] buttons = new boolean[8];
+	public static boolean[] releasedButtons = new boolean[8];
+	private static ArrayList<Integer> released = new ArrayList<Integer>();
+
 	public static boolean isButtonDown(int keycode) {
 		return glfwGetMouseButton(Launcher.getWindow(), keycode) == 1;
 	}
@@ -43,17 +45,31 @@ public class Mouse extends GLFWMouseButtonCallback{
 		y.rewind();
 		float xf = (float) x.get();
 		float yf = (float) y.get();
-		xf = (xf / Launcher.getWIDTH()) * Launcher.getCAMWIDTH() - Launcher.getCAMWIDTH() / 2f;
-		yf = -((yf / Launcher.getHEIGHT()) * Launcher.getCAMHEIGHT() - Launcher.getCAMHEIGHT());
+		xf = (xf / Launcher.getWIDTH()) * Launcher.getCAMWIDTH()
+				- Launcher.getCAMWIDTH() / 2;
+		yf = -((yf / Launcher.getHEIGHT()) * Launcher.getCAMHEIGHT() - Launcher
+				.getCAMHEIGHT());
 		Point res = new Point(xf, yf);
+
 		return res;
+	}
+
+	public static void resetReleased() {
+		for (int index : released) {
+			releasedButtons[index] = false;
+		}
+		released.clear();
 	}
 
 	@Override
 	public void invoke(long window, int button, int action, int mods) {
-		buttons[button] = action != 0;
-		releasedButtons[button] = action == 0;
-		
+		if (button >= 0 && button < 8) {
+			buttons[button] = action != 0;
+			if (action == 0) {
+				releasedButtons[button] = action == 0;
+				released.add(button);
+			}
+		}
 	}
 
 }
