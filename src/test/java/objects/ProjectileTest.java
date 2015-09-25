@@ -4,13 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import game.CollisionDetection;
 
-import java.util.ArrayList;
-
-import objects.Ball;
-import objects.GameObject;
-import objects.Projectile;
-import objects.Wall;
-
 import org.junit.Before;
 import org.junit.Test;
 

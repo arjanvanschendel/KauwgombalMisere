@@ -127,9 +127,9 @@ public class Game {
 	public void update(double deltaTime) {
 		if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
 			if (state == 0) {
-				state = 1;
+				setState(1);
 			} else if (state == 1) {
-				state = 0;
+				setState(0);
 			}
 		}
 		if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
@@ -180,7 +180,7 @@ public class Game {
 			TextureImpl.bindNone();
 			String levelString = "Level " + lvl + ": "
 					+ currentLvl.getName();
-			Launcher.getFont().drawString(-Launcher.getFont().getWidth(levelString)/2, -100, levelString, Color.black);
+			Launcher.getFont().drawString(-(float)Launcher.getFont().getWidth(levelString)/2, -100, levelString, Color.black);
 			GL11.glScalef(1, -1, 1);
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);

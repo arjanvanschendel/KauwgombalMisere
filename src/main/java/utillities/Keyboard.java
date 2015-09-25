@@ -15,7 +15,7 @@ public class Keyboard extends GLFWKeyCallback {
 	 * 
 	 */
 	private static boolean[] keys = new boolean[65536];
-	public static boolean[] releasedKeys = new boolean[65536];
+	private static boolean[] releasedKeys = new boolean[65536];
 	private static ArrayList<Integer> released = new ArrayList<Integer>();
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
