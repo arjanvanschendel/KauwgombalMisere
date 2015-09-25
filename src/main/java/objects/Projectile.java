@@ -57,15 +57,7 @@ public class Projectile extends Box implements GameObject {
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
 
-					try {
-						Game.sounds.get(1).play();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					Game.sounds.get(1).play();
 				} else if (collision.getCol() instanceof Ball) {
 					ball = (Ball) collision.getCol();
 					hitBall = true;
@@ -74,15 +66,7 @@ public class Projectile extends Box implements GameObject {
 		}
 
 		if (hitBall) {
-			try {
-				Game.sounds.get(0).play();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Game.sounds.get(0).play();
 			ball.hit();
 			Level.setProjectile(null);
 		}

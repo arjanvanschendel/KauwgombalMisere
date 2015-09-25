@@ -54,16 +54,11 @@ public class Game {
 
 	private void loadSounds() {
 
-		try {
-			sounds.add(new Sound("sounds/arrowHitBall.wav"));
-			sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
-			sounds.add(new Sound("sounds/arrowShoot.wav"));
-			sounds.add(new Sound("sounds/ballBounce.wav"));
-			sounds.add(new Sound("sounds/playerHit.wav"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sounds.add(new Sound("sounds/arrowHitBall.wav", 6));
+		sounds.add(new Sound("sounds/arrowHitCeiling.wav", 6));
+		sounds.add(new Sound("sounds/arrowShoot.wav", 6));
+		sounds.add(new Sound("sounds/ballBounce.wav", 6));
+		sounds.add(new Sound("sounds/playerHit.wav", -10));
 	}
 
 	/**

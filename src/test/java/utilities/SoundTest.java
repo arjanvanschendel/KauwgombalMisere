@@ -3,9 +3,6 @@ package utilities;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,11 +15,7 @@ public class SoundTest {
 
 	@Before
 	public void setup() {
-		try {
-			snd = new Sound("res/Screaming_ducks.wav");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		snd = new Sound("res/Screaming_ducks.wav");
 	}
 
 	/**
@@ -38,14 +31,7 @@ public class SoundTest {
 	 */
 	@Test
 	public void startTest() {
-		try {
-			snd.play();
-		} catch (FileNotFoundException e) {
-			System.out.println("file not found");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		snd.play();
 
 		assertTrue(snd.isPlaying());
 	}
@@ -55,14 +41,7 @@ public class SoundTest {
 	 */
 	@Test
 	public void stopTest() {
-		try {
-			snd.play();
-		} catch (FileNotFoundException e) {
-			System.out.println("file not found");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		snd.play();
 		assertTrue(snd.isPlaying());
 		snd.stop();
 		assertFalse(snd.isPlaying());

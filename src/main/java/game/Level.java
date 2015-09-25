@@ -78,15 +78,7 @@ public class Level {
 		if (pro == null) {
 			Logger.add("projectile shot");
 			pro = projectile;
-			try {
-				Game.sounds.get(2).play();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Game.sounds.get(2).play();
 		} else if (projectile == null) {
 			pro = null;
 		}
