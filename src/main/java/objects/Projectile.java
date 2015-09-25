@@ -31,7 +31,7 @@ public class Projectile extends Box implements GameObject {
 
 	private float speed = 500;
 	private boolean hitBall = false;
-	private Texture texture;
+	private Texture texture = null;
 
 	/**
 	 * 
@@ -40,7 +40,7 @@ public class Projectile extends Box implements GameObject {
 	 */
 	public Projectile(float posx, float posy) {
 		super(posx, posy, 10, 50, new Color(205, 205, 205));
-		texture = new Texture("res/arrow.png", GL11.GL_NEAREST, GL11.GL_CLAMP);
+
 	}
 
 	/**
@@ -56,9 +56,11 @@ public class Projectile extends Box implements GameObject {
 				if (collision.getCol() instanceof Box
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
-
 					try {
-						Game.sounds.get(1).play();
+						
+						if (!Game.sounds.isEmpty()) {
+							Game.sounds.get(1).play();
+						}
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -75,7 +77,9 @@ public class Projectile extends Box implements GameObject {
 
 		if (hitBall) {
 			try {
-				Game.sounds.get(0).play();
+				if (!Game.sounds.isEmpty()) {
+					Game.sounds.get(0).play();
+				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -96,6 +100,9 @@ public class Projectile extends Box implements GameObject {
      */
 	@Override
 	public void render() {
+		if (texture == null) {
+			texture = Game.textures.get(2);
+		}
 		texture.bind();
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		glBegin(GL_QUADS);
@@ -113,4 +120,7 @@ public class Projectile extends Box implements GameObject {
 
 	}
 
+	public boolean getHitBall() {
+		return hitBall;
+	}
 }

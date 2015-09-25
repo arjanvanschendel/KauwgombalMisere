@@ -178,9 +178,9 @@ public class CollisionDetection {
 				- start.getY());
 		Point f = new Point(start.getX() - posx, start.getY() - posy);
 
-		float a = d.Dot(d);
-		float b = 2 * f.Dot(d);
-		float c = f.Dot(f) - radius * radius;
+		float a = d.dot(d);
+		float b = 2 * f.dot(d);
+		float c = f.dot(f) - radius * radius;
 
 		float discriminant = b * b - 4 * a * c;
 		if (discriminant >= 0) {

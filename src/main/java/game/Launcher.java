@@ -65,7 +65,7 @@ public class Launcher {
 	private static int WIDTH;
 	private static int HEIGHT;
 	private static long window;
-	public static TrueTypeFont font;
+	private static TrueTypeFont font;
 
 	public void run() {
 		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
@@ -143,7 +143,7 @@ public class Launcher {
 		double aRatio = (double) WIDTH / (double) HEIGHT;
 		if (aRatio < 1.8) {
 			CAMWIDTH = 1000;
-			CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+			CAMHEIGHT = (int) (CAMWIDTH / (double) aRatio);
 
 		} else {
 			CAMHEIGHT = 550;
@@ -151,34 +151,35 @@ public class Launcher {
 		}
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT, -1, 1);
+		GL11.glOrtho(-CAMWIDTH / (double) 2, CAMWIDTH / (double) 2, 0, CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
-		glfwSetCallback(window,
-				WindowResize = GLFWWindowSizeCallback(new SAM() {
-					@Override
-					public void invoke(long window, int width, int height) {
-						WIDTH = width;
-						HEIGHT = height;
-						// Change CAMHEIGHT to change zoom level
-						double aRatio = (double) WIDTH / (double) HEIGHT;
-						if (aRatio < 1.8) {
-							CAMWIDTH = 1000;
-							CAMHEIGHT = (int) (CAMWIDTH / aRatio);
+		WindowResize = GLFWWindowSizeCallback(new SAM() {
+			@Override
+			public void invoke(long window, int width, int height) {
+				WIDTH = width;
+				HEIGHT = height;
+				// Change CAMHEIGHT to change zoom level
+				double aRatio = (double) WIDTH / (double) HEIGHT;
+				if (aRatio < 1.8) {
+					CAMWIDTH = 1000;
+					CAMHEIGHT = (int) ((double)CAMWIDTH / aRatio);
 
-						} else {
-							CAMHEIGHT = 550;
-							CAMWIDTH = (int) (CAMHEIGHT * aRatio);
-						}
-						GL11.glViewport(0, 0, width, height);
-						GL11.glMatrixMode(GL11.GL_PROJECTION);
-						GL11.glLoadIdentity();
-						GL11.glOrtho(-CAMWIDTH / 2, CAMWIDTH / 2, 0, CAMHEIGHT,
-								-1, 1);
-						GL11.glMatrixMode(GL11.GL_MODELVIEW);
-						GL11.glLoadIdentity();
+				} else {
+					CAMHEIGHT = 550;
+					CAMWIDTH = (int) ((double)CAMHEIGHT * aRatio);
+				}
+				GL11.glViewport(0, 0, width, height);
+				GL11.glMatrixMode(GL11.GL_PROJECTION);
+				GL11.glLoadIdentity();
+				GL11.glOrtho(-(float)CAMWIDTH / 2, (float)CAMWIDTH / 2, 0, CAMHEIGHT,
+						-1, 1);
+				GL11.glMatrixMode(GL11.GL_MODELVIEW);
+				GL11.glLoadIdentity();
 
-					}
-				}));
+			}
+		});
+		glfwSetCallback(window,WindowResize);
+				
 	}
 
 	private void loop() {
@@ -187,7 +188,7 @@ public class Launcher {
 
 		// load a default java font
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		font = new TrueTypeFont(awtFont, true);
+		setFont(new TrueTypeFont(awtFont, true));
 
 		Game game = new Game();
 		lastFrame = glfwGetTime();
@@ -222,8 +223,7 @@ public class Launcher {
 
 	public static void main(String[] args) {
 		Logger.init();
-		Logger.printLog = false;
-
+		Logger.setPrintLog(false);
 		new Launcher().run();
 	}
 
@@ -260,6 +260,20 @@ public class Launcher {
 	 */
 	public static int getHEIGHT() {
 		return HEIGHT;
+	}
+
+	/**
+	 * @return the font
+	 */
+	public static TrueTypeFont getFont() {
+		return font;
+	}
+
+	/**
+	 * @param font the font to set
+	 */
+	public static void setFont(TrueTypeFont font) {
+		Launcher.font = font;
 	}
 
 }

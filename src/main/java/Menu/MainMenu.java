@@ -34,7 +34,7 @@ public class MainMenu {
 	 * A class to draw and maintain the main menu.
 	 */
 	public MainMenu() {
-		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 
+		playBtn = new Button(-75, ((float)Launcher.getCAMHEIGHT())/3, 
 				150, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
 		Background = new Texture("res/KMmain.png",
@@ -83,16 +83,16 @@ public class MainMenu {
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		
             GL11.glTexCoord2f(0, 0);
-            GL11.glVertex2f(-WIDTH / 2, HEIGHT);
+            GL11.glVertex2f(-(float)WIDTH / 2, HEIGHT);
             
             GL11.glTexCoord2f(1, 0);
-            GL11.glVertex2f(WIDTH / 2, HEIGHT);
+            GL11.glVertex2f((float)WIDTH / 2, HEIGHT);
             
             GL11.glTexCoord2f(1, 1);
-            GL11.glVertex2f(WIDTH / 2, 0);
+            GL11.glVertex2f((float)WIDTH / 2, 0);
             
             GL11.glTexCoord2f(0, 1);
-            GL11.glVertex2f(-WIDTH / 2, 0);
+            GL11.glVertex2f(-(float)WIDTH / 2, 0);
         GL11.glEnd();
         Texture.disable();
         

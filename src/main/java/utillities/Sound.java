@@ -23,7 +23,7 @@ public class Sound {
 	/**
 	 * filename.
 	 */
-	private String fileName;
+	//private String fileName;
 	private AudioData audiodata;
 	private AudioDataStream audiostream;
 	private ContinuousAudioDataStream continuousaudiostream;
@@ -37,13 +37,14 @@ public class Sound {
 	 * @param filename
 	 * @throws IOException
 	 */
+	@SuppressWarnings("resource")
 	public Sound(final String filename) throws IOException {
 		FileInputStream fis = new FileInputStream(filename);
 		AudioStream audioStream = new AudioStream(fis);
 		audiodata = audioStream.getData();
+		audioStream.close();
 		audiostream = null;
 		continuousaudiostream = null;
-		
 		playing = false;
 	}
 
@@ -53,7 +54,6 @@ public class Sound {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@SuppressWarnings("restriction")
 	public void play() throws FileNotFoundException, IOException {
 		audiostream = new AudioDataStream(audiodata);
 		AudioPlayer.player.start(audiostream);
