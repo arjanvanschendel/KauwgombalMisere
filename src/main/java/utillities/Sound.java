@@ -1,15 +1,16 @@
 package utillities;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import sun.audio.AudioData;
-import sun.audio.AudioDataStream;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Sound class: this class represents a playable audio file.
@@ -20,19 +21,12 @@ import sun.audio.ContinuousAudioDataStream;
 @SuppressWarnings("restriction")
 public class Sound {
 
-	/**
-	 * filename.
-	 */
-	private String fileName;
-	
-	private float dVolume;
-	
-	private AudioData audiodata;
-	private AudioDataStream audiostream;
-	private ContinuousAudioDataStream continuousaudiostream;
-	
-	private boolean playing;
+	private File f;
 
+	private float dVolume;
+	private AudioInputStream audiostream;
+	Clip clip;
+	private boolean playing;
 
 	/**
 	 * Sound: constructor.
@@ -40,35 +34,24 @@ public class Sound {
 	 * @param filename
 	 * @throws IOException
 	 */
-	public Sound(final String filename) throws IOException {
-		FileInputStream fis = new FileInputStream(filename);
-		
-		dVolume = 0;
-		
-		AudioStream audioStream = new AudioStream(fis);
-		audiodata = audioStream.getData();
+	public Sound(final String filename) {
 		audiostream = null;
-		continuousaudiostream = null;
-		
+		f = new File(filename);
+		dVolume = 0;
 		playing = false;
 	}
 
 	/**
-	 * Sound: secondairy constructor. It includes an argument for delta volume.
+	 * Sound: secondary constructor. It includes an argument for delta volume.
 	 * 
 	 * @param filename
+	 * @param dv
 	 * @throws IOException
 	 */
-	public Sound(final String filename, float dv) throws IOException {
-		FileInputStream fis = new FileInputStream(filename);
-		
-		dVolume = dv;
-		
-		AudioStream audioStream = new AudioStream(fis);
-		audiodata = audioStream.getData();
+	public Sound(final String filename, float dv) {
 		audiostream = null;
-		continuousaudiostream = null;
-		
+		f = new File(filename);
+		dVolume = dv;
 		playing = false;
 	}
 
@@ -78,40 +61,41 @@ public class Sound {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@SuppressWarnings("restriction")
-	public void play() throws FileNotFoundException, IOException {
-		audiostream = new AudioDataStream(audiodata);
-		AudioPlayer.player.start(audiostream);
-		playing = true;
+	public void play() {
+		loop(0);
 	}
 
 	/**
-	 * loop: loop the sound.
+	 * play: play the sound.
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void loop() throws FileNotFoundException, IOException {
-		continuousaudiostream = new ContinuousAudioDataStream(audiodata);
-		AudioPlayer.player.start(continuousaudiostream);
-		
+	public void loop(int n) {
+		clip = null;
+
+		try {
+			audiostream = AudioSystem.getAudioInputStream(f);
+			clip = AudioSystem.getClip();
+			clip.open(audiostream);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
+
+		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(dVolume);
+		clip.loop(n);
+
 		playing = true;
 	}
 
-	/**
-	 * stop: stop the sound.
-	 */
 	public void stop() {
-		if (audiostream != null) {
-			AudioPlayer.player.stop(audiostream);
-			playing = false;
-		}
-		if (continuousaudiostream != null) {
-			AudioPlayer.player.stop(continuousaudiostream);
+		if (isPlaying()) { 
+			clip.stop();
 			playing = false;
 		}
 	}
-
+	
 	public boolean isPlaying() {
 		return playing;
 	}
