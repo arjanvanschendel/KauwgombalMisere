@@ -24,6 +24,9 @@ public class Sound {
 	 * filename.
 	 */
 	private String fileName;
+	
+	private float dVolume;
+	
 	private AudioData audiodata;
 	private AudioDataStream audiostream;
 	private ContinuousAudioDataStream continuousaudiostream;
@@ -39,6 +42,28 @@ public class Sound {
 	 */
 	public Sound(final String filename) throws IOException {
 		FileInputStream fis = new FileInputStream(filename);
+		
+		dVolume = 0;
+		
+		AudioStream audioStream = new AudioStream(fis);
+		audiodata = audioStream.getData();
+		audiostream = null;
+		continuousaudiostream = null;
+		
+		playing = false;
+	}
+
+	/**
+	 * Sound: secondairy constructor. It includes an argument for delta volume.
+	 * 
+	 * @param filename
+	 * @throws IOException
+	 */
+	public Sound(final String filename, float dv) throws IOException {
+		FileInputStream fis = new FileInputStream(filename);
+		
+		dVolume = dv;
+		
 		AudioStream audioStream = new AudioStream(fis);
 		audiodata = audioStream.getData();
 		audiostream = null;
