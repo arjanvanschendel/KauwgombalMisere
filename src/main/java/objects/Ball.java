@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import powerups.MovementPowerUp;
 import shapes.Box;
 import shapes.Circle;
 import utillities.Logger;
@@ -153,7 +154,17 @@ public class Ball extends Circle implements GameObject {
 			Level.addBall(ball2);
 		}
 		System.out.println(Level.getScore());
-		
+
+		dropPowerUp();
+	}
+
+	/**
+	 * dropPowerUp: 
+	 * Randomly decides if a powerup is dropped and if so which
+	 * one.
+	 */
+	final void dropPowerUp() {
+		Level.addPowerUp(new MovementPowerUp(posx, posy));
 	}
 	
 	/**
