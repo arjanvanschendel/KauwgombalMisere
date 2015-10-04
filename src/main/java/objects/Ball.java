@@ -3,6 +3,7 @@ package objects;
 import game.Collision;
 import game.CollisionDetection;
 import game.Game;
+import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
@@ -74,22 +75,21 @@ public class Ball extends Circle implements GameObject {
 	 *            time between last and current frame
 	 */
 	public final void update(final double deltaTime) {
-		deltaY -= deltaTime * Level.getGravity();
+		deltaY -= deltaTime * GameVariables.getGravity();
 		posx += deltaX * 60 * deltaTime;
 		posy += deltaY * 60 * deltaTime;
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 
 		if (!collisions.isEmpty()) {
 			for (Collision collision : collisions) {
-				if (!(collision.getCol() instanceof Projectile || collision
-						.getCol() instanceof Player)) {
+				if (collision.getCol() instanceof Wall) {
 					if (collision.getSide() == 1) {
 						posy = ((Box) collision.getCol()).getPosy()
 								+ ((Box) collision.getCol()).getHeight()
 								+ radius;
 						float time = (float) Math.sqrt(height
-								/ (Level.getGravity() / 2));
-						deltaY = (float) (Level.getGravity() * time / 10);
+								/ (GameVariables.getGravity() / 2));
+						deltaY = (float) (GameVariables.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
 						try {
 							Game.sounds.get(3).play();
@@ -147,30 +147,34 @@ public class Ball extends Circle implements GameObject {
 			ball.deltaX = deltaX;
 			ball.height = height - height / 3;
 			ball2.height = height - height / 3;
-			ball.deltaY = Level.getGravity() / 3;
-			ball2.deltaY = Level.getGravity() / 3;
+			ball.deltaY = GameVariables.getGravity() / 3;
+			ball2.deltaY = GameVariables.getGravity() / 3;
 			Level.addBall(ball);
 			Level.addBall(ball2);
 		}
 		System.out.println(Level.getScore());
-
+		
 	}
 	
-	final void updateScore(){
-		
-		char ballsize = this.getRadius() > 20 ? 'b' : 's' ;
+	/**
+	 * updateScore:
+	 * Adds points to the score board depending on ball size.
+	 */
+	final void updateScore() {
+
+		char ballsize = this.getRadius() > 20 ? 'b' : 's';
 		Game.ballhit(this.getPosx(), this.getPosy(), ballsize);
 		switch (ballsize) {
 		case 'b':
 			Level.setScore(Level.getScore() + 20);
 			break;
-		case 's': 
+		case 's':
 			Level.setScore(Level.getScore() + 10);
 		default:
 			Level.setScore(Level.getScore());
 			break;
 		}
-		
+
 	}
 
 	/**
@@ -196,7 +200,7 @@ public class Ball extends Circle implements GameObject {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * getDeltaX.
 	 * 

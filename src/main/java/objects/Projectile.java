@@ -53,7 +53,7 @@ public class Projectile extends Box implements GameObject {
 		Ball ball = null;
 		if (!collisions.isEmpty()) {
 			for (Collision collision : collisions) {
-				if (collision.getCol() instanceof Box
+				if (collision.getCol() instanceof Wall
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
 					try {

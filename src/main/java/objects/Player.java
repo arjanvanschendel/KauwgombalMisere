@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Collision;
 import game.CollisionDetection;
 import game.Game;
+import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
@@ -80,7 +81,7 @@ public class Player extends Box implements GameObject {
 				if (collision.getCol() instanceof Ball) {
 					Logger.add("player died");
 					die();
-				} else if (!(collision.getCol() instanceof Projectile)) {
+				} else if (collision.getCol() instanceof Wall) {
 					if (collision.getSide() == 4) {
 						setPosx(((Box) collision.getCol()).getPosx() - getWidth());
 						deltaX = 0;
@@ -169,8 +170,8 @@ public class Player extends Box implements GameObject {
 	 */
 	private void walkRight(double deltaTime) {
 		deltaX += 30 * deltaTime;
-		if (deltaX > 5) {
-			deltaX = (float) (5);
+		if (deltaX > GameVariables.getMovementSpeed()) {
+			deltaX = (float) (GameVariables.getMovementSpeed());
 		}
 	}
 
@@ -182,8 +183,8 @@ public class Player extends Box implements GameObject {
 	private void walkLeft(double deltaTime) {
 
 		deltaX -= 30 * deltaTime;
-		if (deltaX < -5) {
-			deltaX = (float) (-5);
+		if (deltaX < -GameVariables.getMovementSpeed()) {
+			deltaX = (float) (-GameVariables.getMovementSpeed());
 		}
 	}
 
