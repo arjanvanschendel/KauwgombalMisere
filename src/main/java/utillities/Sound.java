@@ -1,7 +1,6 @@
 package utillities;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -21,11 +20,30 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 @SuppressWarnings("restriction")
 public class Sound {
 
+	/**
+	 * The audio file.
+	 */
 	private File f;
 
+	/**
+	 * dVolume: the change in volume. 
+	 * Does not work for values beneath -6 somehow.
+	 */
 	private float dVolume;
+	
+	/**
+	 * The AudioInputStream. Gets reset with every .play();
+	 */
 	private AudioInputStream audiostream;
-	Clip clip;
+	
+	/**
+	 * the Clip.
+	 */
+	private Clip clip;
+	
+	/**
+	 * Holds a boolean value representing whether the Sound is playing or not.
+	 */
 	private boolean playing;
 
 	/**
@@ -43,15 +61,16 @@ public class Sound {
 
 	/**
 	 * Sound: secondary constructor. It includes an argument for delta volume.
+	 * Added protection against crashing by capping dVolume to -6f. 
 	 * 
 	 * @param filename
 	 * @param dv
 	 * @throws IOException
 	 */
-	public Sound(final String filename, float dv) {
+	public Sound(final String filename, final float dv) {
 		audiostream = null;
 		f = new File(filename);
-		dVolume = dv;
+		dVolume = Math.max(-6f,dv);
 		playing = false;
 	}
 
@@ -61,7 +80,7 @@ public class Sound {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void play() {
+	public final void play() {
 		loop(0);
 	}
 
@@ -71,7 +90,7 @@ public class Sound {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void loop(int n) {
+	public final void loop(final int n) {
 		clip = null;
 
 		try {
@@ -89,14 +108,37 @@ public class Sound {
 		playing = true;
 	}
 
-	public void stop() {
+	/**
+	 * stop: Stop the sound.
+	 */
+	public final void stop() {
 		if (isPlaying()) { 
 			clip.stop();
 			playing = false;
 		}
 	}
 	
-	public boolean isPlaying() {
+	/**
+	 * isPlaying: returns playing.
+	 * @return playing
+	 */
+	public final boolean isPlaying() {
 		return playing;
+	}
+	
+	/**
+	 * getVolume: returns dVolume.
+	 * @return dVolume
+	 */
+	public final float getVolume() {
+		return dVolume;
+	}
+
+	/**
+	 * setVolume: set dVolume.
+	 * @param ndV
+	 */
+	public final void setVolume(final float ndV) {
+		dVolume = Math.max(-6,ndV);
 	}
 }
