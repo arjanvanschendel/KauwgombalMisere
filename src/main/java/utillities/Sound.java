@@ -124,15 +124,10 @@ public class Sound {
 	 * stop: Stop the sound.
 	 */
 	public final void stop() {
-		if (isPlaying()) { 
-			try {
+		if (isPlaying() && device) { 
 			clip.stop();
-			} catch (IllegalArgumentException e){
-				device = false;
-				System.out.println("no device to play audio from");
-			}
-			playing = false;
 		}
+		playing = false;
 	}
 	
 	/**
@@ -150,15 +145,6 @@ public class Sound {
 	public final float getVolume() {
 		return dVolume;
 	}
-
-	/**
-	 * unvalidDevice: returns wheter device is unvalid or not.
-	 * @return device
-	 */
-	public final boolean unvalidDevice() {
-		return !device;
-	}
-	
 	
 	/**
 	 * setVolume: set dVolume.
