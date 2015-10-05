@@ -175,7 +175,9 @@ public class Game {
 	    GL11.glScalef(1, -1, 1);
 	    TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
-	    Launcher.getFont().drawString(
+	    String scoreString = "Score: "+Level.getScore();
+	    Launcher.getFont().drawString( -400, -540, scoreString, Color.blue);
+	 	    Launcher.getFont().drawString(
 		    -(float) Launcher.getFont().getWidth(levelString) / 2,
 		    -100, levelString, Color.black);
 	    GL11.glScalef(1, -1, 1);
