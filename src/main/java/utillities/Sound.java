@@ -21,6 +21,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
 
 	/**
+	 * indicates whether there is an audio device or not.
+	 */
+	private boolean device;
+	
+	/**
 	 * The audio file.
 	 */
 	private File f;
@@ -53,10 +58,11 @@ public class Sound {
 	 * @throws IOException
 	 */
 	public Sound(final String filename) {
-		audiostream = null;
-		f = new File(filename);
-		dVolume = 0;
-		playing = false;
+			f = new File(filename);
+			audiostream = null;
+			dVolume = 0;
+			playing = false;
+			device = true;
 	}
 
 	/**
@@ -91,21 +97,26 @@ public class Sound {
 	 * @throws IOException
 	 */
 	public final void loop(final int n) {
-		clip = null;
-
 		try {
-			audiostream = AudioSystem.getAudioInputStream(f);
-			clip = AudioSystem.getClip();
-			clip.open(audiostream);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			e.printStackTrace();
+			clip = null;
+	
+			try {
+				audiostream = AudioSystem.getAudioInputStream(f);
+				clip = AudioSystem.getClip();
+				clip.open(audiostream);
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+				e.printStackTrace();
+			}
+	
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(dVolume);
+			clip.loop(n);
+	
+			playing = true;
+		} catch (IllegalArgumentException e){
+			device = false;
+			System.out.println("no device to play audio from");
 		}
-
-		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		gainControl.setValue(dVolume);
-		clip.loop(n);
-
-		playing = true;
 	}
 
 	/**
@@ -134,6 +145,15 @@ public class Sound {
 		return dVolume;
 	}
 
+	/**
+	 * unvalidDevice: returns wheter device is unvalid or not.
+	 * @return device
+	 */
+	public final boolean unvalidDevice() {
+		return !device;
+	}
+	
+	
 	/**
 	 * setVolume: set dVolume.
 	 * @param ndV
