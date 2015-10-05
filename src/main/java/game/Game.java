@@ -175,9 +175,15 @@ public class Game {
 	    GL11.glScalef(1, -1, 1);
 	    TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
+	    String livesString = "Lives : " + lifes;
 	    Launcher.getFont().drawString(
 		    -(float) Launcher.getFont().getWidth(levelString) / 2,
 		    -100, levelString, Color.black);
+	    
+	    Launcher.getFont().drawString(
+			    -(float) Launcher.getFont().getWidth(levelString) / 2,
+			    -70, livesString, Color.black);
+	    
 	    GL11.glScalef(1, -1, 1);
 
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
