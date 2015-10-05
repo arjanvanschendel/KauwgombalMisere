@@ -34,6 +34,8 @@ public class Ball extends Circle implements GameObject {
 	 * Height the ball bounces to.
 	 */
 	private float height;
+	
+	//private ScorePopUp popUp;
 
 	/**
 	 * Ball: constructor.
@@ -137,6 +139,8 @@ public class Ball extends Circle implements GameObject {
 	final void hit() {
 		this.updateScore();
 		Logger.add("ball hit");
+		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(), this.getRadius());
+		Game.addPopUp(popUp);
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);

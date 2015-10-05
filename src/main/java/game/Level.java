@@ -13,6 +13,7 @@ import objects.Ball;
 import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
+import objects.ScorePopUp;
 import objects.Wall;
 import utillities.Logger;
 import utillities.ObjectGenerator;
@@ -100,6 +101,8 @@ public class Level {
 	objects.add(ball);
 	CollisionDetection.addCollider(ball);
     }
+    
+
 
     /**
      * @return the gravity
