@@ -2,7 +2,9 @@ package powerups;
 
 import java.awt.Color;
 
+import shapes.Box;
 import game.GameVariables;
+import game.Launcher;
 
 /**
  * 
@@ -12,7 +14,7 @@ import game.GameVariables;
  *
  */
 public class MovementPowerUp extends PowerUp {
-	
+
 	/**
 	 * newSpeed is the improved movement speed.
 	 */
@@ -21,33 +23,73 @@ public class MovementPowerUp extends PowerUp {
 	 * oldSpeed is the basic movement speed.
 	 */
 	private float oldSpeed = GameVariables.getNormalMovementSpeed();
+	/**
+	 * currentActive is a static boolean which shows if the current PowerUp is
+	 * active.
+	 */
+	private static boolean currentActive = false;
+	/**
+	 * The visual indicator which shows if the PowerUp is active.
+	 */
+	private Box indicator;
 
 	/**
 	 * 
 	 * Constructor for MovementPowerUp.
 	 * 
-	 * @param posx x-coordinate at which the PowerUp spawns.
-	 * @param posy y-coordinate at which the PowerUp spawns.
+	 * @param posx
+	 *            x-coordinate at which the PowerUp spawns.
+	 * @param posy
+	 *            y-coordinate at which the PowerUp spawns.
 	 */
 	public MovementPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.GREEN);
-		powerDuration = 3;
+		
+		if (currentActive) {
+			deactivate();
+		}
+		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
+				Launcher.getCAMHEIGHT() - 30, 20, 20, Color.GREEN);
+		setPowerDuration(3);
+	}
+
+	@Override
+	public final void render() {
+		if (currentActive) {
+			indicator.render();
+		}
+		renderPowerUp();
 	}
 
 	/**
-	 *	Defines the effect of that increases the movement speed.
+	 * Defines the effect of that increases the movement speed.
 	 */
 	@Override
 	final void effect() {
+		currentActive = true;
 		GameVariables.setMovementSpeed(newSpeed);
 	}
 
 	/**
-	 *	Defines the effect of that increases the movement speed.
+	 * Deactivates the effect by resetting the movement spped to the old
+	 * movement speed.
 	 */
 	@Override
 	public final void deactivate() {
+		currentActive = false;
 		GameVariables.setMovementSpeed(oldSpeed);
 		basicDeactivate();
 	}
+
+	/**
+	 * Activates the power up and sets currentActive to true.
+	 */
+	@Override
+	public final void activate() {
+		currentActive = true;
+		setNumberActive(getNumberActive() + 1);
+		basicActivate();
+
+	}
+
 }

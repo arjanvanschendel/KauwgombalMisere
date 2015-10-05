@@ -29,13 +29,17 @@ public abstract class PowerUp extends Box implements GameObject {
 	 */
 	private float deltaY = 0;
 	/**
+	 * Counts the number of active PowerUps used to render the HUD indicator.
+	 */
+	private static int numberActive = 0;
+	/**
 	 * The duration of the PowerUp(standard 5).
 	 */
-	protected float powerDuration = 5;
+	private float powerDuration = 5;
 	/**
 	 * The time for which the PowerUp is active.
 	 */
-	private static float timeRemaining = 0;
+	private float timeRemaining = 0;
 	/**
 	 * Boolean used to activate the PowerUp.
 	 */
@@ -84,18 +88,24 @@ public abstract class PowerUp extends Box implements GameObject {
 		}
 	}
 
-	
-	@Override
-	public final void render() {
+	/**
+	 * Renders the physical power up if the power up is not yet activated.
+	 */
+	public final void renderPowerUp() {
 		if (!active) {
 			super.render();
 		}
 	}
+
+	/**
+	 * Abstract method used to activate the PowerUp.
+	 */
+	public abstract void activate();
 	
 	/**
 	 * activate: Activates the PowerUp.
 	 */
-	protected final void activate() {
+	protected final void basicActivate() {
 		Logger.add("powerup activated");
 		timeRemaining = powerDuration;
 		active = true;
@@ -119,5 +129,27 @@ public abstract class PowerUp extends Box implements GameObject {
 	 * The effect the PowerUp has, needs to be implemented per PowerUp.
 	 */
 	abstract void effect();
+
+	/**
+	 * @return the numberActive
+	 */
+	public static int getNumberActive() {
+		return numberActive;
+	}
+
+	/**
+	 * @param numActive the numberActive to set
+	 */
+	public static void setNumberActive(final int numActive) {
+		PowerUp.numberActive = numActive;
+	}
+
+	/**
+	 * @param powerDuration the powerDuration to set
+	 */
+	public void setPowerDuration(float powerDuration) {
+		this.powerDuration = powerDuration;
+	}
+
 
 }
