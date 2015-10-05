@@ -130,7 +130,7 @@ public class Level {
 		if (pro != null)
 			pro.update(deltaTime);
 
-		if (!player.isAlive()) {
+		if (player == null || !player.isAlive()) {
 			if (Game.getLifes() > 1) {
 				Game.decreaseLifes();
 				loadLevel();
