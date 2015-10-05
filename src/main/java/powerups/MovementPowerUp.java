@@ -66,7 +66,7 @@ public class MovementPowerUp extends PowerUp {
 	 */
 	@Override
 	final void effect() {
-		currentActive = true;
+		setCurrentActive(true);
 		GameVariables.setMovementSpeed(newSpeed);
 	}
 
@@ -76,20 +76,27 @@ public class MovementPowerUp extends PowerUp {
 	 */
 	@Override
 	public final void deactivate() {
-		currentActive = false;
+		setCurrentActive(false);
 		GameVariables.setMovementSpeed(oldSpeed);
 		basicDeactivate();
 	}
-
+	
 	/**
 	 * Activates the power up and sets currentActive to true.
 	 */
 	@Override
 	public final void activate() {
-		currentActive = true;
+		setCurrentActive(true);
 		setNumberActive(getNumberActive() + 1);
 		basicActivate();
 
 	}
 
+	/**
+	 * Sets the boolean currentActive.
+	 * @param bool The boolean which currentActive is st to.
+	 */
+	private static void setCurrentActive(final boolean bool) {
+		currentActive = bool;
+	}
 }

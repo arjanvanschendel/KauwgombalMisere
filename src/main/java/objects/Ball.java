@@ -173,6 +173,7 @@ public class Ball extends Circle implements GameObject {
 		case 's':
 			Level.addPowerUp(new FastArrowPowerUp(posx, posy));
 		default:
+			Level.addPowerUp(new FastArrowPowerUp(posx, posy));
 			break;
 		}
 	}

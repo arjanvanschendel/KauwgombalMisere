@@ -66,17 +66,17 @@ public class FastArrowPowerUp extends PowerUp {
 	 */
 	@Override
 	final void effect() {
-		currentActive = true;
+		setCurrentActive(true);
 		GameVariables.setArrowSpeed(newSpeed);
 	}
-
+	
 	/**
 	 * Deactivates the effect by resetting the movement spped to the old
 	 * movement speed.
 	 */
 	@Override
 	public final void deactivate() {
-		currentActive = false;
+		setCurrentActive(false);
 		GameVariables.setArrowSpeed(oldSpeed);
 		basicDeactivate();
 	}
@@ -86,9 +86,17 @@ public class FastArrowPowerUp extends PowerUp {
 	 */
 	@Override
 	public final void activate() {
-		currentActive = true;
+		setCurrentActive(true);
 		basicActivate();
 
 	}
 
+	/**
+	 * Sets the boolean currentActive.
+	 * @param bool The boolean which currentActive is st to.
+	 */
+	private static void setCurrentActive(final boolean bool) {
+		currentActive = bool;
+	}
+	
 }
