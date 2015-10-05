@@ -31,6 +31,20 @@ public final class GameVariables {
 	 * Current arrow speed.
 	 */
 	private static float arrowSpeed = 500;
+
+	/**
+	 * Current arrow speed.
+	 */
+	private static float normalArrowSpeed = 500;
+
+	/**
+	 * Fast arrow speed.
+	 */
+	private static float fastArrowSpeed = 700;
+	/**
+	 * slow arrow speed.
+	 */
+	private static float slowArrowSpeed = 200;
 	/**
 	 * Current gravity.
 	 */
@@ -44,6 +58,27 @@ public final class GameVariables {
 		return arrowSpeed;
 	}
 	
+	/**
+	 * @return the normalArrowSpeed
+	 */
+	public static float getNormalArrowSpeed() {
+		return normalArrowSpeed;
+	}
+
+	/**
+	 * @return the fastArrowSpeed
+	 */
+	public static float getFastArrowSpeed() {
+		return fastArrowSpeed;
+	}
+
+	/**
+	 * @return the slowArrowSpeed
+	 */
+	public static float getSlowArrowSpeed() {
+		return slowArrowSpeed;
+	}
+
 	/**
 	 * @param aSpeed the arrowSpeed to set
 	 */

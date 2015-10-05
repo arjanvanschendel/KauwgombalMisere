@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import powerups.FastArrowPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
 import shapes.Circle;
@@ -164,7 +165,16 @@ public class Ball extends Circle implements GameObject {
 	 * one.
 	 */
 	final void dropPowerUp() {
-		Level.addPowerUp(new MovementPowerUp(posx, posy));
+		char ballsize = this.getRadius() > 20 ? 'b' : 's';
+		switch (ballsize) {
+		case 'b':
+			Level.addPowerUp(new MovementPowerUp(posx, posy));
+			break;
+		case 's':
+			Level.addPowerUp(new FastArrowPowerUp(posx, posy));
+		default:
+			break;
+		}
 	}
 	
 	/**

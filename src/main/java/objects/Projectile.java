@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Collision;
 import game.CollisionDetection;
 import game.Game;
+import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
@@ -29,7 +30,6 @@ import utillities.Texture;
  */
 public class Projectile extends Box implements GameObject {
 
-	private float speed = 500;
 	private boolean hitBall = false;
 	private Texture texture = null;
 
@@ -57,7 +57,7 @@ public class Projectile extends Box implements GameObject {
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
 					try {
-						
+
 						if (!Game.sounds.isEmpty()) {
 							Game.sounds.get(1).play();
 						}
@@ -91,15 +91,16 @@ public class Projectile extends Box implements GameObject {
 			Level.setProjectile(null);
 		}
 
-		setHeight((float) (getHeight() + speed * deltaTime));
+		setHeight((float) (getHeight() + GameVariables.getArrowSpeed()
+				* deltaTime));
 
 	}
 
 	/**
-     * 
+     * Renders the projectile.
      */
 	@Override
-	public void render() {
+	public final void render() {
 		if (texture == null) {
 			texture = Game.textures.get(2);
 		}
