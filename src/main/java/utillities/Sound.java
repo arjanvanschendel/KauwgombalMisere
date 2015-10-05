@@ -62,7 +62,6 @@ public class Sound {
 			audiostream = null;
 			dVolume = 0;
 			playing = false;
-			device = true;
 	}
 
 	/**
@@ -78,7 +77,6 @@ public class Sound {
 		f = new File(filename);
 		dVolume = Math.max(-6f,dv);
 		playing = false;
-		device = true;
 	}
 
 	/**
@@ -112,12 +110,14 @@ public class Sound {
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(dVolume);
 			clip.loop(n);
-	
-			playing = true;
+			
+			device = true;
+
 		} catch (IllegalArgumentException e){
 			device = false;
 			System.out.println("no device to play audio from");
 		}
+		playing = true;
 	}
 
 	/**
@@ -125,7 +125,12 @@ public class Sound {
 	 */
 	public final void stop() {
 		if (isPlaying()) { 
+			try {
 			clip.stop();
+			} catch (IllegalArgumentException e){
+				device = false;
+				System.out.println("no device to play audio from");
+			}
 			playing = false;
 		}
 	}
