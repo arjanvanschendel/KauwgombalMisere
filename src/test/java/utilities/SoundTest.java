@@ -50,7 +50,7 @@ public class SoundTest {
 	public final void playTest() {
 		snd.play();
 
-		assertTrue(snd.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd.isPlaying() || snd.unvalidDevice()) );
 	}
 
 	/**
@@ -59,9 +59,9 @@ public class SoundTest {
 	@Test
 	public final void stopPlayTest() {
 		snd.play();
-		assertTrue(snd.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd.isPlaying() || snd.unvalidDevice()) );
 		snd.stop();
-		assertFalse(snd.isPlaying() || snd.unvalidDevice());
+		assertFalse( (snd.isPlaying() || snd.unvalidDevice()) );
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class SoundTest {
 	public final void loopTest() {
 		snd.loop(5);
 
-		assertTrue(snd.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd.isPlaying() || snd.unvalidDevice()) );
 	}
 
 	/**
@@ -80,9 +80,9 @@ public class SoundTest {
 	@Test
 	public final void stopLoopTest() {
 		snd.loop(5);
-		assertTrue(snd.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd.isPlaying() || snd.unvalidDevice()) );
 		snd.stop();
-		assertFalse(snd.isPlaying() || snd.unvalidDevice());
+		assertFalse( (snd.isPlaying() || snd.unvalidDevice()) );
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class SoundTest {
 	public final void playTest2() {
 		snd2.play();
 
-		assertTrue(snd2.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd2.isPlaying() || snd.unvalidDevice()) );
 	}
 
 	/**
@@ -101,9 +101,9 @@ public class SoundTest {
 	@Test
 	public final void stopPlayTest2() {
 		snd2.play();
-		assertTrue(snd2.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd2.isPlaying() || snd.unvalidDevice()) );
 		snd2.stop();
-		assertFalse(snd2.isPlaying() || snd.unvalidDevice());
+		assertFalse( (snd2.isPlaying() || snd.unvalidDevice()) );
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class SoundTest {
 	public final void loopTest2() {
 		snd2.loop(5);
 
-		assertTrue(snd2.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd2.isPlaying() || snd.unvalidDevice()) );
 	}
 
 	/**
@@ -122,9 +122,9 @@ public class SoundTest {
 	@Test
 	public final void stopLoopTest2() {
 		snd2.loop(5);
-		assertTrue(snd2.isPlaying() || snd.unvalidDevice());
+		assertTrue( (snd2.isPlaying() || snd.unvalidDevice()) );
 		snd2.stop();
-		assertFalse(snd2.isPlaying() || snd.unvalidDevice());
+		assertFalse( (snd2.isPlaying() || snd.unvalidDevice()) );
 	}
 	
 	/**

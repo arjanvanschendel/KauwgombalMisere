@@ -78,6 +78,7 @@ public class Sound {
 		f = new File(filename);
 		dVolume = Math.max(-6f,dv);
 		playing = false;
+		device = true;
 	}
 
 	/**
@@ -159,6 +160,6 @@ public class Sound {
 	 * @param ndV
 	 */
 	public final void setVolume(final float ndV) {
-		dVolume = Math.max(-6,ndV);
+		dVolume = Math.max(-6, ndV);
 	}
 }
