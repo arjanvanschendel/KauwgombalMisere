@@ -10,8 +10,10 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import powerups.FastArrowPowerUp;
+import powerups.LowGravityPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
 import shapes.Circle;
@@ -160,27 +162,29 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * dropPowerUp: 
-	 * Randomly decides if a powerup is dropped and if so which
+	 * dropPowerUp: Randomly decides if a powerup is dropped and if so which
 	 * one.
 	 */
 	final void dropPowerUp() {
-		char ballsize = this.getRadius() > 20 ? 'b' : 's';
-		switch (ballsize) {
-		case 'b':
-			Level.addPowerUp(new MovementPowerUp(posx, posy));
-			break;
-		case 's':
-			Level.addPowerUp(new FastArrowPowerUp(posx, posy));
-		default:
-			Level.addPowerUp(new FastArrowPowerUp(posx, posy));
-			break;
+		Random rand = new Random();
+		int randomNum = rand.nextInt(2);
+		if (randomNum == 1) {
+			char ballsize = this.getRadius() > 20 ? 'b' : 's';
+			switch (ballsize) {
+			case 'b':
+				Level.addPowerUp(new MovementPowerUp(posx, posy));
+				break;
+			case 's':
+				Level.addPowerUp(new LowGravityPowerUp(posx, posy));
+			default:
+				Level.addPowerUp(new LowGravityPowerUp(posx, posy));
+				break;
+			}
 		}
 	}
-	
+
 	/**
-	 * updateScore:
-	 * Adds points to the score board depending on ball size.
+	 * updateScore: Adds points to the score board depending on ball size.
 	 */
 	final void updateScore() {
 

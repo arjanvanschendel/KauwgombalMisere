@@ -13,16 +13,16 @@ import game.Launcher;
  * @author Jasper
  *
  */
-public class FastArrowPowerUp extends PowerUp {
+public class LowGravityPowerUp extends PowerUp {
 
 	/**
-	 * newSpeed is the improved arrow speed.
+	 * newGravity is the low gravity.
 	 */
-	private float newSpeed = GameVariables.getFastArrowSpeed();
+	private float newGravity = GameVariables.getLowGravity();
 	/**
-	 * oldSpeed is the basic arrow speed.
+	 * oldGravity is the basic gravity in the level.
 	 */
-	private float oldSpeed = GameVariables.getNormalArrowSpeed();
+	private float oldGravity = GameVariables.getNormalGravity();
 	/**
 	 * currentActive is a static boolean which shows if the current PowerUp is
 	 * active.
@@ -35,21 +35,21 @@ public class FastArrowPowerUp extends PowerUp {
 
 	/**
 	 * 
-	 * Constructor for FastArrowPowerUp.
+	 * Constructor for MovementPowerUp.
 	 * 
 	 * @param posx
 	 *            x-coordinate at which the PowerUp spawns.
 	 * @param posy
 	 *            y-coordinate at which the PowerUp spawns.
 	 */
-	public FastArrowPowerUp(final float posx, final float posy) {
-		super(posx, posy, Color.CYAN);
+	public LowGravityPowerUp(final float posx, final float posy) {
+		super(posx, posy, Color.MAGENTA);
 		
 		if (currentActive) {
 			deactivate();
 		}
 		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, Color.CYAN);
+				Launcher.getCAMHEIGHT() - 55, 20, 20, Color.MAGENTA);
 		setPowerDuration(3);
 	}
 
@@ -62,22 +62,22 @@ public class FastArrowPowerUp extends PowerUp {
 	}
 
 	/**
-	 * Defines the effect of that increases the arrow speed.
+	 * Defines the effect of that lowers the gravity.
 	 */
 	@Override
 	final void effect() {
 		setCurrentActive(true);
-		GameVariables.setArrowSpeed(newSpeed);
+		GameVariables.setGravity(newGravity);
 	}
 	
 	/**
-	 * Deactivates the effect by resetting the arrow speed to the old
-	 * arrow speed.
+	 * Deactivates the effect by resetting the gravity to the old
+	 * gravity.
 	 */
 	@Override
 	public final void deactivate() {
 		setCurrentActive(false);
-		GameVariables.setArrowSpeed(oldSpeed);
+		GameVariables.setGravity(oldGravity);
 		basicDeactivate();
 	}
 

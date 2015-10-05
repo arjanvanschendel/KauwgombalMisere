@@ -87,7 +87,6 @@ public class MovementPowerUp extends PowerUp {
 	@Override
 	public final void activate() {
 		setCurrentActive(true);
-		setNumberActive(getNumberActive() + 1);
 		basicActivate();
 
 	}

@@ -49,8 +49,30 @@ public final class GameVariables {
 	 * Current gravity.
 	 */
 	private static float gravity = (float) 9.81;
+	/**
+	 * Current gravity.
+	 */
+	private static float normalGravity = (float) 9.81;
+	/**
+	 * Current gravity.
+	 */
+	private static float lowGravity = (float) 4.81;
 	
 	
+	/**
+	 * @return the normalGravity
+	 */
+	public static float getNormalGravity() {
+		return normalGravity;
+	}
+
+	/**
+	 * @return the lowGravity
+	 */
+	public static float getLowGravity() {
+		return lowGravity;
+	}
+
 	/**
 	 * @return the arrowSpeed
 	 */
