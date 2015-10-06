@@ -4,49 +4,44 @@ import game.Launcher;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.TextureImpl;
 
+/**
+ * @author Bart
+ * Class that supports the rendering of small score popups after a ball has 
+ * been popped.
+ * note: is rendered in game class in stead of level because this requires no 
+ * binding of the textures.
+ */
 public class ScorePopUp implements GameObject {
-	private float _posx;
-	private float _posy;
+	/**
+	@param _posx x position of intended popup location
+	 */
+	private float posx;
+	
+	/**
+	 * @param posy y position of intended popup location
+	 */
+	private float posy;
+	
+	/**
+	 * amount of points(casted to string).
+	 */
 	private String score;
+	/**
+	 * color of the popup.
+	 */
 	private Color color;
 	
-	public float get_posx() {
-		return _posx;
-	}
-
-	public void set_posx(float _posx) {
-		this._posx = _posx;
-	}
-
-	public float get_posy() {
-		return _posy;
-	}
-
-	public void set_posy(float _posy) {
-		this._posy = _posy;
-	}
-
-	public String getScore() {
-		return score;
-	}
-
-	public void setScore(String score) {
-		this.score = score;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public ScorePopUp(final float posx, final float posy, final float radius){
-	_posx = posx;
-	_posy = posy*-1;
+	
+	/**
+	 * @param xpositie xpos van popup.
+	 * @param ypositie ypos van popup.
+	 * @param radius 
+	 */
+	public ScorePopUp(final float xpositie, final float ypositie, 
+			final float radius) {
+	posx = xpositie;
+	posy = ypositie * -1;
 	switch ((int) radius) {
 	case 50:
 		score = 20+ "";
@@ -65,17 +60,67 @@ public class ScorePopUp implements GameObject {
 		break;
 	}
 	}
+	
+	/**
+	 * Getter for horizontal position.
+	 * @return horizontal position.
+	 */
+	public final float getPosx() {
+		return posx;
+	}
 
-	@Override
-	public void update(double deltaTime) {
-		set_posy((float) (get_posy() -  120 * deltaTime));
+
+	/**
+	 * Setter for horizontal position.
+	 */
+	public final void setPosx(float posx) {
+		this.posx = posx;
+	}
+
+
+	/**
+	 * Getter for vertical position.
+	 * @return vertical position.
+	 */
+	public final float getPosy() {
+		return posy;
+	}
+
+
+	/**
+	 * Setter for vertical position.
+	 * @param posY position to set.
+	 */
+	public final void setPosy(final float posY) {
+		this.posy = posY;
+	}
+
+	/**
+	 * Getter for color.
+	 * @return color.
+	 */
+	public final Color getColor() {
+		return color;
+	}
+
+	/**
+	 * Setter voor color.
+	 * @param colorNew to set.
+	 */
+	public final void setColor(final Color colorNew) {
+		this.color = colorNew;
 	}
 
 	@Override
-	public void render() {
+	public final void update(final double deltaTime) {
+		setPosy((float) (getPosy() -  120 * deltaTime));
+	}
+
+	@Override
+	public final void render() {
 	GL11.glPushMatrix();
 	GL11.glScaled(1, -1, 1);
-	Launcher.getFont().drawString(get_posx(), get_posy(), score, getColor());
+	Launcher.getFont().drawString(getPosx(), getPosy(), score, getColor());
 	GL11.glPopMatrix();
 	
 	}
