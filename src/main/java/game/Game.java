@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import objects.GameObject;
+import objects.ScorePopUp;
+
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
@@ -32,6 +35,7 @@ public class Game {
     private static int lifes;
     public static final ArrayList<Sound> sounds = new ArrayList<Sound>();
     public static final ArrayList<Texture> textures = new ArrayList<Texture>();
+    private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
 
     /**
      * Game: constructor.
@@ -136,6 +140,7 @@ public class Game {
 	case (0):
 	    // Playing
 	    currentLvl.update(deltaTime);
+		updateThePopUps(deltaTime);
 	    break;
 	case (1):
 	    // Paused
@@ -158,6 +163,27 @@ public class Game {
 	Mouse.resetReleased();
 	Keyboard.resetReleased();
     }
+    
+    public static void addPopUp(ScorePopUp popUp){
+    if(popUpObjects.size() > 3){
+    	for(int i = 0; i < popUpObjects.size()-1; ++i){
+    		popUpObjects.remove(0);
+    	}
+    }
+    	popUpObjects.add(popUp);
+    }
+    
+    public void updateThePopUps(double deltaTime) {
+	for (GameObject popup : popUpObjects) {
+	   	popup.update(deltaTime);
+	}
+    }
+    
+    public void renderThePopUps(){
+    	for (GameObject render : popUpObjects) {
+    	    render.render();
+    	}
+    }
 
     /**
      * render: Render the graphics of the game.
@@ -167,16 +193,18 @@ public class Game {
 	case (0):
 	    // game
 	    currentLvl.render();
+		TextureImpl.bindNone();
+		renderThePopUps();
 	    GL11.glScalef(1, -1, 1);
-	    TextureImpl.bindNone();
+	  //  TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
 	    String scoreString = "Score: "+Level.getScore();
 	    Launcher.getFont().drawString( -400, -540, scoreString, Color.blue);
 	 	    Launcher.getFont().drawString(
 		    -(float) Launcher.getFont().getWidth(levelString) / 2,
 		    -100, levelString, Color.black);
+	 	   
 	    GL11.glScalef(1, -1, 1);
-
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
 	    break;
 	case (1):
@@ -187,7 +215,6 @@ public class Game {
 	    Launcher.getFont().drawString(-50, -300, "PAUSED", Color.yellow);
 	    GL11.glScalef(1, -1, 1);
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
-
 	    break;
 	case (2):
 	    mm.render();
@@ -211,7 +238,6 @@ public class Game {
 
     /**
      * getState.
-     * 
      * @return int state
      */
     public final int getState() {
@@ -236,7 +262,7 @@ public class Game {
 
     /**
      * @param lvl
-     *            the lvl to set
+     *  the lvl to set
      */
     public static final void setLvl(int lvl) {
 	Game.lvl = lvl;

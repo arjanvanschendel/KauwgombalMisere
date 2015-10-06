@@ -13,6 +13,7 @@ import objects.Ball;
 import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
+import objects.ScorePopUp;
 import objects.Wall;
 import utillities.Logger;
 import utillities.ObjectGenerator;
@@ -85,11 +86,20 @@ public class Level {
 			pro = null;
 		}
 	}
+    
 
-	public static void addBall(Ball ball) {
-		objects.add(ball);
-		CollisionDetection.addCollider(ball);
-	}
+    public static void addBall(Ball ball) {
+	objects.add(ball);
+	CollisionDetection.addCollider(ball);
+    }
+    
+
+
+    /**
+     * update: update the level-object's state.
+     * 
+     * @param deltaTime
+     */
 
 	/**
 	 * @return the gravity
