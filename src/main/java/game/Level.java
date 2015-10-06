@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import objects.Ball;
@@ -74,22 +75,22 @@ public class Level {
 	}
 
 	public static void setProjectile(Projectile projectile) {
-
 		if (pro == null) {
 			Logger.add("projectile shot");
 			pro = projectile;
-			Game.sounds.get(2).play();
+			if (!Game.sounds.isEmpty()) {
+				Game.sounds.get(2).play();
+			}
 		} else if (projectile == null) {
 			pro = null;
 		}
-
 	}
 
 	public static void addBall(Ball ball) {
 		objects.add(ball);
 		CollisionDetection.addCollider(ball);
 	}
-	
+
 	/**
 	 * @return the gravity
 	 */
@@ -109,8 +110,15 @@ public class Level {
 		if (pro != null)
 			pro.update(deltaTime);
 
-		if(!player.isAlive())
-			loadLevel();
+		if (!player.isAlive()) {
+			if (Game.getLifes() > 1) {
+				Game.decreaseLifes();
+				loadLevel();
+			} else {
+				Game.setState(2);
+				Game.setLifes(3);
+			}
+		}
 	}
 
 	/**
@@ -124,12 +132,15 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Load level
+	 */
 	public void loadLevel() {
 		clear();
 		InputStreamReader inputStreamReader;
 		try {
-			inputStreamReader = new InputStreamReader(new FileInputStream(
-					loc));
+			inputStreamReader = new InputStreamReader(new FileInputStream(loc),
+					StandardCharsets.UTF_8);
 			BufferedReader bufferedReader = new BufferedReader(
 					inputStreamReader);
 			String line;
@@ -144,7 +155,7 @@ public class Level {
 							parameterEnd);
 					String[] para = param.split("\\,");
 					if (type.equals("gravity")) {
-						gravity = Float.parseFloat(para[0]);
+						setGravity(Float.parseFloat(para[0]));
 					} else if (type.equals("box")) {
 						Wall wall = ObjectGenerator.genWall(para);
 						objects.add(wall);
@@ -167,11 +178,25 @@ public class Level {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
+	/**
+	 * Get name of level.
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * Set gravity of level.
+	 * 
+	 * @param g
+	 */
+	public static void setGravity(float g) {
+		Level.gravity = g;
 	}
 
 	public static int getScore() {
@@ -180,6 +205,10 @@ public class Level {
 
 	public static void setScore(int s) {
 		score = s;
+	}
+
+	public static Projectile getProjectile() {
+		return pro;
 	}
 
 }

@@ -21,7 +21,7 @@ Point _point1 = new Point(-499, 1999);
 Point _point2 = new Point(-501, 2001);
 
 @Before
-public void Before(){
+public void before(){
 _box = new Box(-500,0,50,2000,Color.BLACK);	
 }
 

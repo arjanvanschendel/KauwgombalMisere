@@ -1,22 +1,25 @@
 package utillities;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Logger {
 
-	public static String log;
-	public static boolean printLog;
-	public static boolean writeLog;
+	private static String log;
+	private static boolean printLog;
+	private static boolean writeLog;
 	
 	/**
 	 * init: initialize logger, set default variables.
 	 */
 	public static void init() {
-		Logger.log = "";
-		Logger.printLog = true;
+		Logger.setLog("");
+		Logger.setPrintLog(true);
 		Logger.writeLog = true;
 	}
 	
@@ -36,7 +39,7 @@ public class Logger {
 		//
 		String boodschap = currTime + " - " + s;
 
-		Logger.log += boodschap + "\n";
+		Logger.setLog(Logger.getLog() + boodschap + "\n");
 
 		Logger.appendLog("KM " + currDate + ".log", boodschap + "\r\n");
 
@@ -49,12 +52,40 @@ public class Logger {
 	 * @param s
 	 */
 	public static void appendLog(String filename, String s) {
-		try {
-			FileWriter fw = new FileWriter(filename, true);
+		try {	
+			OutputStreamWriter fw = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
 			fw.write(s);
 			fw.close();
 		} catch (IOException ioe) {
 			System.err.println("IOException: " + ioe.getMessage());
 		}
+	}
+
+	/**
+	 * @return the log
+	 */
+	public static String getLog() {
+		return log;
+	}
+
+	/**
+	 * @param log the log to set
+	 */
+	public static void setLog(String log) {
+		Logger.log = log;
+	}
+
+	/**
+	 * @return the printLog
+	 */
+	public static boolean isPrintLog() {
+		return printLog;
+	}
+
+	/**
+	 * @param printLog the printLog to set
+	 */
+	public static void setPrintLog(boolean printLog) {
+		Logger.printLog = printLog;
 	}
 }

@@ -50,16 +50,16 @@ public class SpriteSheet {
      */
     public float[] returnCoordinates(boolean mirrored) {
 	float [] coordinates = new float[4];
-	float frameWidth = getTexture().getWidth() / getColumns();
-	float frameHeight = getTexture().getHeight() / getRows();
-	coordinates[0] = ((getColumn() - 1) * frameWidth) / getTexture().getWidth();
-	coordinates[1] = (getColumn() * frameWidth) / getTexture().getWidth();
+	float frameWidth = getTexture().getWidth() / (float) getColumns();
+	float frameHeight = getTexture().getHeight() / (float) getRows();
+	coordinates[0] = ((getColumn() - 1) * frameWidth) / (float) getTexture().getWidth();
+	coordinates[1] = (getColumn() * frameWidth) / (float) getTexture().getWidth();
 	if (mirrored) {
 	    coordinates[0] = 1 - coordinates[0];    
 	    coordinates[1] = 1 - coordinates[1];    
 	}
-	coordinates[2] = ((getRow() - 1) * frameHeight) / getTexture().getHeight();
-	coordinates[3] = (getRow() * frameHeight) / getTexture().getHeight();
+	coordinates[2] = ((getRow() - 1) * frameHeight) / (float) getTexture().getHeight();
+	coordinates[3] = (getRow() * frameHeight) / (float) getTexture().getHeight();
 	return coordinates;
     }
     

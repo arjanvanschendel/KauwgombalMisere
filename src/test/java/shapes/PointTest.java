@@ -17,13 +17,13 @@ Point _point1;
 
 @Before
 
-public void Before(){
+public void before(){
 	_point = new Point(-200,150);
 	_point1 = new Point(-400,-150);
 }
 
 @Test
 public void dotProductTest(){
-	assertEquals( (long)_point.Dot(_point1), 57500);
+	assertEquals( (long)_point.dot(_point1), 57500);
 }
 }
