@@ -56,17 +56,8 @@ public class Projectile extends Box implements GameObject {
 				if (collision.getCol() instanceof Box
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
-					try {
-						
-						if (!Game.sounds.isEmpty()) {
-							Game.sounds.get(1).play();
-						}
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if (!Game.sounds.isEmpty()) {
+						Game.sounds.get(1).play();
 					}
 				} else if (collision.getCol() instanceof Ball) {
 					ball = (Ball) collision.getCol();
@@ -76,16 +67,8 @@ public class Projectile extends Box implements GameObject {
 		}
 
 		if (hitBall) {
-			try {
-				if (!Game.sounds.isEmpty()) {
-					Game.sounds.get(0).play();
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (!Game.sounds.isEmpty()) {
+				Game.sounds.get(0).play();
 			}
 			ball.hit();
 			Level.setProjectile(null);

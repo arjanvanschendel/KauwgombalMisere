@@ -210,15 +210,7 @@ public class Player extends Box implements GameObject {
 	 * die: lets the player die.
 	 */
 	private void die() {
-		try {
-			Game.sounds.get(4).play();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Game.sounds.get(4).play();
 		alive = false;
 	}
 

@@ -93,13 +93,9 @@ public class Ball extends Circle implements GameObject {
 								/ (Level.getGravity() / 2));
 						deltaY = (float) (Level.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						
+						Game.sounds.get(3).play();
+
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
 								+ ((Box) collision.getCol()).getWidth()
@@ -107,25 +103,15 @@ public class Ball extends Circle implements GameObject {
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+
+						Game.sounds.get(3).play();
+						
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						Game.sounds.get(3).play();
 					}
 				}
 			}
