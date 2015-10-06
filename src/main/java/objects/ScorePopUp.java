@@ -110,12 +110,18 @@ public class ScorePopUp implements GameObject {
 	public final void setColor(final Color colorNew) {
 		this.color = colorNew;
 	}
-
+	
+	/**
+	 * Update method for this class.
+	 */
 	@Override
 	public final void update(final double deltaTime) {
 		setPosy((float) (getPosy() -  120 * deltaTime));
 	}
-
+	
+	/**
+	 * Render method for this class.
+	 */
 	@Override
 	public final void render() {
 	GL11.glPushMatrix();
