@@ -13,16 +13,16 @@ import game.Launcher;
  * @author Jasper
  *
  */
-public class LowGravityPowerUp extends PowerUp {
+public class SlowBallPowerUp extends PowerUp {
 
 	/**
 	 * newGravity is the low gravity.
 	 */
-	private float newGravity = GameVariables.getLowGravity();
+	private float newGravity = GameVariables.getSlowBallSpeed();
 	/**
 	 * oldGravity is the basic gravity in the level.
 	 */
-	private float oldGravity = GameVariables.getNormalGravity();
+	private float oldGravity = GameVariables.getNormalBallSpeed();
 	/**
 	 * currentActive is a static boolean which shows if the current PowerUp is
 	 * active.
@@ -42,7 +42,7 @@ public class LowGravityPowerUp extends PowerUp {
 	 * @param posy
 	 *            y-coordinate at which the PowerUp spawns.
 	 */
-	public LowGravityPowerUp(final float posx, final float posy) {
+	public SlowBallPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.MAGENTA);
 		
 		if (currentActive) {
@@ -67,7 +67,7 @@ public class LowGravityPowerUp extends PowerUp {
 	@Override
 	final void effect() {
 		setCurrentActive(true);
-		GameVariables.setGravity(newGravity);
+		GameVariables.setBallSpeed(newGravity);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class LowGravityPowerUp extends PowerUp {
 	@Override
 	public final void deactivate() {
 		setCurrentActive(false);
-		GameVariables.setGravity(oldGravity);
+		GameVariables.setBallSpeed(oldGravity);
 		basicDeactivate();
 	}
 

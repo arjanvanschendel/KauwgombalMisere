@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import powerups.FastArrowPowerUp;
-import powerups.LowGravityPowerUp;
+import powerups.SlowBallPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
 import shapes.Circle;
@@ -78,7 +78,8 @@ public class Ball extends Circle implements GameObject {
 	 * @param deltaTime
 	 *            time between last and current frame
 	 */
-	public final void update(final double deltaTime) {
+	public final void update(final double updateTime) {
+		double deltaTime = (double) (updateTime * GameVariables.getBallSpeed());
 		deltaY -= deltaTime * GameVariables.getGravity();
 		posx += deltaX * 60 * deltaTime;
 		posy += deltaY * 60 * deltaTime;
@@ -175,9 +176,9 @@ public class Ball extends Circle implements GameObject {
 				Level.addPowerUp(new MovementPowerUp(posx, posy));
 				break;
 			case 's':
-				Level.addPowerUp(new LowGravityPowerUp(posx, posy));
+				Level.addPowerUp(new SlowBallPowerUp(posx, posy));
 			default:
-				Level.addPowerUp(new LowGravityPowerUp(posx, posy));
+				Level.addPowerUp(new SlowBallPowerUp(posx, posy));
 				break;
 			}
 		}

@@ -40,7 +40,7 @@ public class CollisionDetection {
 		if (col instanceof Ball) {
 
 			for (GameObject collider : colliders) {
-				if (!collider.equals(col)) {
+				if (collider != null && !collider.equals(col)) {
 					if (collider instanceof Box) {
 						int side = collideBoxBall((Ball) col, (Box) collider);
 						if (side != 0) {

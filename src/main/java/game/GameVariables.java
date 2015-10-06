@@ -50,27 +50,31 @@ public final class GameVariables {
 	 */
 	private static float gravity = (float) 9.81;
 	/**
-	 * Current gravity.
+	 * Current ballSpeed.
 	 */
-	private static float normalGravity = (float) 9.81;
+	private static float ballSpeed = (float) 1;
 	/**
-	 * Current gravity.
+	 * Normal ball speed.
 	 */
-	private static float lowGravity = (float) 4.81;
+	private static float normalBallSpeed = (float) 1;
+	/**
+	 * Slow ball speed.
+	 */
+	private static float slowBallSpeed = (float) 0.5;
 	
 	
 	/**
-	 * @return the normalGravity
+	 * @return the normal Ball speed
 	 */
-	public static float getNormalGravity() {
-		return normalGravity;
+	public static float getNormalBallSpeed() {
+		return normalBallSpeed;
 	}
 
 	/**
-	 * @return the lowGravity
+	 * @return the slow Ball speed
 	 */
-	public static float getLowGravity() {
-		return lowGravity;
+	public static float getSlowBallSpeed() {
+		return slowBallSpeed;
 	}
 
 	/**
@@ -124,17 +128,17 @@ public final class GameVariables {
 	}
 
 	/**
-	 * @return the gravity
+	 * @return the ball update speed
 	 */
-	public static float getGravity() {
-		return gravity;
+	public static float getBallSpeed() {
+		return ballSpeed;
 	}
 
 	/**
-	 * @param grav the gravity to set
+	 * @param speed the ball speed to set
 	 */
-	public static void setGravity(final float grav) {
-		GameVariables.gravity = grav;
+	public static void setBallSpeed(final float speed) {
+		GameVariables.ballSpeed = speed;
 	}
 
 	/**
@@ -152,6 +156,21 @@ public final class GameVariables {
 	public static float getNormalMovementSpeed() {
 		return normalMovementSpeed;
 	}
+
+	/**
+	 * @return the gravity
+	 */
+	public static float getGravity() {
+		return gravity;
+	}
+
+	/**
+	 * @param gravity the gravity to set
+	 */
+	public static void setGravity(float gravity) {
+		GameVariables.gravity = gravity;
+	}
+
 
 	
 }
