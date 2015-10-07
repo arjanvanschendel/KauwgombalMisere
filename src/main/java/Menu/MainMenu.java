@@ -39,14 +39,14 @@ public class MainMenu {
 	 * A class to draw and maintain the main menu.
 	 */
 	public MainMenu() {
-		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3+40,
-				150, 25, java.awt.Color.white, "Play");
+		playBtn = new Button((float)-75, (float)Launcher.getCAMHEIGHT()/3+40,
+				(float)150, (float)25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
-		optBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 
-				150, 25, java.awt.Color.white, "Options");
+		optBtn = new Button((float)-75, (float)Launcher.getCAMHEIGHT()/3, 
+				(float)150, (float)25, java.awt.Color.white, "Options");
 		buttons.add(optBtn);
-		exitBtn = new Button(-75, Launcher.getCAMHEIGHT()/3-40, 
-				150, 25, java.awt.Color.white, "Exit");
+		exitBtn = new Button((float)-75, (float)Launcher.getCAMHEIGHT()/3-40, 
+				(float)150, (float)25, java.awt.Color.white, "Exit");
 		buttons.add(exitBtn);
 		Background = new Texture("res/KMmain.png",
 				GL11.GL_NEAREST, GL11.GL_CLAMP);
