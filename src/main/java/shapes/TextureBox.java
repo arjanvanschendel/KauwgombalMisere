@@ -80,19 +80,19 @@ public class TextureBox extends Box {
         glBegin(GL11.GL_QUADS);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		if (texture != null) {
-			glTexCoord2f(0, 0);
+			glTexCoord2f(0, 1);
 		}
 		glVertex2f(corners[0].getX(), corners[0].getY());
 		if (texture != null) {
-			glTexCoord2f(1, 0);
+			glTexCoord2f(1, 1);
 		}
         glVertex2f(corners[1].getX(), corners[1].getY());
         if (texture != null) {
-			glTexCoord2f(1, 1);
+			glTexCoord2f(1, 0);
 		}
         glVertex2f(corners[2].getX(), corners[2].getY());
         if (texture != null) {
-			glTexCoord2f(0, 1);
+			glTexCoord2f(0, 0);
 		}
         glVertex2f(corners[3].getX(), corners[3].getY());
         glEnd();
