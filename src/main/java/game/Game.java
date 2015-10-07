@@ -32,7 +32,7 @@ public class Game {
     private static int lvl;
     private int maxLvl;
     private MainMenu mm;
-    private static int lifes;
+    private static int lives;
     public static final ArrayList<Sound> sounds = new ArrayList<Sound>();
     public static final ArrayList<Texture> textures = new ArrayList<Texture>();
     private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
@@ -42,7 +42,7 @@ public class Game {
      * Game: constructor.
      */
     public Game() {
-	setLifes(3);
+	setLives(3);
 	Logger.add("game started");
 	loadTextures();
 	loadSounds();
@@ -203,11 +203,21 @@ public class Game {
 	  //  TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
 	    String scoreString = "Score: "+Level.getScore();
+	    String livesString = "Lives : " + lives;
+	    
+	    //Draw scoreString
 	    Launcher.getFont().drawString( -400, -540, scoreString, Color.blue);
-	 	    Launcher.getFont().drawString(
+
+	    //Draw levelString
+	    Launcher.getFont().drawString(
 		    -(float) Launcher.getFont().getWidth(levelString) / 2,
 		    -100, levelString, Color.black);
-	 	   
+	    
+	    //Draw livesString
+	    Launcher.getFont().drawString(
+			    -(float) Launcher.getFont().getWidth(livesString) / 2,
+			    -70, livesString, Color.black);
+	    
 	    GL11.glScalef(1, -1, 1);
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
 	    break;
@@ -273,23 +283,23 @@ public class Game {
     }
 
     /**
-     * @return the lifes
+     * @return the lives
      */
-    public final static int getLifes() {
-	return lifes;
+    public final static int getLives() {
+	return lives;
     }
 
     /**
-     * @param lifes the lifes to set
+     * @param lives the lives to set
      */
-    public final static void setLifes(int lifes) {
-	Game.lifes = lifes;
+    public final static void setLives(int lives) {
+	Game.lives = lives;
     }
     
     /**
-     * @param lifes the lifes to set
+     * @param lives the lives to set
      */
-    public final static void decreaseLifes() {
-	Game.lifes--;
+    public final static void decreaseLives() {
+	Game.lives--;
     }
 }

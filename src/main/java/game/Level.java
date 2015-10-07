@@ -98,6 +98,7 @@ public class Level {
 
 	}
 
+
 	public static void addBall(Ball ball) {
 		objects.add(ball);
 		CollisionDetection.addCollider(ball);
@@ -121,12 +122,12 @@ public class Level {
 			pro.update(deltaTime);
 
 		if (player == null || !player.isAlive()) {
-			if (Game.getLifes() > 1) {
-				Game.decreaseLifes();
+			if (Game.getLives() > 1) {
+				Game.decreaseLives();
 				loadLevel();
 			} else {
 				Game.setState(2);
-				Game.setLifes(3);
+				Game.setLives(3);
 			}
 		}
 		remove();
