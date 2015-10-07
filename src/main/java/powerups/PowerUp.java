@@ -48,9 +48,12 @@ public abstract class PowerUp extends Box implements GameObject {
 	/**
 	 * Constructor for a basic PowerUp.
 	 * 
-	 * @param posx x-coordinate from which the PowerUp spawns
-	 * @param posy y-coordinate from which the PowerUp spawns
-	 * @param color color of the PowerUp.
+	 * @param posx
+	 *            x-coordinate from which the PowerUp spawns
+	 * @param posy
+	 *            y-coordinate from which the PowerUp spawns
+	 * @param color
+	 *            color of the PowerUp.
 	 */
 	public PowerUp(final float posx, final float posy, final Color color) {
 		super(posx, posy, 20, 20, color);
@@ -58,19 +61,14 @@ public abstract class PowerUp extends Box implements GameObject {
 
 	@Override
 	public final void update(final double deltaTime) {
-		if (active) {
-			if (timeRemaining > 0) {
-				timeRemaining -= deltaTime;
-				effect();
-			} else {
-				deactivate();
-			}
-		} else {
+		if (!active) {
 
 			deltaY -= (float) (deltaTime * GameVariables.getGravity());
 
+			setPosy((float) (getPosy() + 30 * deltaY * deltaTime));
 			ArrayList<Collision> collisions = CollisionDetection
 					.collision(this);
+
 			for (Collision coll : collisions) {
 				if (coll.getCol() instanceof Projectile
 						|| coll.getCol() instanceof Player) {
@@ -84,7 +82,14 @@ public abstract class PowerUp extends Box implements GameObject {
 
 				}
 			}
-			setPosy((float) (getPosy() + 30 * deltaY * deltaTime));
+		}
+		if (active) {
+			timeRemaining -= deltaTime;
+			if (timeRemaining > 0) {
+				effect();
+			} else {
+				deactivate();
+			}
 		}
 	}
 
@@ -101,7 +106,7 @@ public abstract class PowerUp extends Box implements GameObject {
 	 * Abstract method used to activate the PowerUp.
 	 */
 	public abstract void activate();
-	
+
 	/**
 	 * activate: Activates the PowerUp.
 	 */
@@ -125,31 +130,22 @@ public abstract class PowerUp extends Box implements GameObject {
 		timeRemaining = powerDuration;
 		Level.remove(this);
 	}
+
 	/**
 	 * The effect the PowerUp has, needs to be implemented per PowerUp.
 	 */
 	abstract void effect();
 
 	/**
-	 * @return the numberActive
-	 */
-	public static int getNumberActive() {
-		return numberActive;
-	}
-
-	/**
-	 * @param numActive the numberActive to set
-	 */
-	public static void setNumberActive(final int numActive) {
-		PowerUp.numberActive = numActive;
-	}
-
-	/**
-	 * @param powerDuration the powerDuration to set
+	 * @param powerDuration
+	 *            the powerDuration to set
 	 */
 	public void setPowerDuration(float powerDuration) {
 		this.powerDuration = powerDuration;
 	}
 
+	public static boolean isActive() {
+		return false;
+	}
 
 }

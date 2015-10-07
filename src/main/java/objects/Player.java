@@ -40,9 +40,9 @@ public class Player extends Box implements GameObject {
 	private float deltaX = 0;
 	private float deltaY = 0;
 	private boolean alive = true;
-	private SpriteSheet idle;
-	private SpriteSheet running;
-	private SpriteSheet selected;
+	private SpriteSheet idle = null;
+	private SpriteSheet running = null;
+	private SpriteSheet selected = null;
 	private int state;
 	private boolean mirrored;
 	private double lastFrame;
@@ -57,8 +57,6 @@ public class Player extends Box implements GameObject {
 	 */
 	public Player(float posx, float posy) {
 		super(posx, posy, 60, 100, new Color(1, 1, 1));
-		idle = new SpriteSheet(Game.textures.get(0), 2, 31);
-		running = new SpriteSheet(Game.textures.get(1), 2, 20);
 		selected = idle;
 		state = 0;
 		mirrored = false;
@@ -70,6 +68,7 @@ public class Player extends Box implements GameObject {
 	 * update: Update the player's state.
 	 */
 	public void update(double deltaTime) {
+
 		// First handle inputs
 		handleInputs(deltaTime);
 		setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
@@ -98,7 +97,7 @@ public class Player extends Box implements GameObject {
 		} else {
 			selected = running;
 		}
-		if (System.currentTimeMillis() >= target) {
+		if (System.currentTimeMillis() >= target && selected != null) {
 			selected.nextSprite();
 			lastFrame = System.currentTimeMillis();
 			target = lastFrame + targetDelta;
@@ -110,6 +109,12 @@ public class Player extends Box implements GameObject {
 	 */
 	@Override
 	public void render() {
+		if(idle == null || running == null){
+
+			idle = new SpriteSheet(Game.textures.get(0), 2, 31);
+			running = new SpriteSheet(Game.textures.get(1), 2, 20);
+			selected = idle;
+		}
 		selected.bind();
 		float[] c = selected.returnCoordinates(mirrored);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

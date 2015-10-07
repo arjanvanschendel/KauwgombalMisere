@@ -44,10 +44,6 @@ public class MovementPowerUp extends PowerUp {
 	 */
 	public MovementPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.GREEN);
-		
-		if (currentActive) {
-			deactivate();
-		}
 		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
 				Launcher.getCAMHEIGHT() - 30, 20, 20, Color.GREEN);
 		setPowerDuration(3);
@@ -97,5 +93,13 @@ public class MovementPowerUp extends PowerUp {
 	 */
 	private static void setCurrentActive(final boolean bool) {
 		currentActive = bool;
+	}
+
+	/**
+	 * Get boolean currentActive.
+	 * @return currentActive
+	 */
+	public static boolean isActive() {
+		return currentActive;
 	}
 }

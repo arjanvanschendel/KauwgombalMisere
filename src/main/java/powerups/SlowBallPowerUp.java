@@ -49,7 +49,7 @@ public class SlowBallPowerUp extends PowerUp {
 			deactivate();
 		}
 		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, Color.MAGENTA);
+				Launcher.getCAMHEIGHT() - 75, 20, 20, Color.MAGENTA);
 		setPowerDuration(3);
 	}
 
@@ -98,5 +98,12 @@ public class SlowBallPowerUp extends PowerUp {
 	private static void setCurrentActive(final boolean bool) {
 		currentActive = bool;
 	}
-	
+
+	/**
+	 * Get boolean currentActive.
+	 * @return currentActive
+	 */
+	public static boolean isActive() {
+		return currentActive;
+	}
 }

@@ -98,5 +98,12 @@ public class FastArrowPowerUp extends PowerUp {
 	private static void setCurrentActive(final boolean bool) {
 		currentActive = bool;
 	}
-	
+
+	/**
+	 * Get boolean currentActive.
+	 * @return currentActive
+	 */
+	public static boolean isActive() {
+		return currentActive;
+	}
 }
