@@ -179,7 +179,7 @@ public class Player extends Box implements GameObject {
 	 * 
 	 * @param deltaTime
 	 */
-	public void walkLeft(double deltaTime) {
+	private void walkLeft(double deltaTime) {
 
 		deltaX -= 30 * deltaTime;
 		if (deltaX < -5) {
@@ -192,7 +192,7 @@ public class Player extends Box implements GameObject {
 	 * 
 	 * @param deltaTime
 	 */
-	public void walkStop(double deltaTime) {
+	private void walkStop(double deltaTime) {
 		if (deltaX < 0) {
 			deltaX += 30 * deltaTime;
 			if (deltaX > 0) {
@@ -209,16 +209,8 @@ public class Player extends Box implements GameObject {
 	/**
 	 * die: lets the player die.
 	 */
-	public void die() {
-		try {
-			Game.sounds.get(4).play();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void die() {
+		Game.sounds.get(4).play();
 		alive = false;
 	}
 

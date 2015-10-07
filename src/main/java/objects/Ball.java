@@ -34,6 +34,8 @@ public class Ball extends Circle implements GameObject {
 	 * Height the ball bounces to.
 	 */
 	private float height;
+	
+	//private ScorePopUp popUp;
 
 	/**
 	 * Ball: constructor.
@@ -49,13 +51,21 @@ public class Ball extends Circle implements GameObject {
 	 */
 	public Ball(final float posx, final float posy, final float radius) {
 		super(posx, posy, radius);
-		
+
 		switch ((int) radius) {
-		case 50: color = Color.red; break;
-		case (50/2): color = Color.blue; break;
-		case (50/4): color = Color.green; break;
+		case 50:
+			color = Color.red;
+			break;
+		case (50 / 2):
+			color = Color.blue;
+			break;
+		case (50 / 4):
+			color = Color.green;
+			break;
+		default:
+			color = Color.green;
+			break;
 		}
-		
 		height = posy;
 	}
 
@@ -83,15 +93,9 @@ public class Ball extends Circle implements GameObject {
 								/ (Level.getGravity() / 2));
 						deltaY = (float) (Level.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						
+						Game.sounds.get(3).play();
+
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
 								+ ((Box) collision.getCol()).getWidth()
@@ -99,29 +103,15 @@ public class Ball extends Circle implements GameObject {
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+
+						Game.sounds.get(3).play();
+						
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						Game.sounds.get(3).play();
 					}
 				}
 			}
@@ -135,6 +125,8 @@ public class Ball extends Circle implements GameObject {
 	final void hit() {
 		this.updateScore();
 		Logger.add("ball hit");
+		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(), this.getRadius());
+		Game.addPopUp(popUp);
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);
@@ -165,6 +157,7 @@ public class Ball extends Circle implements GameObject {
 		case 's': 
 			Level.setScore(Level.getScore() + 10);
 		default:
+			Level.setScore(Level.getScore());
 			break;
 		}
 		
@@ -186,14 +179,14 @@ public class Ball extends Circle implements GameObject {
 	public final boolean equals(final Object that) {
 		if (that instanceof Ball && super.equals(that)) {
 			Ball ball2 = (Ball) that;
-			if (ball2.getDeltaX() == deltaX && ball2.getDeltaY() == deltaY) {
+			if (compareFloats(deltaX, ball2.getDeltaX())
+					&& compareFloats(deltaY, ball2.getDeltaY())) {
 				return super.equals(that);
 			}
 		}
 		return false;
 	}
-
-	// Getters and setters
+	
 	/**
 	 * getDeltaX.
 	 * 

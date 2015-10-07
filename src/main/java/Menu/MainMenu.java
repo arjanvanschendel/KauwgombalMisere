@@ -40,7 +40,7 @@ public class MainMenu {
 	 * A class to draw and maintain the main menu.
 	 */
 	public MainMenu() {
-		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3+40, 
+		playBtn = new Button(-75, Launcher.getCAMHEIGHT()/3+40,
 				150, 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
 		optBtn = new Button(-75, Launcher.getCAMHEIGHT()/3, 
@@ -80,13 +80,7 @@ public class MainMenu {
 	 */
 	public final void update(final double deltaTime) {
 		if(!Game.sounds.get(5).isPlaying()){
-			try {
-				Game.sounds.get(5).play();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Game.sounds.get(5).play();
 		}
 		
 		for (Button btn : buttons) {
@@ -116,16 +110,16 @@ public class MainMenu {
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		
             GL11.glTexCoord2f(0, 0);
-            GL11.glVertex2f(-WIDTH / 2, HEIGHT);
+            GL11.glVertex2f(-(float)WIDTH / 2, HEIGHT);
             
             GL11.glTexCoord2f(1, 0);
-            GL11.glVertex2f(WIDTH / 2, HEIGHT);
+            GL11.glVertex2f((float)WIDTH / 2, HEIGHT);
             
             GL11.glTexCoord2f(1, 1);
-            GL11.glVertex2f(WIDTH / 2, 0);
+            GL11.glVertex2f((float)WIDTH / 2, 0);
             
             GL11.glTexCoord2f(0, 1);
-            GL11.glVertex2f(-WIDTH / 2, 0);
+            GL11.glVertex2f(-(float)WIDTH / 2, 0);
         GL11.glEnd();
         Texture.disable();
         //testTextureBox.render();
