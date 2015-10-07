@@ -44,10 +44,7 @@ public class FastArrowPowerUp extends PowerUp {
 	 */
 	public FastArrowPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.CYAN);
-		
-		if (currentActive) {
-			deactivate();
-		}
+
 		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
 				Launcher.getCAMHEIGHT() - 55, 20, 20, Color.CYAN);
 		setPowerDuration(3);
@@ -69,10 +66,10 @@ public class FastArrowPowerUp extends PowerUp {
 		setCurrentActive(true);
 		GameVariables.setArrowSpeed(newSpeed);
 	}
-	
+
 	/**
-	 * Deactivates the effect by resetting the arrow speed to the old
-	 * arrow speed.
+	 * Deactivates the effect by resetting the arrow speed to the old arrow
+	 * speed.
 	 */
 	@Override
 	public final void deactivate() {
@@ -93,7 +90,9 @@ public class FastArrowPowerUp extends PowerUp {
 
 	/**
 	 * Sets the boolean currentActive.
-	 * @param bool The boolean which currentActive is st to.
+	 * 
+	 * @param bool
+	 *            The boolean which currentActive is set to.
 	 */
 	private static void setCurrentActive(final boolean bool) {
 		currentActive = bool;
@@ -101,6 +100,7 @@ public class FastArrowPowerUp extends PowerUp {
 
 	/**
 	 * Get boolean currentActive.
+	 * 
 	 * @return currentActive
 	 */
 	public static boolean isActive() {

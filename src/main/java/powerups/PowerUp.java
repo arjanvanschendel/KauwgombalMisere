@@ -29,10 +29,6 @@ public abstract class PowerUp extends Box implements GameObject {
 	 */
 	private float deltaY = 0;
 	/**
-	 * Counts the number of active PowerUps used to render the HUD indicator.
-	 */
-	private static int numberActive = 0;
-	/**
 	 * The duration of the PowerUp(standard 5).
 	 */
 	private float powerDuration = 5;
@@ -137,13 +133,18 @@ public abstract class PowerUp extends Box implements GameObject {
 	abstract void effect();
 
 	/**
-	 * @param powerDuration
+	 * @param powerDur
 	 *            the powerDuration to set
 	 */
-	public void setPowerDuration(float powerDuration) {
-		this.powerDuration = powerDuration;
+	public final void setPowerDuration(final float powerDur) {
+		this.powerDuration = powerDur;
 	}
 
+	/**
+	 * Returns if current power up is active.
+	 * 
+	 * @return Returns true if power up is active
+	 */
 	public static boolean isActive() {
 		return false;
 	}

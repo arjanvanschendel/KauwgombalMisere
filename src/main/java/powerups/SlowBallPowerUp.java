@@ -44,10 +44,7 @@ public class SlowBallPowerUp extends PowerUp {
 	 */
 	public SlowBallPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.MAGENTA);
-		
-		if (currentActive) {
-			deactivate();
-		}
+
 		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
 				Launcher.getCAMHEIGHT() - 75, 20, 20, Color.MAGENTA);
 		setPowerDuration(3);
@@ -62,17 +59,16 @@ public class SlowBallPowerUp extends PowerUp {
 	}
 
 	/**
-	 * Defines the effect of that lowers the gravity.
+	 * Defines the effect of that slows down the ball.
 	 */
 	@Override
 	final void effect() {
 		setCurrentActive(true);
 		GameVariables.setBallSpeed(newGravity);
 	}
-	
+
 	/**
-	 * Deactivates the effect by resetting the gravity to the old
-	 * gravity.
+	 * Deactivates the effect by resetting the ball speed to the old ball speed.
 	 */
 	@Override
 	public final void deactivate() {
@@ -93,7 +89,9 @@ public class SlowBallPowerUp extends PowerUp {
 
 	/**
 	 * Sets the boolean currentActive.
-	 * @param bool The boolean which currentActive is st to.
+	 * 
+	 * @param bool
+	 *            The boolean which currentActive is set to.
 	 */
 	private static void setCurrentActive(final boolean bool) {
 		currentActive = bool;
@@ -101,6 +99,7 @@ public class SlowBallPowerUp extends PowerUp {
 
 	/**
 	 * Get boolean currentActive.
+	 * 
 	 * @return currentActive
 	 */
 	public static boolean isActive() {
