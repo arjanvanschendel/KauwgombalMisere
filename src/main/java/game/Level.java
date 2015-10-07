@@ -1,9 +1,7 @@
 package game;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -90,16 +88,8 @@ public class Level {
 			Logger.add("projectile shot");
 			pro = projectile;
 			CollisionDetection.addCollider(pro);
-			try {
-				if (!Game.sounds.isEmpty()) {
-					Game.sounds.get(2).play();
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (!Game.sounds.isEmpty()) {
+				Game.sounds.get(2).play();
 			}
 		} else if (projectile == null) {
 			CollisionDetection.removeCollider(pro);
@@ -150,6 +140,7 @@ public class Level {
 			pro.render();
 		for (GameObject render : objects) {
 			render.render();
+			
 		}
 	}
 
@@ -210,7 +201,7 @@ public class Level {
 	public String getName() {
 		return name;
 	}
-
+	
 	public static int getScore() {
 		return score;
 	}

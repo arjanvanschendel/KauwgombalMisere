@@ -30,7 +30,6 @@ public class Circle {
 		glColor4f((float) color.getRed() / 255, (float) color.getGreen() / 255,
 				(float) color.getBlue() / 255, 1.0f);
 		glBegin(GL_POLYGON);
-
 		for (double i = 0; i < 2 * Math.PI; i += Math.PI / 12)
 			glVertex2f((float) Math.cos(i) * radius + posx, (float) Math.sin(i)
 					* radius + posy);

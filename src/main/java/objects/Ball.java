@@ -39,6 +39,8 @@ public class Ball extends Circle implements GameObject {
 	 * Height the ball bounces to.
 	 */
 	private float height;
+	
+	//private ScorePopUp popUp;
 
 	/**
 	 * Ball: constructor.
@@ -96,13 +98,9 @@ public class Ball extends Circle implements GameObject {
 								/ (GameVariables.getGravity() / 2));
 						deltaY = (float) (GameVariables.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						
+						Game.sounds.get(3).play();
+
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
 								+ ((Box) collision.getCol()).getWidth()
@@ -110,25 +108,15 @@ public class Ball extends Circle implements GameObject {
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+
+						Game.sounds.get(3).play();
+						
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						try {
-							Game.sounds.get(3).play();
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						Game.sounds.get(3).play();
 					}
 				}
 			}
@@ -142,6 +130,8 @@ public class Ball extends Circle implements GameObject {
 	final void hit() {
 		this.updateScore();
 		Logger.add("ball hit");
+		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(), this.getRadius());
+		Game.addPopUp(popUp);
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);
