@@ -40,10 +40,11 @@ public class BallTest {
 
 	@Test
 	public void hitTestSmallBall() {
-		Level.clear();
+		Level lvl =new Level("levels/test/level1.lvl");
 		Level.addBall(g);
 		assertFalse(Level.levelComplete());
 		g.hit();
+		lvl.update(0);
 		assertTrue(Level.levelComplete());
 	}
 

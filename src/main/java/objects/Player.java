@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Collision;
 import game.CollisionDetection;
 import game.Game;
+import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
@@ -39,13 +40,13 @@ public class Player extends Box implements GameObject {
 	private float deltaX = 0;
 	private float deltaY = 0;
 	private boolean alive = true;
-	private SpriteSheet idle;
-	private SpriteSheet running;
-	private SpriteSheet selected;
+	private SpriteSheet idle = null;
+	private SpriteSheet running = null;
+	private SpriteSheet selected = null;
 	private int state;
 	private boolean mirrored;
 	private double lastFrame;
-	private double targetDelta = 1 / 60;
+	private double targetDelta = 0.0166666667;
 	private double target;
 
 	/**
@@ -56,8 +57,6 @@ public class Player extends Box implements GameObject {
 	 */
 	public Player(float posx, float posy) {
 		super(posx, posy, 60, 100, new Color(1, 1, 1));
-		idle = new SpriteSheet(Game.textures.get(0), 2, 31);
-		running = new SpriteSheet(Game.textures.get(1), 2, 20);
 		selected = idle;
 		state = 0;
 		mirrored = false;
@@ -69,6 +68,7 @@ public class Player extends Box implements GameObject {
 	 * update: Update the player's state.
 	 */
 	public void update(double deltaTime) {
+
 		// First handle inputs
 		handleInputs(deltaTime);
 		setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
@@ -80,7 +80,7 @@ public class Player extends Box implements GameObject {
 				if (collision.getCol() instanceof Ball) {
 					Logger.add("player died");
 					die();
-				} else if (!(collision.getCol() instanceof Projectile)) {
+				} else if (collision.getCol() instanceof Wall) {
 					if (collision.getSide() == 4) {
 						setPosx(((Box) collision.getCol()).getPosx() - getWidth());
 						deltaX = 0;
@@ -97,7 +97,7 @@ public class Player extends Box implements GameObject {
 		} else {
 			selected = running;
 		}
-		if (System.currentTimeMillis() >= target) {
+		if (System.currentTimeMillis() >= target && selected != null) {
 			selected.nextSprite();
 			lastFrame = System.currentTimeMillis();
 			target = lastFrame + targetDelta;
@@ -109,6 +109,12 @@ public class Player extends Box implements GameObject {
 	 */
 	@Override
 	public void render() {
+		if(idle == null || running == null){
+
+			idle = new SpriteSheet(Game.textures.get(0), 2, 31);
+			running = new SpriteSheet(Game.textures.get(1), 2, 20);
+			selected = idle;
+		}
 		selected.bind();
 		float[] c = selected.returnCoordinates(mirrored);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -169,8 +175,8 @@ public class Player extends Box implements GameObject {
 	 */
 	private void walkRight(double deltaTime) {
 		deltaX += 30 * deltaTime;
-		if (deltaX > 5) {
-			deltaX = (float) (5);
+		if (deltaX > GameVariables.getMovementSpeed()) {
+			deltaX = (float) (GameVariables.getMovementSpeed());
 		}
 	}
 
@@ -182,8 +188,8 @@ public class Player extends Box implements GameObject {
 	private void walkLeft(double deltaTime) {
 
 		deltaX -= 30 * deltaTime;
-		if (deltaX < -5) {
-			deltaX = (float) (-5);
+		if (deltaX < -GameVariables.getMovementSpeed()) {
+			deltaX = (float) (-GameVariables.getMovementSpeed());
 		}
 	}
 

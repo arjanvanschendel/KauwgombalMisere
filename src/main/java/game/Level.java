@@ -1,9 +1,7 @@
 package game;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -13,8 +11,8 @@ import objects.Ball;
 import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
-import objects.ScorePopUp;
 import objects.Wall;
+import powerups.PowerUp;
 import utillities.Logger;
 import utillities.ObjectGenerator;
 
@@ -27,14 +25,10 @@ import utillities.ObjectGenerator;
 public class Level {
 	private String loc;
 	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();
-
+	private static ArrayList<GameObject> removeObjects = new ArrayList<GameObject>();
 	private Player player;
 	private String name = "";
 
-	/**
-	 * Gravity in this level.
-	 */
-	private static float gravity;
 	private static Projectile pro;
 	private static int score;
 
@@ -58,9 +52,15 @@ public class Level {
 	}
 
 	/**
-	 * clear: clear the static lists and objects.
+	 * clear: clear the static lists/objects and deactivate any powerup.
 	 */
 	public static void clear() {
+		
+		for(GameObject obj : objects){
+			if(obj instanceof PowerUp){
+				((PowerUp)obj).deactivate();
+			}
+		}
 		objects.clear();
 		pro = null;
 
@@ -69,43 +69,43 @@ public class Level {
 	}
 
 	public static void remove(GameObject object) {
-		if (objects.contains(object)) {
-			objects.remove(object);
+		removeObjects.add(object);
+	}
+
+	private void remove() {
+		for (GameObject object : removeObjects) {
+			if (objects.contains(object)) {
+				objects.remove(object);
+			}
+			CollisionDetection.removeCollider(object);
 		}
-		CollisionDetection.removeCollider(object);
+		removeObjects.clear();
 	}
 
 	public static void setProjectile(Projectile projectile) {
+
 		if (pro == null) {
 			Logger.add("projectile shot");
 			pro = projectile;
+			CollisionDetection.addCollider(pro);
 			if (!Game.sounds.isEmpty()) {
 				Game.sounds.get(2).play();
 			}
 		} else if (projectile == null) {
+			CollisionDetection.removeCollider(pro);
 			pro = null;
 		}
+
 	}
-    
 
-    public static void addBall(Ball ball) {
-	objects.add(ball);
-	CollisionDetection.addCollider(ball);
-    }
-    
+	public static void addBall(Ball ball) {
+		objects.add(ball);
+		CollisionDetection.addCollider(ball);
+	}
 
-
-    /**
-     * update: update the level-object's state.
-     * 
-     * @param deltaTime
-     */
-
-	/**
-	 * @return the gravity
-	 */
-	public static float getGravity() {
-		return gravity;
+	public static void addPowerUp(PowerUp pu) {
+		objects.add(pu);
+		CollisionDetection.addCollider(pu);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Level {
 		if (pro != null)
 			pro.update(deltaTime);
 
-		if (!player.isAlive()) {
+		if (player == null || !player.isAlive()) {
 			if (Game.getLifes() > 1) {
 				Game.decreaseLifes();
 				loadLevel();
@@ -129,6 +129,7 @@ public class Level {
 				Game.setLifes(3);
 			}
 		}
+		remove();
 	}
 
 	/**
@@ -139,6 +140,7 @@ public class Level {
 			pro.render();
 		for (GameObject render : objects) {
 			render.render();
+			
 		}
 	}
 
@@ -165,7 +167,7 @@ public class Level {
 							parameterEnd);
 					String[] para = param.split("\\,");
 					if (type.equals("gravity")) {
-						setGravity(Float.parseFloat(para[0]));
+						GameVariables.setGravity(Float.parseFloat(para[0]));
 					} else if (type.equals("box")) {
 						Wall wall = ObjectGenerator.genWall(para);
 						objects.add(wall);
@@ -199,16 +201,7 @@ public class Level {
 	public String getName() {
 		return name;
 	}
-
-	/**
-	 * Set gravity of level.
-	 * 
-	 * @param g
-	 */
-	public static void setGravity(float g) {
-		Level.gravity = g;
-	}
-
+	
 	public static int getScore() {
 		return score;
 	}
