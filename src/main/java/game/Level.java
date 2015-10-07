@@ -127,6 +127,7 @@ public class Level {
 			} else {
 				Game.setState(2);
 				Game.setLifes(3);
+				Game.setLvl(1);
 			}
 		}
 		remove();
