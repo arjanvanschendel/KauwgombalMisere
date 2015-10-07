@@ -134,7 +134,7 @@ public class Game {
 	 * 
 	 * @param deltaTime
 	 */
-	public void update(double deltaTime) {
+	public final void update(double deltaTime) {
 		if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
 			if (state == 0) {
 				setState(1);
@@ -179,7 +179,11 @@ public class Game {
 		Keyboard.resetReleased();
 	}
 
-	public static void addPopUp(ScorePopUp popUp) {
+	/**
+	 * Adds a popup.
+	 * @param popUp
+	 */
+	public static void addPopUp(final ScorePopUp popUp) {
 		if (popUpObjects.size() > 3) {
 			for (int i = 0; i < popUpObjects.size() - 1; ++i) {
 				popUpObjects.remove(0);
@@ -188,23 +192,29 @@ public class Game {
 		popUpObjects.add(popUp);
 	}
 
-	public void updateThePopUps(double deltaTime) {
+	/**
+	 * Updates the popups.
+	 * @param deltaTime
+	 */
+	public final void updateThePopUps(final double deltaTime) {
 		for (GameObject popup : popUpObjects) {
 			popup.update(deltaTime);
 		}
 	}
 
-	public void renderThePopUps() {
+	/**
+	 * Renders the popups.
+	 */
+	public final void renderThePopUps() {
 		for (GameObject render : popUpObjects) {
 			render.render();
 		}
 	}
 
 	/**
-	 * render: Render the graphics of the game.
+	 * Updates the current FPScount.
 	 */
-	public void render() {
-
+	public final void updateFPS() {
 		// Counting frames
 		if (System.currentTimeMillis() < lastUpdateTime + 1000) {
 			frames += 1;
@@ -213,7 +223,14 @@ public class Game {
 			lastUpdateTime = System.currentTimeMillis();
 			frames = 0;
 		}
-		System.out.println(lastFrames);
+	}
+
+	/**
+	 * render: Render the graphics of the game.
+	 */
+	public final void render() {
+
+		updateFPS();
 
 		switch (state) {
 		case (0):
@@ -251,18 +268,25 @@ public class Game {
 			// System.exit(1);
 			setState(2);
 		}
+
+		// Drawing the FPScounter
 		TextureImpl.bindNone();
 		GL11.glScalef(1, -1, 1);
 		if (lastFrames > 0) {
-			fpsFont.drawString(-WIDTH / 2 + 20, -20, lastFrames + " FPS",
+			fpsFont.drawString(-WIDTH / 2 + 5, -15, lastFrames + " FPS",
 					Color.white);
 		} else {
-			fpsFont.drawString(-WIDTH / 2 + 20, -20, "? FPS",
-					Color.white);
+			fpsFont.drawString(-WIDTH / 2 + 5, -15, "? FPS", Color.white);
 		}
 		GL11.glScalef(1, -1, 1);
 	}
 
+	/**
+	 * TODO: JAVADOC!
+	 * @param x
+	 * @param y
+	 * @param size
+	 */
 	public static void ballhit(float x, float y, char size) {
 		String s;
 		if (size == 'b') {
@@ -282,11 +306,10 @@ public class Game {
 	}
 
 	/**
-	 * setState.
-	 * 
-	 * @param newState
+	 * Sets a new game for the game.
+	 * @param newState The new state for the game to use
 	 */
-	public static void setState(int newState) {
+	public static void setState(final int newState) {
 		Game.state = newState;
 	}
 
@@ -316,13 +339,12 @@ public class Game {
 	 * @param lifes
 	 *            the lifes to set
 	 */
-	public static final void setLifes(int lifes) {
+	public static final void setLifes(final int lifes) {
 		Game.lifes = lifes;
 	}
 
 	/**
-	 * @param lifes
-	 *            the lifes to set
+	 *  Lowers the available lifes by one.
 	 */
 	public static final void decreaseLifes() {
 		Game.lifes--;
