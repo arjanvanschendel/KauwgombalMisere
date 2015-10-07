@@ -32,7 +32,6 @@ public class MainMenu {
 	private Button exitBtn;
 	private Button optBtn;
 	private Texture Background;
-	private TextureBox testTextureBox;
 	private int WIDTH;
 	private int HEIGHT;
 	
@@ -51,9 +50,6 @@ public class MainMenu {
 		buttons.add(exitBtn);
 		Background = new Texture("res/KMmain.png",
 				GL11.GL_NEAREST, GL11.GL_CLAMP);
-		
-		testTextureBox = new TextureBox(200,200,200,200,new java.awt.Color(1, 1, 1),new Texture("res/arrow.png",
-				GL11.GL_NEAREST, GL11.GL_CLAMP));
 		
 		WIDTH = Launcher.getCAMWIDTH();
 		HEIGHT = Launcher.getCAMHEIGHT();
@@ -122,7 +118,6 @@ public class MainMenu {
             GL11.glVertex2f(-(float)WIDTH / 2, 0);
         GL11.glEnd();
         Texture.disable();
-        //testTextureBox.render();
 		for (Button btn : buttons) {
 			btn.render();
 		}
