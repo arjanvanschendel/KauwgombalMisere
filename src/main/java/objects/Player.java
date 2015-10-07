@@ -46,7 +46,7 @@ public class Player extends Box implements GameObject {
 	private int state;
 	private boolean mirrored;
 	private double lastFrame;
-	private double targetDelta = 1 / 60;
+	private double targetDelta = 0.0166666667;
 	private double target;
 
 	/**
