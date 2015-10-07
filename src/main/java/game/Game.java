@@ -37,6 +37,7 @@ public class Game {
     public static final ArrayList<Texture> textures = new ArrayList<Texture>();
     private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
 
+	
     /**
      * Game: constructor.
      */
@@ -51,14 +52,17 @@ public class Game {
 	mm = new MainMenu();
 	setState(2);
     }
-
+    
     private void loadSounds() {
-		sounds.add(new Sound("sounds/arrowHitBall.wav", 6));
-		sounds.add(new Sound("sounds/arrowHitCeiling.wav", 6));
-		sounds.add(new Sound("sounds/arrowShoot.wav", 6));
-		sounds.add(new Sound("sounds/ballBounce.wav", 6));
-		sounds.add(new Sound("sounds/playerHit.wav", -10));
-    }
+
+		sounds.add(new Sound("sounds/arrowHitBall.wav"));
+		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+		sounds.add(new Sound("sounds/arrowShoot.wav"));
+		sounds.add(new Sound("sounds/ballBounce.wav"));
+		sounds.add(new Sound("sounds/playerHit.wav"));
+		// Main menu sound
+		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+	}
 
     /**
      * loadTextures: load the textures onto memory.
@@ -109,9 +113,9 @@ public class Game {
 	while (f.exists() && !f.isDirectory()) {
 	    result++;
 	    f = new File("levels/level" + (result + 1) + ".lvl");
-	}
-
+		}
 	return result;
+    	
     }
 
     /**

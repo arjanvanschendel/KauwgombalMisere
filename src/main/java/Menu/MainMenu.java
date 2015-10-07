@@ -5,12 +5,15 @@ import game.Game;
 import game.Launcher;
 
 import java.awt.Font;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
+import shapes.TextureBox;
 import utillities.Texture;
 
 import org.newdawn.slick.opengl.TextureImpl;
@@ -26,6 +29,8 @@ public class MainMenu {
 	private TrueTypeFont font = new TrueTypeFont(awtFont, true);
 	private ArrayList<Button> buttons  = new ArrayList<Button>();
 	private Button playBtn;
+	private Button exitBtn;
+	private Button optBtn;
 	private Texture Background;
 	private int WIDTH;
 	private int HEIGHT;
@@ -34,9 +39,15 @@ public class MainMenu {
 	 * A class to draw and maintain the main menu.
 	 */
 	public MainMenu() {
-		playBtn = new Button(-75, ((float)Launcher.getCAMHEIGHT())/3, 
-				150, 25, java.awt.Color.white, "Play");
+		playBtn = new Button((float)-75, (float)Launcher.getCAMHEIGHT()/3+40,
+				(float)150, (float)25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
+		optBtn = new Button((float)-75, (float)Launcher.getCAMHEIGHT()/3, 
+				(float)150, (float)25, java.awt.Color.white, "Options");
+		buttons.add(optBtn);
+		exitBtn = new Button((float)-75, (float)Launcher.getCAMHEIGHT()/3-40, 
+				(float)150, (float)25, java.awt.Color.white, "Exit");
+		buttons.add(exitBtn);
 		Background = new Texture("res/KMmain.png",
 				GL11.GL_NEAREST, GL11.GL_CLAMP);
 		
@@ -64,12 +75,24 @@ public class MainMenu {
 	 * @param deltaTime The speed of the game
 	 */
 	public final void update(final double deltaTime) {
+		if(!Game.sounds.get(5).isPlaying()){
+			Game.sounds.get(5).play();
+		}
+		
 		for (Button btn : buttons) {
 			btn.update(deltaTime);
 		}
+		
 		if (playBtn.isClicked()) {
 			Game.loadLevel(1);
 			Game.setState(0);
+		}
+		if (optBtn.isClicked()) {
+			System.out.println("Options button clicked");
+		}
+		if (exitBtn.isClicked()) {
+			System.out.println("Exiting system via exit button");
+			Game.setState(3);
 		}
 	}
 
@@ -95,7 +118,6 @@ public class MainMenu {
             GL11.glVertex2f(-(float)WIDTH / 2, 0);
         GL11.glEnd();
         Texture.disable();
-        
 		for (Button btn : buttons) {
 			btn.render();
 		}
