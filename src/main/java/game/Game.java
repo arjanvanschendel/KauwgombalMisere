@@ -42,8 +42,7 @@ public class Game {
 	private int lastFrames;
 	private long lastUpdateTime;
 	private int WIDTH;
-	private int HEIGHT;
-	private static TrueTypeFont fpsFont;
+	private TrueTypeFont fpsFont;
 
 	/**
 	 * Game: constructor.
@@ -60,7 +59,6 @@ public class Game {
 		setState(2);
 
 		WIDTH = Launcher.getCAMWIDTH();
-		HEIGHT = Launcher.getCAMHEIGHT();
 
 		fpsFont = new TrueTypeFont(new Font("Courier New", Font.PLAIN, 12),
 				true);
