@@ -190,7 +190,7 @@ public class Launcher {
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		setFont(new TrueTypeFont(awtFont, true));
 
-		Game game = new Game();
+		Game game = Game.getInstance();
 		lastFrame = glfwGetTime();
 
 		// Run the rendering loop until the user has attempted to close

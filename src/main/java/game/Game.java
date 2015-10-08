@@ -27,6 +27,8 @@ import utillities.Texture;
  * Class Game: a Game object represents a game, holding all the levels.
  */
 public class Game {
+
+    private static Game unique;
     private static int state;
     private static Level currentLvl;
     private static int lvl;
@@ -37,11 +39,10 @@ public class Game {
     public static final ArrayList<Texture> textures = new ArrayList<Texture>();
     private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
 
-	
     /**
      * Game: constructor.
      */
-    public Game() {
+    private Game() {
 	setLives(3);
 	Logger.add("game started");
 	loadTextures();
@@ -52,17 +53,24 @@ public class Game {
 	mm = new MainMenu();
 	setState(2);
     }
-    
+
+    public static synchronized Game getInstance() {
+	if (unique == null) {
+	    unique = new Game();
+	}
+	return unique;
+    }
+
     private void loadSounds() {
 
-		sounds.add(new Sound("sounds/arrowHitBall.wav"));
-		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
-		sounds.add(new Sound("sounds/arrowShoot.wav"));
-		sounds.add(new Sound("sounds/ballBounce.wav"));
-		sounds.add(new Sound("sounds/playerHit.wav"));
-		// Main menu sound
-		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
-	}
+	sounds.add(new Sound("sounds/arrowHitBall.wav"));
+	sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+	sounds.add(new Sound("sounds/arrowShoot.wav"));
+	sounds.add(new Sound("sounds/ballBounce.wav"));
+	sounds.add(new Sound("sounds/playerHit.wav"));
+	// Main menu sound
+	sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+    }
 
     /**
      * loadTextures: load the textures onto memory.
@@ -113,9 +121,9 @@ public class Game {
 	while (f.exists() && !f.isDirectory()) {
 	    result++;
 	    f = new File("levels/level" + (result + 1) + ".lvl");
-		}
+	}
 	return result;
-    	
+
     }
 
     /**
@@ -144,7 +152,7 @@ public class Game {
 	case (0):
 	    // Playing
 	    currentLvl.update(deltaTime);
-		updateThePopUps(deltaTime);
+	    updateThePopUps(deltaTime);
 	    break;
 	case (1):
 	    // Paused
@@ -167,26 +175,26 @@ public class Game {
 	Mouse.resetReleased();
 	Keyboard.resetReleased();
     }
-    
-    public static void addPopUp(ScorePopUp popUp){
-    if(popUpObjects.size() > 3){
-    	for(int i = 0; i < popUpObjects.size()-1; ++i){
-    		popUpObjects.remove(0);
-    	}
+
+    public static void addPopUp(ScorePopUp popUp) {
+	if (popUpObjects.size() > 3) {
+	    for (int i = 0; i < popUpObjects.size() - 1; ++i) {
+		popUpObjects.remove(0);
+	    }
+	}
+	popUpObjects.add(popUp);
     }
-    	popUpObjects.add(popUp);
-    }
-    
+
     public void updateThePopUps(double deltaTime) {
 	for (GameObject popup : popUpObjects) {
-	   	popup.update(deltaTime);
+	    popup.update(deltaTime);
 	}
     }
-    
-    public void renderThePopUps(){
-    	for (GameObject render : popUpObjects) {
-    	    render.render();
-    	}
+
+    public void renderThePopUps() {
+	for (GameObject render : popUpObjects) {
+	    render.render();
+	}
     }
 
     /**
@@ -197,27 +205,27 @@ public class Game {
 	case (0):
 	    // game
 	    currentLvl.render();
-		TextureImpl.bindNone();
-		renderThePopUps();
+	    TextureImpl.bindNone();
+	    renderThePopUps();
 	    GL11.glScalef(1, -1, 1);
-	  //  TextureImpl.bindNone();
+	    // TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
-	    String scoreString = "Score: "+Level.getScore();
+	    String scoreString = "Score: " + Level.getScore();
 	    String livesString = "Lives : " + lives;
-	    
-	    //Draw scoreString
-	    Launcher.getFont().drawString( -400, -540, scoreString, Color.blue);
 
-	    //Draw levelString
+	    // Draw scoreString
+	    Launcher.getFont().drawString(-400, -540, scoreString, Color.blue);
+
+	    // Draw levelString
 	    Launcher.getFont().drawString(
 		    -(float) Launcher.getFont().getWidth(levelString) / 2,
 		    -100, levelString, Color.black);
-	    
-	    //Draw livesString
+
+	    // Draw livesString
 	    Launcher.getFont().drawString(
-			    -(float) Launcher.getFont().getWidth(livesString) / 2,
-			    -70, livesString, Color.black);
-	    
+		    -(float) Launcher.getFont().getWidth(livesString) / 2, -70,
+		    livesString, Color.black);
+
 	    GL11.glScalef(1, -1, 1);
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
 	    break;
@@ -252,6 +260,7 @@ public class Game {
 
     /**
      * getState.
+     * 
      * @return int state
      */
     public final int getState() {
@@ -276,7 +285,7 @@ public class Game {
 
     /**
      * @param lvl
-     *  the lvl to set
+     *            the lvl to set
      */
     public static final void setLvl(int lvl) {
 	Game.lvl = lvl;
@@ -290,14 +299,16 @@ public class Game {
     }
 
     /**
-     * @param lives the lives to set
+     * @param lives
+     *            the lives to set
      */
     public final static void setLives(int lives) {
 	Game.lives = lives;
     }
-    
+
     /**
-     * @param lives the lives to set
+     * @param lives
+     *            the lives to set
      */
     public final static void decreaseLives() {
 	Game.lives--;
