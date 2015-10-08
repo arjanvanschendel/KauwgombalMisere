@@ -66,6 +66,7 @@ public class Game {
 
 	private void loadSounds() {
 
+
 		sounds.add(new Sound("sounds/arrowHitBall.wav"));
 		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
 		sounds.add(new Sound("sounds/arrowShoot.wav"));
@@ -145,6 +146,8 @@ public class Game {
 		if (Keyboard.isKeyReleased(GLFW_KEY_SPACE)) {
 			if (state == 2) {
 				setState(0);
+				setLives(3);
+				setLvl(1);
 			}
 		}
 		if (Level.levelComplete() && state == 0) {
@@ -242,10 +245,20 @@ public class Game {
 			// TextureImpl.bindNone();
 			String levelString = "Level " + lvl + ": " + currentLvl.getName();
 			String scoreString = "Score: " + Level.getScore();
+			String livesString = "Lives : " + lives;
+			
+			//Draw scoreString
 			Launcher.getFont().drawString(-400, -540, scoreString, Color.blue);
+			
+			//Draw levelString
 			Launcher.getFont().drawString(
 					-(float) Launcher.getFont().getWidth(levelString) / 2,
 					-100, levelString, Color.black);
+			
+			//Draw livesString
+		    Launcher.getFont().drawString(
+				    -(float) Launcher.getFont().getWidth(livesString) / 2,
+				    -70, livesString, Color.black);
 
 			GL11.glScalef(1, -1, 1);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -294,59 +307,61 @@ public class Game {
 		} else {
 			s = "10";
 		}
+
 	}
 
-	/**
-	 * getState.
-	 * 
-	 * @return int state
-	 */
-	public final int getState() {
-		return state;
-	}
+	
 
-	/**
-	 * Sets a new game for the game.
-	 * @param newState The new state for the game to use
-	 */
-	public static void setState(final int newState) {
-		Game.state = newState;
-	}
+    /**
+     * getState.
+     * @return int state
+     */
+    public final int getState() {
+	return state;
+    }
 
-	/**
-	 * @return the lvl
-	 */
-	public static final int getLvl() {
-		return lvl;
-	}
+    /**
+     * setState.
+     * 
+     * @param state
+     */
+    public static void setState(int newState) {
+	Game.state = newState;
+    }
 
-	/**
-	 * @param lvl
-	 *            the lvl to set
-	 */
-	public static final void setLvl(final int lvl) {
-		Game.lvl = lvl;
-	}
+    /**
+     * @return the lvl
+     */
+    public static final int getLvl() {
+	return lvl;
+    }
 
-	/**
-	 * @return the lives
-	 */
-	public static final int getLives() {
-		return lives;
-	}
+    /**
+     * @param lvl
+     *  the lvl to set
+     */
+    public static final void setLvl(int lvl) {
+	Game.lvl = lvl;
+    }
 
-	/**
-	 * @param lives
-	 *            the lives to set
-	 */
-	public static final void setLives(final int lives) {
-		Game.lives = lives;
-	}
+    /**
+     * @return the lives
+     */
+    public final static int getLives() {
+	return lives;
+    }
 
-	/**
-	 *  Lowers the available lives by one.
-	 */
-	public static final void decreaseLives() {
-		Game.lives--;
-	}
+    /**
+     * @param lives the lives to set
+     */
+    public final static void setLives(int lives) {
+	Game.lives = lives;
+    }
+    
+    /**
+     * @param lives the lives to set
+     */
+    public final static void decreaseLives() {
+	Game.lives--;
+    }
 }

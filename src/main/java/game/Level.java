@@ -98,6 +98,7 @@ public class Level {
 
 	}
 
+
 	public static void addBall(Ball ball) {
 		objects.add(ball);
 		CollisionDetection.addCollider(ball);
