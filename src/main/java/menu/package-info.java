@@ -5,4 +5,4 @@
  * @author Jasper
  *
  */
-package Menu;
+package menu;

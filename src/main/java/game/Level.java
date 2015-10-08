@@ -23,6 +23,8 @@ import utillities.ObjectGenerator;
  *
  */
 public class Level {
+    
+    private static Game game = Game.getInstance();
     private String loc;
     private static ArrayList<GameObject> objects = new ArrayList<GameObject>();
     private static ArrayList<GameObject> removeObjects = new ArrayList<GameObject>();
@@ -30,7 +32,6 @@ public class Level {
     private String name = "";
 
     private static Projectile pro;
-    private static int score;
 
     /**
      * Level: constructor.
@@ -88,8 +89,8 @@ public class Level {
 	    Logger.add("projectile shot");
 	    pro = projectile;
 	    CollisionDetection.addCollider(pro);
-	    if (!Game.sounds.isEmpty()) {
-		Game.sounds.get(2).play();
+	    if (!game.getSounds().isEmpty()) {
+		game.getSounds().get(2).play();
 	    }
 	} else if (projectile == null) {
 	    CollisionDetection.removeCollider(pro);
@@ -121,12 +122,12 @@ public class Level {
 	    pro.update(deltaTime);
 
 	if (player == null || !player.isAlive()) {
-	    if (Game.getLives() > 1) {
-		Game.decreaseLives();
+	    if (game.getLives() > 1) {
+		game.decreaseLives();
 		loadLevel();
 	    } else {
-		Game.setState(2);
-		Game.setLives(3);
+		game.setState(2);
+		game.setLives(3);
 	    }
 	}
 	remove();
@@ -196,20 +197,16 @@ public class Level {
     /**
      * Get name of level.
      * 
-     * @return
+     * @return the name of level
      */
     public String getName() {
 	return name;
     }
 
-    public static int getScore() {
-	return score;
-    }
-
-    public static void setScore(int s) {
-	score = s;
-    }
-
+    /**
+     * 
+     * @return the projectile
+     */
     public static Projectile getProjectile() {
 	return pro;
     }

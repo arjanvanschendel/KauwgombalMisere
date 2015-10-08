@@ -191,6 +191,8 @@ public class Launcher {
 		setFont(new TrueTypeFont(awtFont, true));
 
 		Game game = Game.getInstance();
+		game.setup();
+		game.reset();
 		lastFrame = glfwGetTime();
 
 		// Run the rendering loop until the user has attempted to close

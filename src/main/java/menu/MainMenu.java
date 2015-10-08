@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Game;
@@ -25,6 +25,7 @@ import org.newdawn.slick.opengl.TextureImpl;
  */
 public class MainMenu {
 		
+    	private Game game = Game.getInstance();
 	private Font awtFont = new Font("Courier New", Font.BOLD, 48);
 	private TrueTypeFont font = new TrueTypeFont(awtFont, true);
 	private ArrayList<Button> buttons  = new ArrayList<Button>();
@@ -75,8 +76,8 @@ public class MainMenu {
 	 * @param deltaTime The speed of the game
 	 */
 	public final void update(final double deltaTime) {
-		if(!Game.sounds.get(5).isPlaying()){
-			Game.sounds.get(5).play();
+		if(!game.getSounds().get(5).isPlaying()){
+			game.getSounds().get(5).play();
 		}
 		
 		for (Button btn : buttons) {
@@ -84,15 +85,14 @@ public class MainMenu {
 		}
 		
 		if (playBtn.isClicked()) {
-			Game.loadLevel(1);
-			Game.setState(0);
+			game.setState(0);
 		}
 		if (optBtn.isClicked()) {
 			System.out.println("Options button clicked");
 		}
 		if (exitBtn.isClicked()) {
 			System.out.println("Exiting system via exit button");
-			Game.setState(3);
+			game.setState(3);
 		}
 	}
 

@@ -44,15 +44,15 @@ public class ScorePopUp implements GameObject {
 	posy = ypositie * -1;
 	switch ((int) radius) {
 	case 50:
-		score = 20+ "";
+		score = 20 + "";
 		color = Color.red;
 		break;
 	case (50 / 2):
-		score = 10+ "";
+		score = 20 + "";
 		color = Color.blue;
 		break;
 	case (50 / 4):
-		score = 10+ "";
+		score = 10 + "";
 		color = Color.green;
 		break;
 	default:
