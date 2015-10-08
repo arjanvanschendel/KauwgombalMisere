@@ -11,6 +11,7 @@ import objects.Ball;
 import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
+import objects.ScorePopUp;
 import objects.Wall;
 import powerups.PowerUp;
 import utillities.Logger;
@@ -28,6 +29,7 @@ public class Level {
     private String loc;
     private static ArrayList<GameObject> objects = new ArrayList<GameObject>();
     private static ArrayList<GameObject> removeObjects = new ArrayList<GameObject>();
+    private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
     private Player player;
     private String name = "";
 
@@ -46,8 +48,9 @@ public class Level {
 
     public static boolean levelComplete() {
 	for (GameObject temp : objects) {
-	    if (temp instanceof Ball)
+	    if (temp instanceof Ball) {
 		return false;
+	    }
 	}
 	return true;
     }
@@ -62,6 +65,7 @@ public class Level {
 		((PowerUp) obj).deactivate();
 	    }
 	}
+	popUpObjects.clear();
 	objects.clear();
 	pro = null;
 
@@ -118,16 +122,19 @@ public class Level {
 	for (GameObject update : objects) {
 	    update.update(deltaTime);
 	}
-	if (pro != null)
+	for (GameObject popup : popUpObjects) {
+	    popup.update(deltaTime);
+	}
+	if (pro != null) {
 	    pro.update(deltaTime);
-
+	}
 	if (player == null || !player.isAlive()) {
 	    if (game.getLives() > 1) {
 		game.decreaseLives();
 		loadLevel();
 	    } else {
-		game.setState(2);
-		game.setLives(3);
+		Logger.add("Game reset");
+		game.reset();
 	    }
 	}
 	remove();
@@ -137,11 +144,14 @@ public class Level {
      * render: render the level-object's graphics.
      */
     public void render() {
-	if (pro != null)
+	if (pro != null) {
 	    pro.render();
+	}
 	for (GameObject render : objects) {
 	    render.render();
-
+	}
+	for (GameObject render : popUpObjects) {
+	    render.render();
 	}
     }
 
@@ -195,6 +205,19 @@ public class Level {
     }
 
     /**
+     * 
+     * @param popUp
+     */
+    public static void addPopUp(ScorePopUp popUp) {
+	if (popUpObjects.size() > 3) {
+	    for (int i = 0; i < popUpObjects.size() - 1; ++i) {
+		popUpObjects.remove(0);
+	    }
+	}
+	popUpObjects.add(popUp);
+    }
+    
+    /**
      * Get name of level.
      * 
      * @return the name of level
@@ -209,6 +232,20 @@ public class Level {
      */
     public static Projectile getProjectile() {
 	return pro;
+    }
+    
+    /**
+     * @return the popUpObjects
+     */
+    public static final ArrayList<GameObject> getPopUpObjects() {
+        return popUpObjects;
+    }
+
+    /**
+     * @param popUpObjects the popUpObjects to set
+     */
+    public static final void setPopUpObjects(ArrayList<GameObject> popUpObjects) {
+        Level.popUpObjects = popUpObjects;
     }
 
 }

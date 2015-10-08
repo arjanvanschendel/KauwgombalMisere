@@ -7,8 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import menu.MainMenu;
-import objects.GameObject;
-import objects.ScorePopUp;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -37,7 +35,7 @@ public final class Game {
     private int lives;
     private ArrayList<Sound> sounds = new ArrayList<Sound>();
     private ArrayList<Texture> textures = new ArrayList<Texture>();
-    private ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
+ 
 
     /**
      * Only instanced once
@@ -48,7 +46,7 @@ public final class Game {
     }
 
     /**
-     * This method sets up the resources for the game
+     * This method sets up the resources for the game.
      */
     public void setup() {
 	loadTextures();
@@ -58,15 +56,18 @@ public final class Game {
     }
     
     /**
-     * This method resets the progress of the game
+     * This method resets the progress of the game.
      */
     public void reset() {
 	setLives(3);
-	loadLevel(1);
 	setState(2);
 	setScore(0);
     }
     
+    /**
+     * 
+     * @return single instance of game
+     */
     public static Game getInstance() {
 	return unique;
     }
@@ -95,9 +96,8 @@ public final class Game {
     }
 
     /**
-     * loadLevel: load a level.
      * 
-     * @param location
+     * @param number Level number
      */
     public void loadLevel(int number) {
 	setLvl(number);
@@ -138,7 +138,7 @@ public final class Game {
     /**
      * update: Update the state of the game.
      * 
-     * @param deltaTime
+     * @param deltaTime time between frames.
      */
     public void update(double deltaTime) {
 	if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -153,8 +153,8 @@ public final class Game {
 		setState(0);
 	    }
 	}
-	if (currentLvl.levelComplete() && state == 0) {
-	    Logger.add("complete " + currentLvl.levelComplete());
+	if (Level.levelComplete() && state == 0) {
+	    Logger.add("complete " + Level.levelComplete());
 	    nextLevel();
 	}
 
@@ -162,7 +162,6 @@ public final class Game {
 	case (0):
 	    // Playing
 	    currentLvl.update(deltaTime);
-	    updateThePopUps(deltaTime);
 	    break;
 	case (1):
 	    // Paused
@@ -186,37 +185,7 @@ public final class Game {
 	Keyboard.resetReleased();
     }
     
-    /**
-     * 
-     * @param popUp
-     */
-    public void addPopUp(ScorePopUp popUp) {
-	if (popUpObjects.size() > 3) {
-	    for (int i = 0; i < popUpObjects.size() - 1; ++i) {
-		popUpObjects.remove(0);
-	    }
-	}
-	popUpObjects.add(popUp);
-    }
-    
-    /**
-     * 
-     * @param deltaTime
-     */
-    public void updateThePopUps(double deltaTime) {
-	for (GameObject popup : popUpObjects) {
-	    popup.update(deltaTime);
-	}
-    }
-
-    /**
-     * 
-     */
-    public void renderThePopUps() {
-	for (GameObject render : popUpObjects) {
-	    render.render();
-	}
-    }
+  
 
     /**
      * render: Render the graphics of the game.
@@ -227,7 +196,7 @@ public final class Game {
 	    // game
 	    currentLvl.render();
 	    TextureImpl.bindNone();
-	    renderThePopUps();
+	    
 	    GL11.glScalef(1, -1, 1);
 	    // TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
@@ -280,27 +249,25 @@ public final class Game {
 //    }
 
     /**
-     * getState.
      * 
      * @return int state
      */
-    public final int getState() {
+    public int getState() {
 	return state;
     }
 
     /**
-     * setState.
      * 
-     * @param state
+     * @param state number of state to set
      */
-    public void setState(int newState) {
-	state = newState;
+    public void setState(int state) {
+	this.state = state;
     }
 
     /**
      * @return the lvl
      */
-    public final int getLvl() {
+    public int getLvl() {
 	return lvl;
     }
 
@@ -308,14 +275,14 @@ public final class Game {
      * @param lvl
      *            the lvl to set
      */
-    public final void setLvl(int lvl) {
+    public void setLvl(int lvl) {
 	this.lvl = lvl;
     }
 
     /**
      * @return the lives
      */
-    public final int getLives() {
+    public int getLives() {
 	return lives;
     }
 
@@ -323,85 +290,72 @@ public final class Game {
      * @param lives
      *            the lives to set
      */
-    public final void setLives(int lives) {
+    public void setLives(int lives) {
 	this.lives = lives;
     }
 
     /**
-     * @param lives
-     *            the lives to set
+     * Decrease lives by one.
      */
-    public final void decreaseLives() {
+    public void decreaseLives() {
 	lives--;
     }
 
     /**
      * @return the sounds
      */
-    public final ArrayList<Sound> getSounds() {
+    public ArrayList<Sound> getSounds() {
         return sounds;
     }
 
     /**
      * @param sounds the sounds to set
      */
-    public final void setSounds(ArrayList<Sound> sounds) {
+    public void setSounds(ArrayList<Sound> sounds) {
         this.sounds = sounds;
     }
 
     /**
      * @return the textures
      */
-    public final ArrayList<Texture> getTextures() {
+    public ArrayList<Texture> getTextures() {
         return textures;
     }
 
     /**
      * @param textures the textures to set
      */
-    public final void setTextures(ArrayList<Texture> textures) {
+    public void setTextures(ArrayList<Texture> textures) {
         this.textures = textures;
     }
 
-    /**
-     * @return the popUpObjects
-     */
-    public final ArrayList<GameObject> getPopUpObjects() {
-        return popUpObjects;
-    }
 
-    /**
-     * @param popUpObjects the popUpObjects to set
-     */
-    public final void setPopUpObjects(ArrayList<GameObject> popUpObjects) {
-        this.popUpObjects = popUpObjects;
-    }
 
     /**
      * @return the currentLvl
      */
-    public final Level getCurrentLvl() {
+    public Level getCurrentLvl() {
         return currentLvl;
     }
 
     /**
      * @param currentLvl the currentLvl to set
      */
-    public final void setCurrentLvl(Level currentLvl) {
+    public void setCurrentLvl(Level currentLvl) {
         this.currentLvl = currentLvl;
     }
 
     /**
      * @return the score
      */
-    public final int getScore() {
+    public int getScore() {
 	return score;
     }
 
     /**
      * @param score the score to set
      */
-    public final void setScore(int score) {
+    public void setScore(int score) {
 	this.score = score;
     }
 }

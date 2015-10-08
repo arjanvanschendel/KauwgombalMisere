@@ -18,11 +18,7 @@ import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
 
 import shapes.Box;
 import utillities.Keyboard;
@@ -170,8 +166,7 @@ public class Player extends Box implements GameObject {
     private void shoot() {
 	Projectile p = new Projectile(this.getPosx() + (this.getWidth() / 2),
 		this.getPosy());
-
-	game.getCurrentLvl().setProjectile(p);
+	Level.setProjectile(p);
     }
 
     /**
@@ -222,7 +217,9 @@ public class Player extends Box implements GameObject {
      * die: lets the player die.
      */
     private void die() {
-	game.getSounds().get(4).play();
+	if (game.getSounds().size() > 0) {
+	    game.getSounds().get(4).play();
+	}
 	alive = false;
     }
 

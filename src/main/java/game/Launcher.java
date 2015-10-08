@@ -91,8 +91,9 @@ public class Launcher {
 		glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
 
 		// Initialize GLFW. Most GLFW functions will not work before doing this.
-		if (glfwInit() != GL11.GL_TRUE)
-			throw new IllegalStateException("Unable to initialize GLFW");
+		if (glfwInit() != GL11.GL_TRUE) {
+		    throw new IllegalStateException("Unable to initialize GLFW");
+		}
 
 		// Configure our window
 		glfwDefaultWindowHints(); // optional, the current window hints are
@@ -113,9 +114,10 @@ public class Launcher {
 		// Fullscreen
 		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
 				glfwGetPrimaryMonitor(), NULL);
-		if (window == NULL)
-			throw new RuntimeException("Failed to create the GLFW window");
-
+		if (window == NULL) {
+		    throw new RuntimeException("Failed to create the GLFW window");
+		}
+		
 		glfwSetKeyCallback(window, keyCallback = new Keyboard());
 		glfwSetMouseButtonCallback(window, mouseCallback = new Mouse());
 		// Make the OpenGL context current
@@ -162,23 +164,23 @@ public class Launcher {
 				double aRatio = (double) WIDTH / (double) HEIGHT;
 				if (aRatio < 1.8) {
 					CAMWIDTH = 1000;
-					CAMHEIGHT = (int) ((double)CAMWIDTH / aRatio);
+					CAMHEIGHT = (int) ((double) CAMWIDTH / aRatio);
 
 				} else {
 					CAMHEIGHT = 550;
-					CAMWIDTH = (int) ((double)CAMHEIGHT * aRatio);
+					CAMWIDTH = (int) ((double) CAMHEIGHT * aRatio);
 				}
 				GL11.glViewport(0, 0, width, height);
 				GL11.glMatrixMode(GL11.GL_PROJECTION);
 				GL11.glLoadIdentity();
-				GL11.glOrtho(-(float)CAMWIDTH / 2, (float)CAMWIDTH / 2, 0, CAMHEIGHT,
+				GL11.glOrtho(-(float) CAMWIDTH / 2, (float) CAMWIDTH / 2, 0, CAMHEIGHT,
 						-1, 1);
 				GL11.glMatrixMode(GL11.GL_MODELVIEW);
 				GL11.glLoadIdentity();
 
 			}
 		});
-		glfwSetCallback(window,WindowResize);
+		glfwSetCallback(window, WindowResize);
 				
 	}
 

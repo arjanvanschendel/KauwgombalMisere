@@ -7,12 +7,9 @@ import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import powerups.FastArrowPowerUp;
 import powerups.SlowBallPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
@@ -136,7 +133,7 @@ public class Ball extends Circle implements GameObject {
 		this.updateScore();
 		Logger.add("ball hit");
 		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(), this.getRadius());
-		game.addPopUp(popUp);
+		Level.addPopUp(popUp);
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);

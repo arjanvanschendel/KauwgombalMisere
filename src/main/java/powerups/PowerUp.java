@@ -2,7 +2,6 @@ package powerups;
 
 import game.Collision;
 import game.CollisionDetection;
-import game.Game;
 import game.GameVariables;
 import game.Level;
 

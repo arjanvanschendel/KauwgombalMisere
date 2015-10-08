@@ -13,8 +13,6 @@ import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -49,14 +47,13 @@ public class Projectile extends Box implements GameObject {
 	 */
     @Override
     public void update(double deltaTime) {
-
 	ArrayList<Collision> collisions = CollisionDetection.collision(this);
 	Ball ball = null;
 	if (!collisions.isEmpty()) {
 	    for (Collision collision : collisions) {
 		if (collision.getCol() instanceof Wall
 			&& collision.getSide() == 3) {
-		    game.getCurrentLvl().setProjectile(null);
+		    Level.setProjectile(null);
 		    if (!game.getSounds().isEmpty()) {
 			game.getSounds().get(1).play();
 		    }
@@ -66,7 +63,6 @@ public class Projectile extends Box implements GameObject {
 		}
 	    }
 	}
-
 	if (hitBall) {
 	    if (!game.getSounds().isEmpty()) {
 		game.getSounds().get(0).play();

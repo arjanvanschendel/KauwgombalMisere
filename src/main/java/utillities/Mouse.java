@@ -45,9 +45,9 @@ public class Mouse extends GLFWMouseButtonCallback {
 		y.rewind();
 		float xf = (float) x.get();
 		float yf = (float) y.get();
-		xf = ((float)xf / Launcher.getWIDTH()) * Launcher.getCAMWIDTH()
-				- (float)Launcher.getCAMWIDTH() / 2;
-		yf = -(((float)yf / Launcher.getHEIGHT()) * Launcher.getCAMHEIGHT() - Launcher
+		xf = ((float) xf / Launcher.getWIDTH()) * Launcher.getCAMWIDTH()
+				- (float) Launcher.getCAMWIDTH() / 2;
+		yf = -(((float) yf / Launcher.getHEIGHT()) * Launcher.getCAMHEIGHT() - Launcher
 				.getCAMHEIGHT());
 		Point res = new Point(xf, yf);
 

@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  * 
- * JAPSEEER
+ * @author Jasper
  *
  */
 public class Box {
@@ -42,7 +42,7 @@ public class Box {
 
     public boolean pointInShape(Point p) {
 	if (p.getY() >= posy && p.getY() <= posy + height && p.getX() > posx
-		&& p.getX() < posx + width) {
+						&& p.getX() < posx + width) {
 	    return true;
 	}
 	return false;
