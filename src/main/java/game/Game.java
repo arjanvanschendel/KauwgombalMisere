@@ -34,7 +34,7 @@ public class Game {
 	private static int lvl;
 	private int maxLvl;
 	private MainMenu mm;
-	private static int lifes;
+	private static int lives;
 	public static final ArrayList<Sound> sounds = new ArrayList<Sound>();
 	public static final ArrayList<Texture> textures = new ArrayList<Texture>();
 	private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
@@ -48,7 +48,7 @@ public class Game {
 	 * Game: constructor.
 	 */
 	public Game() {
-		setLifes(3);
+		setLives(3);
 		Logger.add("game started");
 		loadTextures();
 		loadSounds();
@@ -329,24 +329,24 @@ public class Game {
 	}
 
 	/**
-	 * @return the lifes
+	 * @return the lives
 	 */
-	public static final int getLifes() {
-		return lifes;
+	public static final int getLives() {
+		return lives;
 	}
 
 	/**
-	 * @param lifes
-	 *            the lifes to set
+	 * @param lives
+	 *            the lives to set
 	 */
-	public static final void setLifes(final int lifes) {
-		Game.lifes = lifes;
+	public static final void setLives(final int lives) {
+		Game.lives = lives;
 	}
 
 	/**
-	 *  Lowers the available lifes by one.
+	 *  Lowers the available lives by one.
 	 */
-	public static final void decreaseLifes() {
-		Game.lifes--;
+	public static final void decreaseLives() {
+		Game.lives--;
 	}
 }
