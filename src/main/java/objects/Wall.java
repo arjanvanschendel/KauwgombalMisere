@@ -1,8 +1,11 @@
 package objects;
+import interfaces.Observer;
+
 import java.awt.Color;
+
 import shapes.Box;
 
-public class Wall extends Box implements GameObject {
+public class Wall extends Box implements Observer {
 
 	private float deltaY = 0;
 	private float deltaX = 0;

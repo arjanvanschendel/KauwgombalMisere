@@ -1,5 +1,6 @@
 package objects;
 
+import interfaces.Observer;
 import game.Launcher;
 
 import org.lwjgl.opengl.GL11;
@@ -12,7 +13,7 @@ import org.newdawn.slick.Color;
  * note: is rendered in game class in stead of level because this requires no 
  * binding of the textures.
  */
-public class ScorePopUp implements GameObject {
+public class ScorePopUp implements Observer {
 	/**
 	@param _posx x position of intended popup location
 	 */

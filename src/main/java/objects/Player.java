@@ -16,14 +16,12 @@ import game.CollisionDetection;
 import game.Game;
 import game.GameVariables;
 import game.Level;
-
+import interfaces.Observer;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL11;
-
 import shapes.Box;
 import utillities.Keyboard;
 import utillities.Logger;
@@ -36,7 +34,7 @@ import utillities.Texture;
  * @author Luke
  *
  */
-public class Player extends Box implements GameObject {
+public class Player extends Box implements Observer {
 	private float deltaX = 0;
 	private float deltaY = 0;
 	private boolean alive = true;

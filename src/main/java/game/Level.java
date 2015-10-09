@@ -1,14 +1,13 @@
 package game;
 
+import interfaces.Observer;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
 import objects.Ball;
-import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
 import objects.Wall;
@@ -24,8 +23,8 @@ import utillities.ObjectGenerator;
  */
 public class Level {
 	private String loc;
-	private static ArrayList<GameObject> objects = new ArrayList<GameObject>();
-	private static ArrayList<GameObject> removeObjects = new ArrayList<GameObject>();
+	private static ArrayList<Observer> objects = new ArrayList<Observer>();
+	private static ArrayList<Observer> removeObjects = new ArrayList<Observer>();
 	private Player player;
 	private String name = "";
 
@@ -44,7 +43,7 @@ public class Level {
 	}
 
 	public static boolean levelComplete() {
-		for (GameObject temp : objects) {
+		for (Observer temp : objects) {
 			if (temp instanceof Ball)
 				return false;
 		}
@@ -56,7 +55,7 @@ public class Level {
 	 */
 	public static void clear() {
 		
-		for(GameObject obj : objects){
+		for(Observer obj : objects){
 			if(obj instanceof PowerUp){
 				((PowerUp)obj).deactivate();
 			}
@@ -68,12 +67,12 @@ public class Level {
 
 	}
 
-	public static void remove(GameObject object) {
+	public static void remove(Observer object) {
 		removeObjects.add(object);
 	}
 
 	private void remove() {
-		for (GameObject object : removeObjects) {
+		for (Observer object : removeObjects) {
 			if (objects.contains(object)) {
 				objects.remove(object);
 			}
@@ -115,7 +114,7 @@ public class Level {
 	 * @param deltaTime
 	 */
 	public void update(double deltaTime) {
-		for (GameObject update : objects) {
+		for (Observer update : objects) {
 			update.update(deltaTime);
 		}
 		if (pro != null)
@@ -139,7 +138,7 @@ public class Level {
 	public void render() {
 		if (pro != null)
 			pro.render();
-		for (GameObject render : objects) {
+		for (Observer render : objects) {
 			render.render();
 			
 		}
