@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Game;

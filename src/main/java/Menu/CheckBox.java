@@ -1,31 +1,65 @@
-package Menu;
-
-import game.Launcher;
+package menu;
 
 import java.awt.Color;
-
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.TextureImpl;
 
 import shapes.Box;
 import utillities.Mouse;
 
 /**
  * 
+ * Checkbox used in the options menu.
+ * 
  * @author Jasper
  *
  */
 public class CheckBox extends Box {
-
+	/**
+	 * Right side of the checkbox.
+	 */
 	private Box rightSide;
+
+	/**
+	 * left side of the checkbox.
+	 */
 	private Box leftSide;
+
+	/**
+	 * Top of the checkbox.
+	 */
 	private Box top;
+
+	/**
+	 * Bottom of the checkbox.
+	 */
 	private Box bottom;
+
+	/**
+	 * Inner box if this is checked.
+	 */
 	private Box checkedBox;
+
+	/**
+	 * Boolean checked, indicates if the checkbox is checked.a
+	 */
 	private boolean checked;
 
-	public CheckBox(float posx, float posy, float size, Color color,
-			boolean check) {
+	/**
+	 * 
+	 * Constructor for checkbox.
+	 * 
+	 * @param posx
+	 *            x-coordinate
+	 * @param posy
+	 *            y-coordinate
+	 * @param size
+	 *            size of the checkbox
+	 * @param color
+	 *            Color of the checkbox
+	 * @param check
+	 *            Starting value of the checkbox
+	 */
+	public CheckBox(final float posx, final float posy, final float size,
+			final Color color, final boolean check) {
 		super(posx, posy, size, size, color);
 		checked = check;
 		checkedBox = new Box(posx + size / 8, posy + size / 8, size - size / 4,
@@ -37,14 +71,20 @@ public class CheckBox extends Box {
 		bottom = new Box(posx, posy, size, size / 11, color);
 	}
 
-	public void update(double deltaTime) {
+	/**
+	 * Update method used to check if the player checked this box.
+	 * 
+	 * @param deltaTime Between the last 2 frames.
+	 */
+	public final void update(final double deltaTime) {
 		if (Mouse.isButtonReleased(0)
 				&& super.pointInShape(Mouse.getCursorPos())) {
 			checked = !checked;
 		}
 	}
-
-	public void render() {
+	
+	@Override
+	public final void render() {
 		leftSide.render();
 		rightSide.render();
 		top.render();
@@ -57,7 +97,7 @@ public class CheckBox extends Box {
 	/**
 	 * @return checked
 	 */
-	public boolean isChecked() {
+	public final boolean isChecked() {
 		return checked;
 	}
 
@@ -65,7 +105,7 @@ public class CheckBox extends Box {
 	 * @param check
 	 *            the checked to set
 	 */
-	public void setClicked(boolean check) {
+	public final void setClicked(final boolean check) {
 		this.checked = check;
 	}
 

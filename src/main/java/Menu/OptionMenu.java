@@ -1,55 +1,73 @@
-package Menu;
+package menu;
 
-import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
-import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
-import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.system.MemoryUtil.NULL;
 import game.Game;
 import game.GameSettings;
 import game.Launcher;
 
-import java.awt.Font;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.TrueTypeFont;
 
-import shapes.TextureBox;
 import utillities.Texture;
 
-import org.newdawn.slick.opengl.TextureImpl;
-
 /**
- * Draws and updates the main menu.
+ * Draws and updates the option menu.
  * 
- * @author Arjan
+ * @author Jasper, Arjan
  *
  */
 public class OptionMenu {
-
+	/**
+	 * Buttons active in current menu.
+	 */
 	private ArrayList<Button> buttons = new ArrayList<Button>();
+	/**
+	 * Sliders active in current menu.
+	 */
 	private ArrayList<Slider> sliders = new ArrayList<Slider>();
+	/**
+	 * Checkboxes active in current menu.
+	 */
 	private ArrayList<CheckBox> checkboxes = new ArrayList<CheckBox>();
+	/**
+	 * Buttons to save the setting.
+	 */
 	private Button saveBtn;
+	/**
+	 * Buttons to save the setting.
+	 */
 	private Button backBtn;
+	/**
+	 * Checkbox to set fullscreen.
+	 */
 	private CheckBox fullscreenCheckbox;
-	private Texture Background;
-	private int WIDTH;
-	private int HEIGHT;
+	/**
+	 * Background texture.
+	 */
+	private Texture background;
+	/**
+	 * Width of the scene.
+	 */
+	private int width;
+	/**
+	 * Height of the screen.
+	 */
+	private int height;
+	/**
+	 * Slider used to control sfx volume slider.
+	 */
 	private Slider sfxVolumeSlider;
+	/**
+	 * Slider used to control music volume slider.
+	 */
 	private Slider musicVolumeSlider;
 
 	/**
 	 * A class to draw and maintain the main menu.
 	 */
 	public OptionMenu() {
-		Background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
+		background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP);
 
 		saveBtn = new Button(-(float) Launcher.getCAMWIDTH() / 10,
@@ -75,25 +93,10 @@ public class OptionMenu {
 				java.awt.Color.blue, GameSettings.isFullscreen());
 		checkboxes.add(fullscreenCheckbox);
 
-		WIDTH = Launcher.getCAMWIDTH();
-		HEIGHT = Launcher.getCAMHEIGHT();
-		System.out.println("WxH = " + WIDTH + "x" + HEIGHT);
+		width = Launcher.getCAMWIDTH();
+		height = Launcher.getCAMHEIGHT();
+		System.out.println("WxH = " + width + "x" + height);
 
-	}
-
-	/**
-	 * Finds first positive power of two above the given input.
-	 * 
-	 * @param number
-	 *            any integer
-	 * @return a power of two
-	 */
-	public static int findNextTwo(final int number) {
-		int result = 1;
-		while (result < number) {
-			result *= 2;
-		}
-		return result;
 	}
 
 	/**
@@ -140,6 +143,9 @@ public class OptionMenu {
 		}
 	}
 
+	/**
+	 * Method to save settings.
+	 */
 	private void save() {
 		Game.sounds.get(0).setVolume(GameSettings.getSFXVolume());
 		Game.sounds.get(1).setVolume(GameSettings.getSFXVolume());
@@ -154,22 +160,22 @@ public class OptionMenu {
 	 * render: render the main menu's background, text, and objects.
 	 */
 	public final void render() {
-		Background.bind(); // or GL11.glBind(texture.getTextureID());
+		background.bind(); // or GL11.glBind(texture.getTextureID());
 
 		GL11.glBegin(GL11.GL_QUADS);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 		GL11.glTexCoord2f(0, 0);
-		GL11.glVertex2f(-(float) WIDTH / 2, HEIGHT);
+		GL11.glVertex2f(-(float) width / 2, height);
 
 		GL11.glTexCoord2f(1, 0);
-		GL11.glVertex2f((float) WIDTH / 2, HEIGHT);
+		GL11.glVertex2f((float) width / 2, height);
 
 		GL11.glTexCoord2f(1, 1);
-		GL11.glVertex2f((float) WIDTH / 2, 0);
+		GL11.glVertex2f((float) width / 2, 0);
 
 		GL11.glTexCoord2f(0, 1);
-		GL11.glVertex2f(-(float) WIDTH / 2, 0);
+		GL11.glVertex2f(-(float) width / 2, 0);
 
 		GL11.glEnd();
 		Texture.disable();

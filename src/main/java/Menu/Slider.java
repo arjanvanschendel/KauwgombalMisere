@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import game.Launcher;
 
@@ -14,29 +14,77 @@ import utillities.Mouse;
 
 /**
  * 
- * @author Luke
+ * Slider used in the options menu.
+ * 
+ * @author Jasper
  *
  */
 public class Slider extends Box {
 
+	/**
+	 * Boolean changed indicates if the value is changed.
+	 */
 	private boolean changed;
+
+	/**
+	 * Boolean dragged indicates if the slider is dragged.
+	 */
 	private boolean dragged;
+
+	/**
+	 * Current percentage of the slider.
+	 */
 	private float percentage;
+
+	/**
+	 * Beginning circle of the slider.
+	 */
 	private Circle begin;
+
+	/**
+	 * Ending circle of the slider.
+	 */
 	private Circle end;
+
+	/**
+	 * Indicates the current percentage of the slider.
+	 */
 	private Circle value;
 
-	public Slider(float posx, float posy, float width, float height,
-			Color color, float percent) {
+	/**
+	 * 
+	 * Constructor for slider.
+	 * 
+	 * @param posx
+	 *            x-coordinate
+	 * @param posy
+	 *            y-coordinate
+	 * @param width
+	 *            size of the checkbox
+	 * @param height
+	 *            size of the checkbox
+	 * @param percent
+	 *            Starting perventage of the slider.
+	 * @param color
+	 *            Color of the checkbox
+	 */
+	public Slider(final float posx, final float posy, final float width,
+			final float height, final Color color, final float percent) {
 		super(posx, posy, width, height, color);
 		percentage = percent;
 		begin = new Circle(posx, posy + height / 2, height / 2, color);
 		end = new Circle(posx + width, posy + height / 2, height / 2, color);
 		value = new Circle((float) (posx + getWidth() * (percentage / 100)),
-				posy + height / 2, height / 2, Color.black);
+				posy + height / 2, height / 1.5f, Color.black);
 	}
 
-	public final void update(double deltaTime) {
+	/**
+	 * Update method updating percentage and handles mouse inputs.
+	 * 
+	 * @param deltaTime
+	 *            time between frames.
+	 */
+	public final void update(final double deltaTime) {
 		changed = false;
 		if (Mouse.isButtonReleased(0) && dragged) {
 			changed = true;
@@ -49,7 +97,9 @@ public class Slider extends Box {
 		}
 
 		if (dragged) {
-			float mouseValue = ((Mouse.getCursorPos().getX() - getPosx()) / getWidth()) * 100;
+			float dMouseSlider = (Mouse.getCursorPos().getX() - getPosx())
+					/ getWidth();
+			float mouseValue = dMouseSlider * 100;
 			if (mouseValue > 100) {
 				percentage = 100;
 			} else if (mouseValue < 0) {

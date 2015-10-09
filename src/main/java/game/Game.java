@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import menu.MainMenu;
+import menu.OptionMenu;
 import objects.GameObject;
 import objects.ScorePopUp;
 
@@ -14,8 +16,6 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
 
-import Menu.MainMenu;
-import Menu.OptionMenu;
 import utillities.Keyboard;
 import utillities.Logger;
 import utillities.Mouse;
