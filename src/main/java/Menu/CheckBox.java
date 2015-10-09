@@ -39,7 +39,7 @@ public class CheckBox extends Box {
 	private Box checkedBox;
 
 	/**
-	 * Boolean checked, indicates if the checkbox is checked.a
+	 * Boolean checked, indicates if the checkbox is checked.
 	 */
 	private boolean checked;
 

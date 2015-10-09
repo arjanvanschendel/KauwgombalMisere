@@ -5,6 +5,7 @@ import java.awt.Color;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
+ * Box class.
  * 
  * @author Jasper
  *
@@ -17,6 +18,19 @@ public class Box {
     protected Point[] corners = new Point[4];
     private Color color;
 
+    /**
+     * 
+     * @param posx
+     *            x position
+     * @param posy
+     *            y position
+     * @param width
+     *            width of box
+     * @param height
+     *            height of box
+     * @param color
+     *            color of box
+     */
     public Box(float posx, float posy, float width, float height, Color color) {
 	this.posx = posx;
 	this.posy = posy;
@@ -29,6 +43,9 @@ public class Box {
 	corners[3] = new Point(posx, posy + height);
     }
 
+    /**
+     * Render method.
+     */
     public void render() {
 	glColor3f((float) color.getRed() / 255, (float) color.getGreen() / 255,
 		(float) color.getBlue() / 255);
@@ -40,20 +57,32 @@ public class Box {
 	glEnd();
     }
 
+    /**
+     * Determine if point is located in shape.
+     * @param p point in shape
+     * @return true if point is in shape
+     */
     public boolean pointInShape(Point p) {
 	if (p.getY() >= posy && p.getY() <= posy + height && p.getX() > posx
-						&& p.getX() < posx + width) {
+		&& p.getX() < posx + width) {
 	    return true;
 	}
 	return false;
     }
 
+    /**
+     * 
+     * @return x position
+     */
     public float getPosx() {
 	return posx;
     }
 
+    /**
+     * 
+     * @param posx float to set
+     */
     public void setPosx(float posx) {
-
 	corners[0].setX(posx);
 	corners[1].setX(posx + width);
 	corners[2].setX(posx + width);
@@ -61,12 +90,19 @@ public class Box {
 	this.posx = posx;
     }
 
+    /**
+     * 
+     * @return y position
+     */
     public float getPosy() {
 	return posy;
     }
 
+    /**
+     * 
+     * @param posy float to set
+     */
     public void setPosy(float posy) {
-
 	corners[0].setY(posy);
 	corners[1].setY(posy);
 	corners[2].setY(posy + height);
@@ -74,41 +110,64 @@ public class Box {
 	this.posy = posy;
     }
 
+    /**
+     * 
+     * @return width
+     */
     public float getWidth() {
 	return width;
     }
 
+    /**
+     * 
+     * @param width width to set
+     */
     public void setWidth(float width) {
 	corners[1].setX(posx + width);
 	corners[2].setX(posx + width);
 	this.width = width;
     }
 
+    /**
+     * 
+     * @return height
+     */
     public float getHeight() {
 	return height;
     }
 
+    /**
+     * 
+     * @param height float to set
+     */
     public void setHeight(float height) {
 	corners[2].setY(posy + height);
 	corners[3].setY(posy + height);
 	this.height = height;
     }
 
+    /**
+     * 
+     * @return color
+     */
     public Color getColor() {
 	return color;
     }
 
+    /**
+     * 
+     * @param color color to set
+     */
     public void setColor(Color color) {
 	this.color = color;
     }
 
+    /**
+     * 
+     * @return corners of box
+     */
     public Point[] getCorners() {
 	return corners.clone();
     }
-
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

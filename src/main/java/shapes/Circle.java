@@ -4,6 +4,11 @@ import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Circle class.
+ * @author Luke
+ *
+ */
 public class Circle {
     protected float posx;
     protected float posy;
@@ -11,6 +16,13 @@ public class Circle {
     protected Color color;
     private static final float epsilon = 0.000001f;
 
+    /**
+     * 
+     * @param posx x position
+     * @param posy y position
+     * @param radius radius circle
+     * @param color color of circle
+     */
     public Circle(float posx, float posy, float radius, Color color) {
 	this.posx = posx;
 	this.posy = posy;
@@ -18,6 +30,12 @@ public class Circle {
 	this.color = color;
     }
 
+    /**
+     * 
+     * @param posx x position
+     * @param posy y position
+     * @param radius radius circle
+     */
     public Circle(float posx, float posy, float radius) {
 	this.posx = posx;
 	this.posy = posy;
@@ -25,6 +43,9 @@ public class Circle {
 	this.color = new Color(0, 0, 0);
     }
 
+    /**
+     * Render method.
+     */
     public void render() {
 	// Draw Circle
 	glColor4f((float) color.getRed() / 255, (float) color.getGreen() / 255,
@@ -41,8 +62,8 @@ public class Circle {
     /**
      * Compare floats properly.
      * 
-     * @param x
-     * @param y
+     * @param x float
+     * @param y float
      * @return true if equal, false if not
      */
     protected boolean compareFloats(final float x, final float y) {
@@ -76,34 +97,66 @@ public class Circle {
 	return 42;
     }
 
+    /**
+     * 
+     * @return posx
+     */
     public float getPosx() {
 	return posx;
     }
 
+    /**
+     * 
+     * @param posx float to set
+     */
     public void setPosx(float posx) {
 	this.posx = posx;
     }
 
+    /**
+     * 
+     * @return posy
+     */
     public float getPosy() {
 	return posy;
     }
 
+    /**
+     * 
+     * @param posy float to set
+     */
     public void setPosy(float posy) {
 	this.posy = posy;
     }
 
+    /**
+     * 
+     * @return radius
+     */
     public float getRadius() {
 	return radius;
     }
 
+    /**
+     * 
+     * @param radius radius to set
+     */
     public void setRadius(float radius) {
 	this.radius = radius;
     }
 
+    /**
+     * 
+     * @return color
+     */
     public Color getColor() {
 	return color;
     }
 
+    /**
+     * 
+     * @param color color to set
+     */
     public void setColor(Color color) {
 	this.color = color;
     }

@@ -12,7 +12,7 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 /**
- * Class for texture
+ * Class for texture.
  * 
  * @author Luke
  *
@@ -25,9 +25,9 @@ public class Texture {
 
     /**
      * 
-     * @param src
-     * @param filter
-     * @param wrap
+     * @param src source of texture
+     * @param filter filter
+     * @param wrap wrap
      */
     public Texture(String src, int filter, int wrap) {
 	
@@ -64,7 +64,7 @@ public class Texture {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	} finally {
-	    if(input != null) {
+	    if (input != null) {
 		try {
 		    input.close();
 		} catch (IOException e) {
@@ -74,22 +74,33 @@ public class Texture {
 	}
     }
 
+    /**
+     * 
+     * @return width
+     */
     public int getWidth() {
 	return width;
     }
     
+    /**
+     * 
+     * @return height
+     */
     public int getHeight() {
 	return height;
     }
     
     /**
-     * Bind texture
+     * Bind texture.
      */
     public void bind() {
 	GL11.glEnable(GL11.GL_TEXTURE_2D);
 	GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
     }
     
+    /**
+     * Disable texture.
+     */
     public static void disable() {
 	GL11.glDisable(GL11.GL_TEXTURE_2D);
     }

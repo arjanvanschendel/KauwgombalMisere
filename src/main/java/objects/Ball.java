@@ -24,7 +24,7 @@ import utillities.Logger;
 public class Ball extends Circle implements GameObject {
     	
     	/**
-    	 * Get current game instance
+    	 * Get current game instance.
     	 */
     	private Game game = Game.getInstance();
 	/**
@@ -53,8 +53,6 @@ public class Ball extends Circle implements GameObject {
 	 *            Y position
 	 * @param radius
 	 *            radius of the ball
-	 * @param color
-	 *            color of the ball
 	 */
 	public Ball(final float posx, final float posy, final float radius) {
 		super(posx, posy, radius);
@@ -79,7 +77,7 @@ public class Ball extends Circle implements GameObject {
 	/**
 	 * update: update the ball's state.
 	 * 
-	 * @param deltaTime
+	 * @param updateTime
 	 *            time between last and current frame
 	 */
 	public final void update(final double updateTime) {
@@ -219,7 +217,7 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * getDeltaX.
+	 * get DeltaX.
 	 * 
 	 * @return float deltaX
 	 */
@@ -228,16 +226,16 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * setDeltaX.
+	 * set DeltaX.
 	 * 
-	 * @param float deltaX
+	 * @param deltaX float to set
 	 */
 	public final void setDeltaX(float deltaX) {
 		this.deltaX = deltaX;
 	}
 
 	/**
-	 * getDeltaY.
+	 * get DeltaY.
 	 * 
 	 * @return float deltaY
 	 */
@@ -246,7 +244,8 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * setDeltaY.
+	 * set DeltaY.
+	 * @param deltaY float to set
 	 */
 	public void setDeltaY(float deltaY) {
 		this.deltaY = deltaY;

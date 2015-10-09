@@ -20,12 +20,25 @@ public class Button extends Box {
     private String buttonString = "";
     private boolean clicked;
 
+    /**
+     * 
+     * @param posx x position
+     * @param posy y position
+     * @param width width of button
+     * @param height height of button
+     * @param color color of button
+     * @param buttonString text
+     */
     public Button(float posx, float posy, float width, float height,
 	    Color color, String buttonString) {
 	super(posx, posy, width, height, color);
 	this.buttonString = buttonString;
     }
 
+    /**
+     * Update method.
+     * @param deltaTime time between frames
+     */
     public void update(double deltaTime) {
 	if (Mouse.isButtonReleased(0)
 		&& super.pointInShape(Mouse.getCursorPos())) {
@@ -35,6 +48,9 @@ public class Button extends Box {
 	}
     }
 
+    /**
+     * Render method.
+     */
     @Override
     public void render() {
 	super.render();

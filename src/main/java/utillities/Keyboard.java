@@ -6,14 +6,11 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 
 /**
  * 
- * JAPSER
+ * @author Jasper
  *
  */
 public class Keyboard extends GLFWKeyCallback {
 
-    /**
-	 * 
-	 */
     private static boolean[] keys = new boolean[65536];
     private static boolean[] releasedKeys = new boolean[65536];
     private static ArrayList<Integer> released = new ArrayList<Integer>();
@@ -31,16 +28,29 @@ public class Keyboard extends GLFWKeyCallback {
 	}
     }
 
+    /**
+     * 
+     * @param keycode key
+     * @return true if down
+     */
     public static boolean isKeyDown(int keycode) {
 	return keys[keycode];
     }
 
+    /**
+     * 
+     * @param keycode key
+     * @return true if released
+     */
     public static boolean isKeyReleased(int keycode) {
 	boolean res = releasedKeys[keycode];
 	Keyboard.releasedKeys[keycode] = false;
 	return res;
     }
 
+    /**
+     * Reset released.
+     */
     public static void resetReleased() {
 	for (int index : released) {
 	    releasedKeys[index] = false;

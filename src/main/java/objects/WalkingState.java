@@ -31,7 +31,7 @@ public class WalkingState implements PlayerState {
     }
     
     /**
-     * 
+     * Update method.
      */
     @Override
     public void update(Player player) {
@@ -39,7 +39,7 @@ public class WalkingState implements PlayerState {
     }
 
     /**
-     * 
+     * Handle inputs.
      */
     @Override
     public void handleInputs(Player player, double deltaTime) {

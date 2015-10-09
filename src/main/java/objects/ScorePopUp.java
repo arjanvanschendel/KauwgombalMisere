@@ -7,43 +7,30 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
 
 /**
- * @author Bart Class that supports the rendering of small score popups after a
+ * @author Bart 
+ * 
+ * Class that supports the rendering of small score popups after a
  *         ball has been popped. note: is rendered in game class in stead of
  *         level because this requires no binding of the textures.
  */
 public class ScorePopUp implements GameObject {
-    /**
-     * @param _posx
-     *            x position of intended popup location
-     */
+
     private float posx;
-
-    /**
-     * @param posy
-     *            y position of intended popup location
-     */
     private float posy;
-
-    /**
-     * amount of points(casted to string).
-     */
     private String score;
-    /**
-     * color of the popup.
-     */
     private Color color;
 
     /**
-     * @param xpositie
+     * @param posX
      *            xpos van popup.
-     * @param ypositie
+     * @param posY
      *            ypos van popup.
      * @param radius
      */
-    public ScorePopUp(final float xpositie, final float ypositie,
+    public ScorePopUp(final float posX, final float posY,
 	    final float radius) {
-	posx = xpositie;
-	posy = ypositie * -1;
+	posx = posX;
+	posy = posY * -1;
 	switch ((int) radius) {
 	case 50:
 	    score = 20 + "";
@@ -74,9 +61,10 @@ public class ScorePopUp implements GameObject {
 
     /**
      * Setter for horizontal position.
+     * @param posx float to set
      */
-    public final void setPosx(float posx) {
-	this.posx = posx;
+    public final void setPosx(float posX) {
+	this.posx = posX;
     }
 
     /**
@@ -108,7 +96,7 @@ public class ScorePopUp implements GameObject {
     }
 
     /**
-     * Setter voor color.
+     * Setter for color.
      * 
      * @param colorNew
      *            to set.

@@ -21,10 +21,11 @@ import utillities.ObjectGenerator;
  * Level Class: an object of this class represents a level in the game,
  * containing all objects in the level.
  * 
+ * @author Luke, Jasper, Bart
  *
  */
 public class Level {
-    
+
     private static Game game = Game.getInstance();
     private String loc;
     private static ArrayList<GameObject> objects = new ArrayList<GameObject>();
@@ -38,7 +39,7 @@ public class Level {
     /**
      * Level: constructor.
      * 
-     * @param location
+     * @param location location of level file
      */
     public Level(String location) {
 	loc = location;
@@ -46,6 +47,10 @@ public class Level {
 
     }
 
+    /**
+     * Determine if level is completed.
+     * @return true if completed
+     */
     public static boolean levelComplete() {
 	for (GameObject temp : objects) {
 	    if (temp instanceof Ball) {
@@ -73,10 +78,17 @@ public class Level {
 
     }
 
+    /**
+     * Add object to remove list.
+     * @param object object to be removed
+     */
     public static void remove(GameObject object) {
 	removeObjects.add(object);
     }
 
+    /**
+     * Remove objects from remove list.
+     */
     private void remove() {
 	for (GameObject object : removeObjects) {
 	    if (objects.contains(object)) {
@@ -87,6 +99,10 @@ public class Level {
 	removeObjects.clear();
     }
 
+    /**
+     * 
+     * @param projectile projectile to set.
+     */
     public static void setProjectile(Projectile projectile) {
 
 	if (pro == null) {
@@ -103,11 +119,19 @@ public class Level {
 
     }
 
+    /**
+     * Add ball to level.
+     * @param ball ball to add
+     */
     public static void addBall(Ball ball) {
 	objects.add(ball);
 	CollisionDetection.addCollider(ball);
     }
 
+    /**
+     * Add power up to level.
+     * @param pu power up to add
+     */
     public static void addPowerUp(PowerUp pu) {
 	objects.add(pu);
 	CollisionDetection.addCollider(pu);
@@ -116,7 +140,7 @@ public class Level {
     /**
      * update: update the level-object's state.
      * 
-     * @param deltaTime
+     * @param deltaTime time between frames
      */
     public void update(double deltaTime) {
 	for (GameObject update : objects) {
@@ -156,7 +180,7 @@ public class Level {
     }
 
     /**
-     * Load level
+     * Read level file.
      */
     public void readLevel() {
 	clear();
@@ -205,8 +229,8 @@ public class Level {
     }
 
     /**
-     * 
-     * @param popUp
+     * Add pop up.
+     * @param popUp pop up to be added
      */
     public static void addPopUp(ScorePopUp popUp) {
 	if (popUpObjects.size() > 3) {
@@ -216,7 +240,7 @@ public class Level {
 	}
 	popUpObjects.add(popUp);
     }
-    
+
     /**
      * Get name of level.
      * 
@@ -233,19 +257,20 @@ public class Level {
     public static Projectile getProjectile() {
 	return pro;
     }
-    
+
     /**
      * @return the popUpObjects
      */
     public static final ArrayList<GameObject> getPopUpObjects() {
-        return popUpObjects;
+	return popUpObjects;
     }
 
     /**
-     * @param popUpObjects the popUpObjects to set
+     * @param popUpObjects
+     *            the popUpObjects to set
      */
     public static final void setPopUpObjects(ArrayList<GameObject> popUpObjects) {
-        Level.popUpObjects = popUpObjects;
+	Level.popUpObjects = popUpObjects;
     }
 
 }

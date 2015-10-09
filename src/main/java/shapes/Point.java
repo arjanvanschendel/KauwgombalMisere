@@ -2,13 +2,18 @@ package shapes;
 
 /**
  * 
- * JAPSEEER
+ * @author Jasper
  *
  */
 public class Point {
 	private float x;
 	private float y;
 
+	/**
+	 * 
+	 * @param x x position
+	 * @param y y position
+	 */
 	public Point(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -24,7 +29,7 @@ public class Point {
 
 	/**
 	 * setX.
-	 * @param x
+	 * @param x float to set
 	 */
 	public void setX(float x) {
 		this.x = x;
@@ -40,7 +45,7 @@ public class Point {
 
 	/**
 	 * setY.
-	 * @param y
+	 * @param y float to set
 	 */
 	public void setY(float y) {
 		this.y = y;
@@ -48,7 +53,7 @@ public class Point {
 
 	/**
 	 * Dot: returns the dot product of two vectors/points.
-	 * @param d
+	 * @param d point
 	 * @return float
 	 */
 	public float dot(Point d) {

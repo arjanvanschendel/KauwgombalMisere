@@ -20,7 +20,7 @@ public class IdleState implements PlayerState {
     private SpriteSheet idle;
 
     /**
-     * 
+     * Set spritesheet if texture detected.
      */
     public IdleState() {
 	if (!game.getTextures().isEmpty()) {

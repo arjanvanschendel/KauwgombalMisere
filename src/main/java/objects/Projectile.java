@@ -34,8 +34,8 @@ public class Projectile extends Box implements GameObject {
 
     /**
      * 
-     * @param posx
-     * @param posy
+     * @param posx x position
+     * @param posy y position
      */
     public Projectile(float posx, float posy) {
 	super(posx, posy, 10, 50, new Color(205, 205, 205));
@@ -43,8 +43,10 @@ public class Projectile extends Box implements GameObject {
     }
 
     /**
-	 * 
-	 */
+     * Update method.
+     * 
+     * @param deltaTime time between frames
+     */
     @Override
     public void update(double deltaTime) {
 	ArrayList<Collision> collisions = CollisionDetection.collision(this);
@@ -101,6 +103,10 @@ public class Projectile extends Box implements GameObject {
 
     }
 
+    /**
+     * 
+     * @return true if ball hit
+     */
     public boolean getHitBall() {
 	return hitBall;
     }

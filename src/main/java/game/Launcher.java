@@ -48,7 +48,7 @@ import utillities.Logger;
 import utillities.Mouse;
 
 /**
- * 
+ * @author Jasper
  * Intializes window and opengl. Also starts the loop and calculates the delta
  * time between frames.
  *
