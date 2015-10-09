@@ -69,9 +69,10 @@ public class Launcher {
     private static TrueTypeFont font;
     private Game game;
 
+    /**
+     * Run method.
+     */
     public void run() {
-	// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
-
 	try {
 	    init();
 	    InitOpenGL();
@@ -89,6 +90,9 @@ public class Launcher {
 	}
     }
 
+    /**
+     * Initial setup.
+     */
     private void init() {
 	// Setup an error callback. The default implementation
 	// will print the error message in System.err.
@@ -141,6 +145,9 @@ public class Launcher {
 	glfwShowWindow(window);
     }
 
+    /**
+     * Initial OpenGL setup.
+     */
     private void InitOpenGL() {
 	// This line is critical for LWJGL's interoperation with GLFW's
 	// OpenGL context, or any context that is managed externally.
@@ -198,6 +205,9 @@ public class Launcher {
 
     }
 
+    /**
+     * Game loop.
+     */
     private void loop() {
 
 	// load a default java font
@@ -233,6 +243,10 @@ public class Launcher {
 	}
     }
 
+    /**
+     * 
+     * @return deltaTime
+     */
     public double getDelta() {
 	double time = glfwGetTime();
 	double delta = time - lastFrame;
@@ -244,6 +258,10 @@ public class Launcher {
 	}
     }
 
+    /**
+     * 
+     * @param args arguments
+     */
     public static void main(String[] args) {
 	Logger.init();
 	Logger.setPrintLog(false);
