@@ -49,7 +49,8 @@ import utillities.Mouse;
 
 /**
  * 
- * JAAAAAASPSPSEEEEEERRRR
+ * Intializes window and opengl. Also starts the loop and calculates the delta
+ * time between frames.
  *
  */
 public class Launcher {
@@ -66,12 +67,15 @@ public class Launcher {
 	private static int HEIGHT;
 	private static long window;
 	private static TrueTypeFont font;
+	private Game game;
 
 	public void run() {
 		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
 
 		try {
 			init();
+			InitOpenGL();
+			game = new Game();
 			loop();
 
 			// Release window and window callbacks
@@ -107,12 +111,23 @@ public class Launcher {
 		WIDTH = GLFWvidmode.width(vidmode);
 		HEIGHT = GLFWvidmode.height(vidmode);
 
-		// Create the window
-		// window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL,
-		// NULL);
-		// Fullscreen
-		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
-				glfwGetPrimaryMonitor(), NULL);
+		if (GameSettings.isFullscreen()) {
+			// Fullscreen
+			long newwindow = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
+					glfwGetPrimaryMonitor(), window);
+			if (window != NULL){
+				glfwDestroyWindow(window);
+			}
+			window = newwindow;
+		} else {
+			// Create the window
+			long newwindow = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL,
+					window);
+			if (window != NULL){
+				glfwDestroyWindow(window);
+			}
+			window = newwindow;
+		}
 		if (window == NULL)
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -151,7 +166,8 @@ public class Launcher {
 		}
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(-CAMWIDTH / (double) 2, CAMWIDTH / (double) 2, 0, CAMHEIGHT, -1, 1);
+		GL11.glOrtho(-CAMWIDTH / (double) 2, CAMWIDTH / (double) 2, 0,
+				CAMHEIGHT, -1, 1);
 		glMatrixMode(GL11.GL_MODELVIEW);
 		WindowResize = GLFWWindowSizeCallback(new SAM() {
 			@Override
@@ -162,35 +178,32 @@ public class Launcher {
 				double aRatio = (double) WIDTH / (double) HEIGHT;
 				if (aRatio < 1.8) {
 					CAMWIDTH = 1000;
-					CAMHEIGHT = (int) ((double)CAMWIDTH / aRatio);
+					CAMHEIGHT = (int) ((double) CAMWIDTH / aRatio);
 
 				} else {
 					CAMHEIGHT = 550;
-					CAMWIDTH = (int) ((double)CAMHEIGHT * aRatio);
+					CAMWIDTH = (int) ((double) CAMHEIGHT * aRatio);
 				}
 				GL11.glViewport(0, 0, width, height);
 				GL11.glMatrixMode(GL11.GL_PROJECTION);
 				GL11.glLoadIdentity();
-				GL11.glOrtho(-(float)CAMWIDTH / 2, (float)CAMWIDTH / 2, 0, CAMHEIGHT,
-						-1, 1);
+				GL11.glOrtho(-(float) CAMWIDTH / 2, (float) CAMWIDTH / 2, 0,
+						CAMHEIGHT, -1, 1);
 				GL11.glMatrixMode(GL11.GL_MODELVIEW);
 				GL11.glLoadIdentity();
 
 			}
 		});
-		glfwSetCallback(window,WindowResize);
-				
+		glfwSetCallback(window, WindowResize);
+
 	}
 
 	private void loop() {
-
-		InitOpenGL();
 
 		// load a default java font
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		setFont(new TrueTypeFont(awtFont, true));
 
-		Game game = new Game();
 		lastFrame = glfwGetTime();
 
 		// Run the rendering loop until the user has attempted to close
@@ -198,7 +211,7 @@ public class Launcher {
 		while (glfwWindowShouldClose(window) == GL_FALSE) {
 			glClear(GL_COLOR_BUFFER_BIT);
 			glLoadIdentity();
-
+			
 			game.update(getDelta());
 			game.render();
 
@@ -207,6 +220,12 @@ public class Launcher {
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
+
+			if (GameSettings.reload()) {
+				GameSettings.setReload(false);
+				init();
+				InitOpenGL();
+			}
 		}
 	}
 
@@ -270,7 +289,8 @@ public class Launcher {
 	}
 
 	/**
-	 * @param font the font to set
+	 * @param font
+	 *            the font to set
 	 */
 	public static void setFont(TrueTypeFont font) {
 		Launcher.font = font;

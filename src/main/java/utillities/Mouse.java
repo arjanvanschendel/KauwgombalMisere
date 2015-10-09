@@ -30,7 +30,6 @@ public class Mouse extends GLFWMouseButtonCallback {
 
 	public static boolean isButtonReleased(int keycode) {
 		boolean res = releasedButtons[keycode];
-		releasedButtons[keycode] = false;
 		return res;
 	}
 
