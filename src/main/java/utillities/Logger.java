@@ -8,6 +8,11 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Logger class.
+ * @author Matthias
+ *
+ */
 public class Logger {
 
 	private static String log;
@@ -25,7 +30,7 @@ public class Logger {
 	
 	/**
 	 * add: add a string to the log.
-	 * @param s
+	 * @param s string to add
 	 */
 	public static void add(String s) {
 		Calendar cal = Calendar.getInstance();
@@ -48,8 +53,8 @@ public class Logger {
 
 	/**
 	 * appendLog: appends a line s to the log file.
-	 * @param filename
-	 * @param s
+	 * @param filename name of file
+	 * @param s string to append
 	 */
 	public static void appendLog(String filename, String s) {
 		try {	

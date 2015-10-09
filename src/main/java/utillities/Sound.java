@@ -1,11 +1,11 @@
 package utillities;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
@@ -17,145 +17,170 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Matthias Tavasszy
  *
  */
-@SuppressWarnings("restriction")
 public class Sound {
 
-	/**
-	 * indicates whether there is an audio device or not.
-	 */
-	private boolean device;
+    /**
+     * indicates whether there is an audio device or not.
+     */
+    private boolean device;
 
-	/**
-	 * The audio file.
-	 */
-	private File f;
+    /**
+     * The audio file.
+     */
+    private File f;
 
-	/**
-	 * dVolume: the change in volume. Does not work for values beneath -6
-	 * somehow.
-	 */
-	private float dVolume;
+    /**
+     * dVolume: the change in volume. Does not work for values beneath -6
+     * somehow.
+     */
+    private float volume;
 
-	/**
-	 * The AudioInputStream. Gets reset with every .play();
-	 */
-	private AudioInputStream audiostream;
+    /**
+     * The AudioInputStream. Gets reset with every .play();
+     */
+    private AudioInputStream audiostream;
 
-	/**
-	 * the Clip.
-	 */
-	private Clip clip;
+    /**
+     * the Clip.
+     */
+    private Clip clip;
 
-	/**
-	 * Holds a boolean value representing whether the Sound is playing or not.
-	 */
-	private boolean playing;
+    /**
+     * Holds a boolean value representing whether the Sound is playing or not.
+     */
+    private boolean playing;
 
-	/**
-	 * Sound: constructor.
-	 * 
-	 * @param filename
-	 * @throws IOException
-	 */
-	public Sound(final String filename) {
-		f = new File(filename);
-		audiostream = null;
-		dVolume = 0;
-		playing = false;
-	}
+    /**
+     * Sound: constructor.
+     * 
+     * @param filename
+     *            name of sound
+     * @throws IOException
+     */
+    public Sound(final String filename) {
+	f = new File(filename);
+	audiostream = null;
+	volume = 100;
+	playing = false;
+    }
 
-	/**
-	 * Sound: secondary constructor. It includes an argument for delta volume.
-	 * Added protection against crashing by capping dVolume to -6f.
-	 * 
-	 * @param filename
-	 * @param dv
-	 * @throws IOException
-	 */
-	public Sound(final String filename, final float dv) {
-		audiostream = null;
-		f = new File(filename);
-		dVolume = Math.max(-6f, dv);
-		playing = false;
-	}
+    /**
+     * Sound: secondary constructor. It includes an argument for delta volume.
+     * Added protection against crashing by capping dVolume to -6f.
+     * 
+     * @param filename
+     *            name of sound
+     * @param dv
+     *            volume
+     * @throws IOException
+     */
+    public Sound(final String filename, final float dv) {
+	audiostream = null;
+	f = new File(filename);
+	volume = Math.max(0, dv);
+	playing = false;
+    }
 
-	/**
-	 * play: play the sound.
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	public final void play() {
-		loop(0);
-	}
+    /**
+     * play: play the sound.
+     * 
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public final void play() {
+	loop(0);
+    }
 
-	/**
-	 * play: play the sound.
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	public final void loop(final int n) {
-		try {
-			clip = null;
+    /**
+     * play: play the sound.
+     * 
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @param n loops
+     */
+    public final void loop(final int n) {
+	try {
+	    clip = null;
 
-			try {
-				audiostream = AudioSystem.getAudioInputStream(f);
-				clip = AudioSystem.getClip();
-				clip.open(audiostream);
-				FloatControl gainControl = (FloatControl) clip
-						.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(dVolume);
-					clip.loop(n);
-			} catch (UnsupportedAudioFileException | IOException
-					| LineUnavailableException e) {
-				e.printStackTrace();
-			}
+	    try {
+		audiostream = AudioSystem.getAudioInputStream(f);
+		clip = AudioSystem.getClip();
+		clip.open(audiostream);
+		FloatControl gainControl = (FloatControl) clip
+			.getControl(FloatControl.Type.MASTER_GAIN);
+		BooleanControl muteControl = (BooleanControl) clip
+			.getControl(BooleanControl.Type.MUTE);
+		if (volume == 0) {
+		    muteControl.setValue(true);
+		} else {
+		    muteControl.setValue(false);
+		    gainControl.setValue((float) (Math.log(volume / 100d)
+			    / Math.log(10.0) * 20.0));
 
-
-			device = true;
-
-		} catch (IllegalArgumentException e) {
-			device = false;
-			System.out.println("no device to play audio from");
 		}
-		playing = true;
-	}
+		clip.loop(n);
+	    } catch (UnsupportedAudioFileException | IOException
+		    | LineUnavailableException e) {
+		e.printStackTrace();
+	    }
 
-	/**
-	 * stop: Stop the sound.
-	 */
-	public final void stop() {
-		if (isPlaying() && device) {
-			clip.stop();
-		}
-		playing = false;
-	}
+	    device = true;
 
-	/**
-	 * isPlaying: returns playing.
-	 * 
-	 * @return playing
-	 */
-	public final boolean isPlaying() {
-		return playing;
+	} catch (IllegalArgumentException e) {
+	    device = false;
+	    System.out.println("no device to play audio from");
 	}
+	playing = true;
+    }
 
-	/**
-	 * getVolume: returns dVolume.
-	 * 
-	 * @return dVolume
-	 */
-	public final float getVolume() {
-		return dVolume;
+    /**
+     * stop: Stop the sound.
+     */
+    public final void stop() {
+	if (isPlaying() && device) {
+	    clip.stop();
 	}
+	playing = false;
+    }
 
-	/**
-	 * setVolume: set dVolume.
-	 * 
-	 * @param ndV
-	 */
-	public final void setVolume(final float ndV) {
-		dVolume = Math.max(-6, ndV);
+    /**
+     * isPlaying: returns playing.
+     * 
+     * @return playing
+     */
+    public final boolean isPlaying() {
+	return playing;
+    }
+
+    /**
+     * getVolume: returns dVolume.
+     * 
+     * @return dVolume
+     */
+    public final float getVolume() {
+	return volume;
+    }
+
+    /**
+     * setVolume: set volume.
+     * 
+     * @param vol
+     *            volume to set
+     */
+    public final void setVolume(final float vol) {
+	volume = Math.max(0, vol);
+	if (clip != null) {
+	    FloatControl gainControl = (FloatControl) clip
+		    .getControl(FloatControl.Type.MASTER_GAIN);
+	    BooleanControl muteControl = (BooleanControl) clip
+		    .getControl(BooleanControl.Type.MUTE);
+	    if (volume == 0) {
+		muteControl.setValue(true);
+	    } else {
+		muteControl.setValue(false);
+		gainControl.setValue((float) (Math.log(volume / 100d)
+			/ Math.log(10.0) * 20.0));
+	    }
 	}
+    }
 }

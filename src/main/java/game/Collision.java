@@ -3,32 +3,53 @@ package game;
 import objects.GameObject;
 
 /**
- * 
- * JAPSER
+ * Class for collision.
+ * @author Jasper
  *
  */
 public class Collision {
-	private GameObject col;
-	private int side;
+    private GameObject col;
+    private int side;
 
-	public Collision(GameObject collider, int side) {
-		this.setCol(collider);
-		this.setSide(side);
-	}
+    /**
+     * 
+     * @param collider the gameobject
+     * @param side the side hit
+     */
+    public Collision(GameObject collider, int side) {
+	this.setCol(collider);
+	this.setSide(side);
+    }
+    
+    /**
+     * Get collider.
+     * @return the col
+     */
+    public GameObject getCol() {
+	return col;
+    }
 
-	public GameObject getCol() {
-		return col;
-	}
+    /**
+     * Set collider.
+     * @param collider the col
+     */
+    public void setCol(GameObject collider) {
+	this.col = collider;
+    }
 
-	public void setCol(GameObject collider) {
-		this.col = collider;
-	}
+    /** 
+     * Get side.
+     * @return the side
+     */
+    public int getSide() {
+	return side;
+    }
 
-	public int getSide() {
-		return side;
-	}
-
-	public void setSide(int side) {
-		this.side = side;
-	}
+    /**
+     * Set side.
+     * @param side the side
+     */
+    public void setSide(int side) {
+	this.side = side;
+    }
 }

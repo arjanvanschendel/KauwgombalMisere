@@ -7,12 +7,9 @@ import game.GameVariables;
 import game.Level;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import powerups.FastArrowPowerUp;
 import powerups.SlowBallPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
@@ -25,6 +22,11 @@ import utillities.Logger;
  *
  */
 public class Ball extends Circle implements GameObject {
+    	
+    	/**
+    	 * Get current game instance.
+    	 */
+    	private Game game = Game.getInstance();
 	/**
 	 * deltaX the force in the X direction.
 	 */
@@ -51,8 +53,6 @@ public class Ball extends Circle implements GameObject {
 	 *            Y position
 	 * @param radius
 	 *            radius of the ball
-	 * @param color
-	 *            color of the ball
 	 */
 	public Ball(final float posx, final float posy, final float radius) {
 		super(posx, posy, radius);
@@ -77,7 +77,7 @@ public class Ball extends Circle implements GameObject {
 	/**
 	 * update: update the ball's state.
 	 * 
-	 * @param deltaTime
+	 * @param updateTime
 	 *            time between last and current frame
 	 */
 	public final void update(final double updateTime) {
@@ -99,7 +99,7 @@ public class Ball extends Circle implements GameObject {
 						deltaY = (float) (GameVariables.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
 						
-						Game.sounds.get(3).play();
+						game.getSounds().get(3).play();
 
 					} else if (collision.getSide() == 2) {
 						posx = ((Box) collision.getCol()).getPosx()
@@ -109,14 +109,14 @@ public class Ball extends Circle implements GameObject {
 						posx += deltaX * 60 * deltaTime;
 
 
-						Game.sounds.get(3).play();
+						game.getSounds().get(3).play();
 						
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-						Game.sounds.get(3).play();
+						game.getSounds().get(3).play();
 					}
 				}
 			}
@@ -131,7 +131,7 @@ public class Ball extends Circle implements GameObject {
 		this.updateScore();
 		Logger.add("ball hit");
 		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(), this.getRadius());
-		Game.addPopUp(popUp);
+		Level.addPopUp(popUp);
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
 		Ball ball2 = new Ball(posx, posy, radius / 2);
@@ -147,8 +147,6 @@ public class Ball extends Circle implements GameObject {
 			Level.addBall(ball);
 			Level.addBall(ball2);
 		}
-		System.out.println(Level.getScore());
-
 		dropPowerUp();
 	}
 
@@ -180,15 +178,15 @@ public class Ball extends Circle implements GameObject {
 	final void updateScore() {
 
 		char ballsize = this.getRadius() > 20 ? 'b' : 's';
-		Game.ballhit(this.getPosx(), this.getPosy(), ballsize);
+		//game.ballHit(this.getPosx(), this.getPosy(), ballsize); is this being used?
 		switch (ballsize) {
 		case 'b':
-			Level.setScore(Level.getScore() + 20);
+		    	game.setScore(game.getScore() + 20);
 			break;
 		case 's':
-			Level.setScore(Level.getScore() + 10);
+		    	game.setScore(game.getScore() + 10);
 		default:
-			Level.setScore(Level.getScore());
+		    	game.setScore(game.getScore());
 			break;
 		}
 
@@ -219,7 +217,7 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * getDeltaX.
+	 * get DeltaX.
 	 * 
 	 * @return float deltaX
 	 */
@@ -228,16 +226,16 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * setDeltaX.
+	 * set DeltaX.
 	 * 
-	 * @param float deltaX
+	 * @param deltaX float to set
 	 */
 	public final void setDeltaX(float deltaX) {
 		this.deltaX = deltaX;
 	}
 
 	/**
-	 * getDeltaY.
+	 * get DeltaY.
 	 * 
 	 * @return float deltaY
 	 */
@@ -246,7 +244,8 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * setDeltaY.
+	 * set DeltaY.
+	 * @param deltaY float to set
 	 */
 	public void setDeltaY(float deltaY) {
 		this.deltaY = deltaY;

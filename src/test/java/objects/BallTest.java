@@ -24,8 +24,8 @@ public class BallTest {
 
 	@Before
 	public void setup() {
-		g = new Ball(0, 0, 50 / 4);
-		g1 = new Ball(0, 0, 50 / 4);
+		g = new Ball(100, 100, 50 / 4);
+		g1 = new Ball(100, 100, 50 / 4);
 		g2 = new Ball(1, 0, 50 / 4);
 		b = new Ball(0, 0, 50 / 2);
 		r = new Ball(0, 0, 50);
@@ -40,12 +40,12 @@ public class BallTest {
 
 	@Test
 	public void hitTestSmallBall() {
-		Level lvl =new Level("levels/test/level1.lvl");
+		Level lvl = new Level("levels/test/level1.lvl");
 		Level.addBall(g);
 		assertFalse(Level.levelComplete());
 		g.hit();
 		lvl.update(0);
-		assertTrue(Level.levelComplete());
+		assertFalse(Level.levelComplete());
 	}
 
 	@Test

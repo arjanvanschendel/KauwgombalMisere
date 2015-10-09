@@ -4,17 +4,15 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import objects.GameObject;
-import objects.ScorePopUp;
+import menu.MainMenu;
+import menu.OptionMenu;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
 
-import Menu.MainMenu;
 import utillities.Keyboard;
 import utillities.Logger;
 import utillities.Mouse;
@@ -24,45 +22,78 @@ import utillities.Texture;
 //import org.newdawn.slick.opengl.TextureLoader;
 
 /**
- * Class Game: a Game object represents a game, holding all the levels.
+ * @author Luke, Jasper Class Game: a Game object represents a game, holding all
+ *         the levels.
  */
-public class Game {
-    private static int state;
-    private static Level currentLvl;
-    private static int lvl;
-    private int maxLvl;
-    private MainMenu mm;
-    private static int lives;
-    public static final ArrayList<Sound> sounds = new ArrayList<Sound>();
-    public static final ArrayList<Texture> textures = new ArrayList<Texture>();
-    private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
+public final class Game {
 
-	
+    private static Game unique = new Game();
+    private int state;
+    private Level currentLvl;
+    private int score;
+    private int lvl;
+    private int maxLvl;
+    private MainMenu menu;
+    private OptionMenu options;
+    private int lives;
+    private ArrayList<Sound> sounds = new ArrayList<Sound>();
+    private ArrayList<Texture> textures = new ArrayList<Texture>();
+
     /**
-     * Game: constructor.
+     * Only instanced once Game: constructor.
      */
-    public Game() {
-	setLives(3);
-	Logger.add("game started");
+    private Game() {
+	Logger.add("Instanced");
+    }
+
+    /**
+     * This method sets up the resources for the game.
+     */
+    public void setup() {
 	loadTextures();
 	loadSounds();
-	setLvl(1);
 	maxLvl = countLevels();
-	loadLevel(lvl);
-	mm = new MainMenu();
-	setState(2);
-    }
-    
-    private void loadSounds() {
+	menu = new MainMenu();
+	options = new OptionMenu();
 
-		sounds.add(new Sound("sounds/arrowHitBall.wav"));
-		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
-		sounds.add(new Sound("sounds/arrowShoot.wav"));
-		sounds.add(new Sound("sounds/ballBounce.wav"));
-		sounds.add(new Sound("sounds/playerHit.wav"));
-		// Main menu sound
-		sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
-	}
+    }
+
+    /**
+     * This method resets the progress of the game.
+     */
+    public void reset() {
+	setLives(3);
+	setState(2);
+	setScore(0);
+	loadLevel(1);
+    }
+
+    /**
+     * 
+     * @return single instance of game
+     */
+    public static Game getInstance() {
+	return unique;
+    }
+
+    private void loadSounds() {
+	sounds.add(new Sound("sounds/sfx/arrowHitBall.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/arrowHitCeiling.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/arrowShoot.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/ballBounce.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/playerHit.wav", GameSettings
+		.getSFXVolume()));
+	// Main menu music
+	sounds.add(new Sound("sounds/music/Solar_Sailer.wav", GameSettings
+		.getMusicVolume()));
+	// In game music
+	sounds.add(new Sound("sounds/music/Derezzed.wav", GameSettings
+		.getMusicVolume()));
+    }
 
     /**
      * loadTextures: load the textures onto memory.
@@ -77,13 +108,13 @@ public class Game {
     }
 
     /**
-     * loadLevel: load a level.
      * 
-     * @param location
+     * @param number
+     *            Level number
      */
-    public static void loadLevel(int number) {
+    public void loadLevel(int number) {
 	setLvl(number);
-	Logger.add("loading in new level");
+	Logger.add("Loading in new level " + number);
 	currentLvl = new Level("levels/level" + number + ".lvl");
     }
 
@@ -93,8 +124,7 @@ public class Game {
     public void nextLevel() {
 	if (lvl < maxLvl) {
 	    Logger.add("next level");
-	    setLvl(getLvl() + 1);
-	    loadLevel(lvl);
+	    loadLevel(getLvl() + 1);
 	} else {
 	    Logger.add("game won");
 	    setState(3);
@@ -113,15 +143,16 @@ public class Game {
 	while (f.exists() && !f.isDirectory()) {
 	    result++;
 	    f = new File("levels/level" + (result + 1) + ".lvl");
-		}
+	}
 	return result;
-    	
+
     }
 
     /**
      * update: Update the state of the game.
      * 
      * @param deltaTime
+     *            time between frames.
      */
     public void update(double deltaTime) {
 	if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -144,7 +175,6 @@ public class Game {
 	case (0):
 	    // Playing
 	    currentLvl.update(deltaTime);
-		updateThePopUps(deltaTime);
 	    break;
 	case (1):
 	    // Paused
@@ -152,10 +182,10 @@ public class Game {
 
 	case (2):
 	    // Main Menu
-	    mm.update(deltaTime);
+	    menu.update(deltaTime);
 	    break;
 	case (3):
-	    System.out.println("new state");
+	    options.update(deltaTime);
 	    break;
 	default:
 	    System.out.println("INVALID STATE: " + state
@@ -167,27 +197,6 @@ public class Game {
 	Mouse.resetReleased();
 	Keyboard.resetReleased();
     }
-    
-    public static void addPopUp(ScorePopUp popUp){
-    if(popUpObjects.size() > 3){
-    	for(int i = 0; i < popUpObjects.size()-1; ++i){
-    		popUpObjects.remove(0);
-    	}
-    }
-    	popUpObjects.add(popUp);
-    }
-    
-    public void updateThePopUps(double deltaTime) {
-	for (GameObject popup : popUpObjects) {
-	   	popup.update(deltaTime);
-	}
-    }
-    
-    public void renderThePopUps(){
-    	for (GameObject render : popUpObjects) {
-    	    render.render();
-    	}
-    }
 
     /**
      * render: Render the graphics of the game.
@@ -197,27 +206,27 @@ public class Game {
 	case (0):
 	    // game
 	    currentLvl.render();
-		TextureImpl.bindNone();
-		renderThePopUps();
-	    GL11.glScalef(1, -1, 1);
-	  //  TextureImpl.bindNone();
-	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
-	    String scoreString = "Score: "+Level.getScore();
-	    String livesString = "Lives : " + lives;
-	    
-	    //Draw scoreString
-	    Launcher.getFont().drawString( -400, -540, scoreString, Color.blue);
+	    TextureImpl.bindNone();
 
-	    //Draw levelString
+	    GL11.glScalef(1, -1, 1);
+	    // TextureImpl.bindNone();
+	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
+	    String scoreString = "Score: " + getScore();
+	    String livesString = "Lives : " + lives;
+
+	    // Draw scoreString
+	    Launcher.getFont().drawString(-400, -540, scoreString, Color.blue);
+
+	    // Draw levelString
 	    Launcher.getFont().drawString(
 		    -(float) Launcher.getFont().getWidth(levelString) / 2,
 		    -100, levelString, Color.black);
-	    
-	    //Draw livesString
+
+	    // Draw livesString
 	    Launcher.getFont().drawString(
-			    -(float) Launcher.getFont().getWidth(livesString) / 2,
-			    -70, livesString, Color.black);
-	    
+		    -(float) Launcher.getFont().getWidth(livesString) / 2, -70,
+		    livesString, Color.black);
+
 	    GL11.glScalef(1, -1, 1);
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
 	    break;
@@ -231,7 +240,10 @@ public class Game {
 	    GL11.glDisable(GL11.GL_TEXTURE_2D);
 	    break;
 	case (2):
-	    mm.render();
+	    menu.render();
+	    break;
+	case (3):
+	    options.render();
 	    break;
 	default:
 	    System.out.println("INVALID STATE: " + state
@@ -241,65 +253,117 @@ public class Game {
 	}
     }
 
-    public static void ballhit(float x, float y, char size) {
-	String s;
-	if (size == 'b') {
-	    s = "20";
-	} else {
-	    s = "10";
-	}
-    }
-
     /**
-     * getState.
+     * 
      * @return int state
      */
-    public final int getState() {
+    public int getState() {
 	return state;
     }
 
     /**
-     * setState.
      * 
      * @param state
+     *            number of state to set
      */
-    public static void setState(int newState) {
-	Game.state = newState;
+    public void setState(int state) {
+	this.state = state;
     }
 
     /**
      * @return the lvl
      */
-    public static final int getLvl() {
+    public int getLvl() {
 	return lvl;
     }
 
     /**
      * @param lvl
-     *  the lvl to set
+     *            the lvl to set
      */
-    public static final void setLvl(int lvl) {
-	Game.lvl = lvl;
+    public void setLvl(int lvl) {
+	this.lvl = lvl;
     }
 
     /**
      * @return the lives
      */
-    public final static int getLives() {
+    public int getLives() {
 	return lives;
     }
 
     /**
-     * @param lives the lives to set
+     * @param lives
+     *            the lives to set
      */
-    public final static void setLives(int lives) {
-	Game.lives = lives;
+    public void setLives(int lives) {
+	this.lives = lives;
     }
-    
+
     /**
-     * @param lives the lives to set
+     * Decrease lives by one.
      */
-    public final static void decreaseLives() {
-	Game.lives--;
+    public void decreaseLives() {
+	lives--;
+    }
+
+    /**
+     * @return the sounds
+     */
+    public ArrayList<Sound> getSounds() {
+	return sounds;
+    }
+
+    /**
+     * @param sounds
+     *            the sounds to set
+     */
+    public void setSounds(ArrayList<Sound> sounds) {
+	this.sounds = sounds;
+    }
+
+    /**
+     * @return the textures
+     */
+    public ArrayList<Texture> getTextures() {
+	return textures;
+    }
+
+    /**
+     * @param textures
+     *            the textures to set
+     */
+    public void setTextures(ArrayList<Texture> textures) {
+	this.textures = textures;
+    }
+
+    /**
+     * @return the currentLvl
+     */
+    public Level getCurrentLvl() {
+	return currentLvl;
+    }
+
+    /**
+     * @param currentLvl
+     *            the currentLvl to set
+     */
+    public void setCurrentLvl(Level currentLvl) {
+	this.currentLvl = currentLvl;
+    }
+
+    /**
+     * @return the score
+     */
+    public int getScore() {
+	return score;
+    }
+
+    /**
+     * @param score
+     *            the score to set
+     */
+    public void setScore(int score) {
+	this.score = score;
     }
 }

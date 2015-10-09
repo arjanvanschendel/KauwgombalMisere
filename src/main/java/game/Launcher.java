@@ -48,232 +48,256 @@ import utillities.Logger;
 import utillities.Mouse;
 
 /**
- * 
- * JAAAAAASPSPSEEEEEERRRR
+ * @author Jasper
+ * Intializes window and opengl. Also starts the loop and calculates the delta
+ * time between frames.
  *
  */
 public class Launcher {
 
-	// We need to strongly reference callback instances.
-	private GLFWErrorCallback errorCallback;
-	private Keyboard keyCallback;
-	private double lastFrame;
-	private Mouse mouseCallback;
-	private GLFWWindowSizeCallback WindowResize;
-	private static int CAMWIDTH;
-	private static int CAMHEIGHT;
-	private static int WIDTH;
-	private static int HEIGHT;
-	private static long window;
-	private static TrueTypeFont font;
+    // We need to strongly reference callback instances.
+    private GLFWErrorCallback errorCallback;
+    private Keyboard keyCallback;
+    private double lastFrame;
+    private Mouse mouseCallback;
+    private GLFWWindowSizeCallback WindowResize;
+    private static int CAMWIDTH;
+    private static int CAMHEIGHT;
+    private static int WIDTH;
+    private static int HEIGHT;
+    private static long window;
+    private static TrueTypeFont font;
+    private Game game;
 
-	public void run() {
-		// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
+    public void run() {
+	// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
 
-		try {
-			init();
-			loop();
+	try {
+	    init();
+	    InitOpenGL();
 
-			// Release window and window callbacks
-			glfwDestroyWindow(window);
-			keyCallback.release();
-			mouseCallback.release();
-		} finally {
-			// Terminate GLFW and release the GLFWerrorfun
-			glfwTerminate();
-			errorCallback.release();
-		}
+	    loop();
+
+	    // Release window and window callbacks
+	    glfwDestroyWindow(window);
+	    keyCallback.release();
+	    mouseCallback.release();
+	} finally {
+	    // Terminate GLFW and release the GLFWerrorfun
+	    glfwTerminate();
+	    errorCallback.release();
 	}
+    }
 
-	private void init() {
-		// Setup an error callback. The default implementation
-		// will print the error message in System.err.
-		glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
+    private void init() {
+	// Setup an error callback. The default implementation
+	// will print the error message in System.err.
+	glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
 
-		// Initialize GLFW. Most GLFW functions will not work before doing this.
-		if (glfwInit() != GL11.GL_TRUE)
-			throw new IllegalStateException("Unable to initialize GLFW");
+	// Initialize GLFW. Most GLFW functions will not work before doing this.
+	if (glfwInit() != GL11.GL_TRUE)
+	    throw new IllegalStateException("Unable to initialize GLFW");
 
-		// Configure our window
-		glfwDefaultWindowHints(); // optional, the current window hints are
-									// already the default
-		glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden
-												// after creation
-		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
+	// Configure our window
+	glfwDefaultWindowHints(); // optional, the current window hints are
+				  // already the default
+	glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden
+						// after creation
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
 
-		// Get the resolution of the primary monitor
-		ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	// Get the resolution of the primary monitor
+	ByteBuffer vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-		WIDTH = GLFWvidmode.width(vidmode);
-		HEIGHT = GLFWvidmode.height(vidmode);
+	WIDTH = GLFWvidmode.width(vidmode);
+	HEIGHT = GLFWvidmode.height(vidmode);
 
-		// Create the window
-		// window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL,
-		// NULL);
-		// Fullscreen
-		window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
-				glfwGetPrimaryMonitor(), NULL);
-		if (window == NULL)
-			throw new RuntimeException("Failed to create the GLFW window");
-
-		glfwSetKeyCallback(window, keyCallback = new Keyboard());
-		glfwSetMouseButtonCallback(window, mouseCallback = new Mouse());
-		// Make the OpenGL context current
-		glfwMakeContextCurrent(window);
-		// Enable v-sync
-		glfwSwapInterval(0);
-		// Make the window visible
-		glfwShowWindow(window);
+	if (GameSettings.isFullscreen()) {
+	    // Fullscreen
+	    long newwindow = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
+		    glfwGetPrimaryMonitor(), window);
+	    if (window != NULL) {
+		glfwDestroyWindow(window);
+	    }
+	    window = newwindow;
+	} else {
+	    // Create the window
+	    long newwindow = glfwCreateWindow(WIDTH, HEIGHT,
+		    "KauwgombalMisere", NULL, window);
+	    if (window != NULL) {
+		glfwDestroyWindow(window);
+	    }
+	    window = newwindow;
 	}
+	if (window == NULL)
+	    throw new RuntimeException("Failed to create the GLFW window");
 
-	private void InitOpenGL() {
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the ContextCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GLContext.createFromCurrent();
+	glfwSetKeyCallback(window, keyCallback = new Keyboard());
+	glfwSetMouseButtonCallback(window, mouseCallback = new Mouse());
+	// Make the OpenGL context current
+	glfwMakeContextCurrent(window);
+	// Enable v-sync
+	glfwSwapInterval(0);
+	// Make the window visible
+	glfwShowWindow(window);
+    }
 
-		// Set the clear color
-		glClearColor(0.0f, 0.3f, 0.3f, 0.0f);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    private void InitOpenGL() {
+	// This line is critical for LWJGL's interoperation with GLFW's
+	// OpenGL context, or any context that is managed externally.
+	// LWJGL detects the context that is current in the current thread,
+	// creates the ContextCapabilities instance and makes the OpenGL
+	// bindings available for use.
+	GLContext.createFromCurrent();
 
+	// Set the clear color
+	glClearColor(0.0f, 0.3f, 0.3f, 0.0f);
+	GL11.glEnable(GL11.GL_TEXTURE_2D);
+	GL11.glEnable(GL11.GL_BLEND);
+	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+	double aRatio = (double) WIDTH / (double) HEIGHT;
+	if (aRatio < 1.8) {
+	    CAMWIDTH = 1000;
+	    CAMHEIGHT = (int) (CAMWIDTH / (double) aRatio);
+
+	} else {
+	    CAMHEIGHT = 550;
+	    CAMWIDTH = (int) (CAMHEIGHT * aRatio);
+	}
+	GL11.glMatrixMode(GL11.GL_PROJECTION);
+	GL11.glLoadIdentity();
+	GL11.glOrtho(-CAMWIDTH / (double) 2, CAMWIDTH / (double) 2, 0,
+		CAMHEIGHT, -1, 1);
+	glMatrixMode(GL11.GL_MODELVIEW);
+	WindowResize = GLFWWindowSizeCallback(new SAM() {
+	    @Override
+	    public void invoke(long window, int width, int height) {
+		WIDTH = width;
+		HEIGHT = height;
+		// Change CAMHEIGHT to change zoom level
 		double aRatio = (double) WIDTH / (double) HEIGHT;
 		if (aRatio < 1.8) {
-			CAMWIDTH = 1000;
-			CAMHEIGHT = (int) (CAMWIDTH / (double) aRatio);
+		    CAMWIDTH = 1000;
+		    CAMHEIGHT = (int) ((double) CAMWIDTH / aRatio);
 
 		} else {
-			CAMHEIGHT = 550;
-			CAMWIDTH = (int) (CAMHEIGHT * aRatio);
+		    CAMHEIGHT = 550;
+		    CAMWIDTH = (int) ((double) CAMHEIGHT * aRatio);
 		}
+		GL11.glViewport(0, 0, width, height);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(-CAMWIDTH / (double) 2, CAMWIDTH / (double) 2, 0, CAMHEIGHT, -1, 1);
-		glMatrixMode(GL11.GL_MODELVIEW);
-		WindowResize = GLFWWindowSizeCallback(new SAM() {
-			@Override
-			public void invoke(long window, int width, int height) {
-				WIDTH = width;
-				HEIGHT = height;
-				// Change CAMHEIGHT to change zoom level
-				double aRatio = (double) WIDTH / (double) HEIGHT;
-				if (aRatio < 1.8) {
-					CAMWIDTH = 1000;
-					CAMHEIGHT = (int) ((double)CAMWIDTH / aRatio);
+		GL11.glOrtho(-(float) CAMWIDTH / 2, (float) CAMWIDTH / 2, 0,
+			CAMHEIGHT, -1, 1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
 
-				} else {
-					CAMHEIGHT = 550;
-					CAMWIDTH = (int) ((double)CAMHEIGHT * aRatio);
-				}
-				GL11.glViewport(0, 0, width, height);
-				GL11.glMatrixMode(GL11.GL_PROJECTION);
-				GL11.glLoadIdentity();
-				GL11.glOrtho(-(float)CAMWIDTH / 2, (float)CAMWIDTH / 2, 0, CAMHEIGHT,
-						-1, 1);
-				GL11.glMatrixMode(GL11.GL_MODELVIEW);
-				GL11.glLoadIdentity();
+	    }
+	});
+	glfwSetCallback(window, WindowResize);
 
-			}
-		});
-		glfwSetCallback(window,WindowResize);
-				
-	}
+    }
 
-	private void loop() {
+    private void loop() {
 
+	// load a default java font
+	Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+	setFont(new TrueTypeFont(awtFont, true));
+
+	lastFrame = glfwGetTime();
+	
+	game = Game.getInstance();
+	game.setup();
+	game.reset();
+
+	// Run the rendering loop until the user has attempted to close
+	// the window or has pressed the ESCAPE key.
+	while (glfwWindowShouldClose(window) == GL_FALSE) {
+	    glClear(GL_COLOR_BUFFER_BIT);
+	    glLoadIdentity();
+
+	    game.update(getDelta());
+	    game.render();
+
+	    glfwSwapBuffers(window); // swap the color buffers
+
+	    // Poll for window events. The key callback above will only be
+	    // invoked during this call.
+	    glfwPollEvents();
+
+	    if (GameSettings.reload()) {
+		GameSettings.setReload(false);
+		init();
 		InitOpenGL();
-
-		// load a default java font
-		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		setFont(new TrueTypeFont(awtFont, true));
-
-		Game game = new Game();
-		lastFrame = glfwGetTime();
-
-		// Run the rendering loop until the user has attempted to close
-		// the window or has pressed the ESCAPE key.
-		while (glfwWindowShouldClose(window) == GL_FALSE) {
-			glClear(GL_COLOR_BUFFER_BIT);
-			glLoadIdentity();
-
-			game.update(getDelta());
-			game.render();
-
-			glfwSwapBuffers(window); // swap the color buffers
-
-			// Poll for window events. The key callback above will only be
-			// invoked during this call.
-			glfwPollEvents();
-		}
+	    }
 	}
+    }
 
-	public double getDelta() {
-		double time = glfwGetTime();
-		double delta = time - lastFrame;
-		lastFrame = time;
-		if (delta < 0.07) {
-			return delta;
-		} else {
-			return 0.07;
-		}
+    public double getDelta() {
+	double time = glfwGetTime();
+	double delta = time - lastFrame;
+	lastFrame = time;
+	if (delta < 0.07) {
+	    return delta;
+	} else {
+	    return 0.07;
 	}
+    }
 
-	public static void main(String[] args) {
-		Logger.init();
-		Logger.setPrintLog(false);
-		new Launcher().run();
-	}
+    public static void main(String[] args) {
+	Logger.init();
+	Logger.setPrintLog(false);
+	new Launcher().run();
+    }
 
-	/**
-	 * @return the window
-	 */
-	public static long getWindow() {
-		return window;
-	}
+    /**
+     * @return the window
+     */
+    public static long getWindow() {
+	return window;
+    }
 
-	/**
-	 * @return the cAMWIDTH
-	 */
-	public static int getCAMWIDTH() {
-		return CAMWIDTH;
-	}
+    /**
+     * @return the cAMWIDTH
+     */
+    public static int getCAMWIDTH() {
+	return CAMWIDTH;
+    }
 
-	/**
-	 * @return the cAMHEIGHT
-	 */
-	public static int getCAMHEIGHT() {
-		return CAMHEIGHT;
-	}
+    /**
+     * @return the cAMHEIGHT
+     */
+    public static int getCAMHEIGHT() {
+	return CAMHEIGHT;
+    }
 
-	/**
-	 * @return the wIDTH
-	 */
-	public static int getWIDTH() {
-		return WIDTH;
-	}
+    /**
+     * @return the wIDTH
+     */
+    public static int getWIDTH() {
+	return WIDTH;
+    }
 
-	/**
-	 * @return the hEIGHT
-	 */
-	public static int getHEIGHT() {
-		return HEIGHT;
-	}
+    /**
+     * @return the hEIGHT
+     */
+    public static int getHEIGHT() {
+	return HEIGHT;
+    }
 
-	/**
-	 * @return the font
-	 */
-	public static TrueTypeFont getFont() {
-		return font;
-	}
+    /**
+     * @return the font
+     */
+    public static TrueTypeFont getFont() {
+	return font;
+    }
 
-	/**
-	 * @param font the font to set
-	 */
-	public static void setFont(TrueTypeFont font) {
-		Launcher.font = font;
-	}
+    /**
+     * @param font
+     *            the font to set
+     */
+    public static void setFont(TrueTypeFont font) {
+	Launcher.font = font;
+    }
 
 }
