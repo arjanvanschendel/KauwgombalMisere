@@ -30,7 +30,7 @@ public class MainMenu {
     private Button playBtn;
     private Button exitBtn;
     private Button optBtn;
-    private Texture Background;
+    private Texture background;
     private int width;
     private int height;
 
@@ -49,7 +49,7 @@ public class MainMenu {
 		(float) Launcher.getCAMHEIGHT() / 3 - 40, (float) 150,
 		(float) 25, java.awt.Color.white, "Exit");
 	buttons.add(exitBtn);
-	Background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
+	background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 		GL11.GL_CLAMP);
 
 	width = Launcher.getCAMWIDTH();
@@ -90,7 +90,6 @@ public class MainMenu {
 
 	if (playBtn.isClicked()) {
 	    game.setState(0);
-	    game.loadLevel(1);
 	}
 	if (optBtn.isClicked()) {
 	    System.out.println("Options button clicked");
@@ -105,7 +104,7 @@ public class MainMenu {
      * render: render the main menu's background, text, and objects.
      */
     public final void render() {
-	Background.bind(); // or GL11.glBind(texture.getTextureID());
+	background.bind(); // or GL11.glBind(texture.getTextureID());
 
 	GL11.glBegin(GL11.GL_QUADS);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

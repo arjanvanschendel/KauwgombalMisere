@@ -4,7 +4,7 @@ import objects.GameObject;
 
 /**
  * 
- * JAPSER
+ * @author Jasper
  *
  */
 public class Collision {

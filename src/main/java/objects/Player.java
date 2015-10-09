@@ -50,11 +50,13 @@ public class Player extends Box implements GameObject {
     /**
      * Player: constructor.
      * 
-     * @param posx
-     * @param posy
+     * @param posX
+     *            X value of position
+     * @param posY
+     *            Y value of position
      */
-    public Player(float posx, float posy) {
-	super(posx, posy, 60, 100, new Color(1, 1, 1));
+    public Player(float posX, float posY) {
+	super(posX, posY, 60, 100, new Color(1, 1, 1));
 	selected = idle;
 	state = 0;
 	mirrored = false;
@@ -63,36 +65,52 @@ public class Player extends Box implements GameObject {
     }
 
     /**
-     * update: Update the player's state.
+     * Handle inputs and moves character.
+     * 
+     * @param deltaTime
+     *            time between frames
      */
-    public void update(double deltaTime) {
+    public void move(double deltaTime) {
+	handleInputs(deltaTime);
+	setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
+	setPosy((float) (getPosy() + deltaY * 60 * deltaTime));
+    }
 
-	// First handle inputs
-	if (alive) {
-	    handleInputs(deltaTime);
-	    setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
-	    setPosy((float) (getPosy() + deltaY * 60 * deltaTime));
-	    ArrayList<Collision> collisions = CollisionDetection
-		    .collision(this);
-	    if (!collisions.isEmpty()) {
-		for (Collision collision : collisions) {
-
-		    if (collision.getCol() instanceof Ball) {
-			Logger.add("player died");
-			die();
-		    } else if (collision.getCol() instanceof Wall) {
-			if (collision.getSide() == 4) {
-			    setPosx(((Box) collision.getCol()).getPosx()
-				    - getWidth());
-			    deltaX = 0;
-			} else if (collision.getSide() == 2) {
-			    setPosx(((Box) collision.getCol()).getPosx()
-				    + ((Box) collision.getCol()).getWidth());
-			    deltaX = 0;
-			}
+    /**
+     * Check collision with other objects.
+     */
+    public void checkCollision() {
+	ArrayList<Collision> collisions = CollisionDetection.collision(this);
+	if (!collisions.isEmpty()) {
+	    for (Collision collision : collisions) {
+		if (collision.getCol() instanceof Ball) {
+		    Logger.add("player died");
+		    die();
+		} else if (collision.getCol() instanceof Wall) {
+		    if (collision.getSide() == 4) {
+			setPosx(((Box) collision.getCol()).getPosx()
+				- getWidth());
+			deltaX = 0;
+		    } else if (collision.getSide() == 2) {
+			setPosx(((Box) collision.getCol()).getPosx()
+				+ ((Box) collision.getCol()).getWidth());
+			deltaX = 0;
 		    }
 		}
 	    }
+	}
+    }
+
+    /**
+     * Update player.
+     * 
+     * @param deltaTime
+     *            time between frames
+     */
+    public void update(double deltaTime) {
+	if (alive) {
+	    move(deltaTime);
+	    checkCollision();
 	    if (state == 0) {
 		selected = idle;
 	    } else {
@@ -107,7 +125,7 @@ public class Player extends Box implements GameObject {
     }
 
     /**
-     * render: render the player's graphics.
+     * Draw player graphics.
      */
     @Override
     public void render() {

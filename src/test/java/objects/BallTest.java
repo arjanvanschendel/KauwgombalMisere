@@ -45,7 +45,7 @@ public class BallTest {
 		assertFalse(Level.levelComplete());
 		g.hit();
 		lvl.update(0);
-		assertTrue(Level.levelComplete());
+		assertFalse(Level.levelComplete());
 	}
 
 	@Test

@@ -42,7 +42,7 @@ public class Level {
      */
     public Level(String location) {
 	loc = location;
-	loadLevel();
+	readLevel();
 
     }
 
@@ -131,7 +131,7 @@ public class Level {
 	if (player == null || !player.isAlive()) {
 	    if (game.getLives() > 1) {
 		game.decreaseLives();
-		loadLevel();
+		readLevel();
 	    } else {
 		Logger.add("Game reset");
 		game.reset();
@@ -158,7 +158,7 @@ public class Level {
     /**
      * Load level
      */
-    public void loadLevel() {
+    public void readLevel() {
 	clear();
 	InputStreamReader inputStreamReader;
 	try {

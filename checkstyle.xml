@@ -100,7 +100,7 @@
     <module name="UpperEll"/>
     <module name="FallThrough"/>
     <module name="MethodLength">
-      <property name="max" value="30"/>
+      <property name="max" value="80"/>
     </module>
   </module>
   <module name="NewlineAtEndOfFile">

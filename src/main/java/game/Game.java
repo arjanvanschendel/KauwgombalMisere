@@ -62,6 +62,7 @@ public final class Game {
 	setLives(3);
 	setState(2);
 	setScore(0);
+	loadLevel(1);
     }
     
     /**
@@ -238,15 +239,6 @@ public final class Game {
 	    setState(2);
 	}
     }
-
-//    public void ballHit(float x, float y, char size) {
-//	String s;
-//	if (size == 'b') {
-//	    s = "20";
-//	} else {
-//	    s = "10";
-//	}
-//    }
 
     /**
      * 
