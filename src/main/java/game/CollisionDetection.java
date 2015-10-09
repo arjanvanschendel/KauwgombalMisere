@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 
 import objects.Ball;
-import objects.GameObject;
+import interfaces.Observer;
 import shapes.Box;
 import shapes.Point;
 
@@ -13,9 +13,9 @@ import shapes.Point;
  *
  */
 public class CollisionDetection {
-	private static ArrayList<GameObject> colliders = new ArrayList<GameObject>();
+	private static ArrayList<Observer> colliders = new ArrayList<Observer>();
 
-	public static void addCollider(GameObject object) {
+	public static void addCollider(Observer object) {
 		colliders.add(object);
 	}
 
@@ -27,19 +27,19 @@ public class CollisionDetection {
 		colliders.clear();
 	}
 
-	public static ArrayList<GameObject> getColliders() {
+	public static ArrayList<Observer> getColliders() {
 		return colliders;
 	}
 
-	public static void setColliders(ArrayList<GameObject> colliders) {
+	public static void setColliders(ArrayList<Observer> colliders) {
 		CollisionDetection.colliders = colliders;
 	}
 
-	public static ArrayList<Collision> collision(GameObject col) {
+	public static ArrayList<Collision> collision(Observer col) {
 		ArrayList<Collision> res = new ArrayList<Collision>();
 		if (col instanceof Ball) {
 
-			for (GameObject collider : colliders) {
+			for (Observer collider : colliders) {
 				if (collider != null && !collider.equals(col)) {
 					if (collider instanceof Box) {
 						int side = collideBoxBall((Ball) col, (Box) collider);
@@ -52,7 +52,7 @@ public class CollisionDetection {
 			}
 		} else if (col instanceof Box) {
 
-			for (GameObject collider : colliders) {
+			for (Observer collider : colliders) {
 				if (collider != null && !collider.equals(col)) {
 					if (collider instanceof Ball) {
 						int side = collideBoxBall((Ball) collider, (Box) col);

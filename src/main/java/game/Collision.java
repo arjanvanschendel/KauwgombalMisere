@@ -1,6 +1,6 @@
 package game;
 
-import objects.GameObject;
+import interfaces.Observer;
 
 /**
  * 
@@ -8,19 +8,19 @@ import objects.GameObject;
  *
  */
 public class Collision {
-	private GameObject col;
+	private Observer col;
 	private int side;
 
-	public Collision(GameObject collider, int side) {
+	public Collision(Observer collider, int side) {
 		this.setCol(collider);
 		this.setSide(side);
 	}
 
-	public GameObject getCol() {
+	public Observer getCol() {
 		return col;
 	}
 
-	public void setCol(GameObject collider) {
+	public void setCol(Observer collider) {
 		this.col = collider;
 	}
 

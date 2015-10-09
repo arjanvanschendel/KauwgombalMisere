@@ -2,14 +2,12 @@ package game;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import interfaces.Observer;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import objects.GameObject;
 import objects.ScorePopUp;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
@@ -35,7 +33,7 @@ public class Game {
     private static int lives;
     public static final ArrayList<Sound> sounds = new ArrayList<Sound>();
     public static final ArrayList<Texture> textures = new ArrayList<Texture>();
-    private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
+    private static ArrayList<Observer> popUpObjects = new ArrayList<Observer>();
 
 	
     /**
@@ -178,13 +176,13 @@ public class Game {
     }
     
     public void updateThePopUps(double deltaTime) {
-	for (GameObject popup : popUpObjects) {
+	for (Observer popup : popUpObjects) {
 	   	popup.update(deltaTime);
 	}
     }
     
     public void renderThePopUps(){
-    	for (GameObject render : popUpObjects) {
+    	for (Observer render : popUpObjects) {
     	    render.render();
     	}
     }

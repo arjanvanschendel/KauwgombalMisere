@@ -4,11 +4,9 @@ import game.Collision;
 import game.CollisionDetection;
 import game.GameVariables;
 import game.Level;
-
+import interfaces.Observer;
 import java.awt.Color;
 import java.util.ArrayList;
-
-import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
 import objects.Wall;
@@ -22,7 +20,7 @@ import utillities.Logger;
  * @author Jasper
  *
  */
-public abstract class PowerUp extends Box implements GameObject {
+public abstract class PowerUp extends Box implements Observer {
 
 	/**
 	 * The deltaY with which the PowerUp is falling.

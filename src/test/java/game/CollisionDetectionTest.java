@@ -1,13 +1,10 @@
 package game;
 
 import static org.junit.Assert.*;
-
+import interfaces.Observer;
 import java.util.ArrayList;
-
 import objects.Ball;
-import objects.GameObject;
 import objects.Wall;
-
 import org.junit.Test;
 
 public class CollisionDetectionTest {
@@ -15,7 +12,7 @@ public class CollisionDetectionTest {
 	@Test
 	public void collidersTest() {
 		// Set colliders
-		ArrayList<GameObject> objects = new ArrayList<GameObject>();
+		ArrayList<Observer> objects = new ArrayList<Observer>();
 		Wall A = new Wall(0, 0, 10, 10, null);
 		objects.add(A);
 		assertNotEquals(CollisionDetection.getColliders(), objects);

@@ -5,6 +5,7 @@ import game.CollisionDetection;
 import game.Game;
 import game.GameVariables;
 import game.Level;
+import interfaces.Observer;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
@@ -24,7 +25,7 @@ import utillities.Logger;
  * They can either get destroyed or kill the player.
  *
  */
-public class Ball extends Circle implements GameObject {
+public class Ball extends Circle implements Observer {
 	/**
 	 * deltaX the force in the X direction.
 	 */

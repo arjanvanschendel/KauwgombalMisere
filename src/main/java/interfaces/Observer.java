@@ -1,6 +1,6 @@
-package objects;
+package interfaces;
 
-public interface GameObject {
+public interface Observer {
 
 	public void update(double deltaTime);
 	
