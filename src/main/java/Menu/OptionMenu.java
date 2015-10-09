@@ -5,9 +5,13 @@ import game.Game;
 import game.GameSettings;
 import game.Launcher;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Texture;
 
@@ -18,6 +22,15 @@ import utillities.Texture;
  *
  */
 public class OptionMenu {
+
+	/**
+	 * Font type used.
+	 */
+	private Font awtFont = new Font("Courier New", Font.BOLD, 24);
+	/**
+	 * Font used to draw text.
+	 */
+	private TrueTypeFont font = new TrueTypeFont(awtFont, true);
 	/**
 	 * Buttons active in current menu.
 	 */
@@ -153,6 +166,7 @@ public class OptionMenu {
 		Game.sounds.get(3).setVolume(GameSettings.getSFXVolume());
 		Game.sounds.get(4).setVolume(GameSettings.getSFXVolume());
 		Game.sounds.get(5).setVolume(GameSettings.getMusicVolume());
+		Game.sounds.get(6).setVolume(GameSettings.getMusicVolume());
 		GameSettings.setFullscreen(fullscreenCheckbox.isChecked());
 	}
 
@@ -160,7 +174,7 @@ public class OptionMenu {
 	 * render: render the main menu's background, text, and objects.
 	 */
 	public final void render() {
-		background.bind(); // or GL11.glBind(texture.getTextureID());
+		background.bind();
 
 		GL11.glBegin(GL11.GL_QUADS);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -190,5 +204,19 @@ public class OptionMenu {
 		for (CheckBox chk : checkboxes) {
 			chk.render();
 		}
+
+		GL11.glScalef(1, -1, 1);
+		TextureImpl.bindNone();
+		font.drawString(- font.getWidth("Sound Effect Volume:"),
+				(float) -Launcher.getCAMHEIGHT() / 3 - 180 - font.getHeight("Sound Effect Volume:")/2, "Sound Effect Volume:", Color.white);
+
+		font.drawString(- font.getWidth("Music Effect Volume:"),
+				(float) -Launcher.getCAMHEIGHT() / 3 - 110 - font.getHeight("Music Effect Volume:")/2, "Music Effect Volume:", Color.white);
+
+		font.drawString(- font.getWidth("Fullscreen:"),
+				(float) -Launcher.getCAMHEIGHT() / 3 - 50, "Fullscreen:", Color.white);
+		GL11.glScalef(1, -1, 1);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+
 	}
 }

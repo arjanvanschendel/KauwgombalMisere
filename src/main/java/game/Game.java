@@ -67,8 +67,11 @@ public class Game {
 				.getSFXVolume()));
 		sounds.add(new Sound("sounds/sfx/playerHit.wav", GameSettings
 				.getSFXVolume()));
-		// Main menu sound
+		// Main menu music
 		sounds.add(new Sound("sounds/music/Solar_Sailer.wav", GameSettings
+				.getMusicVolume()));
+		// In game music
+		sounds.add(new Sound("sounds/music/Derezzed.wav", GameSettings
 				.getMusicVolume()));
 	}
 

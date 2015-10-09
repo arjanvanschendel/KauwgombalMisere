@@ -83,6 +83,7 @@ public class MainMenu {
 	 */
 	public final void update(final double deltaTime) {
 		if (!Game.sounds.get(5).isPlaying()) {
+			Game.sounds.get(6).stop();
 			Game.sounds.get(5).loop(-1);
 		}
 
@@ -90,6 +91,8 @@ public class MainMenu {
 			btn.update(deltaTime);
 		}
 		if (playBtn.isClicked()) {
+			Game.sounds.get(5).stop();
+			Game.sounds.get(6).loop(-1);
 			Game.loadLevel(1);
 			Game.setState(0);
 		}
