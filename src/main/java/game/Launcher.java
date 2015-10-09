@@ -49,7 +49,8 @@ import utillities.Mouse;
 
 /**
  * 
- * @author Jasper
+ * Intializes window and opengl. Also starts the loop and calculates the delta
+ * time between frames.
  *
  */
 public class Launcher {
@@ -66,12 +67,15 @@ public class Launcher {
     private static int HEIGHT;
     private static long window;
     private static TrueTypeFont font;
+    private Game game;
 
     public void run() {
 	// System.out.println("Hello LWJGL " + Sys.getVersion() + "!");
 
 	try {
 	    init();
+	    InitOpenGL();
+
 	    loop();
 
 	    // Release window and window callbacks
@@ -91,9 +95,8 @@ public class Launcher {
 	glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
 
 	// Initialize GLFW. Most GLFW functions will not work before doing this.
-	if (glfwInit() != GL11.GL_TRUE) {
+	if (glfwInit() != GL11.GL_TRUE)
 	    throw new IllegalStateException("Unable to initialize GLFW");
-	}
 
 	// Configure our window
 	glfwDefaultWindowHints(); // optional, the current window hints are
@@ -108,15 +111,25 @@ public class Launcher {
 	WIDTH = GLFWvidmode.width(vidmode);
 	HEIGHT = GLFWvidmode.height(vidmode);
 
-	// Create the window
-	// window = glfwCreateWindow(WIDTH, HEIGHT, "KauwgombalMisere", NULL,
-	// NULL);
-	// Fullscreen
-	window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
-		glfwGetPrimaryMonitor(), NULL);
-	if (window == NULL) {
-	    throw new RuntimeException("Failed to create the GLFW window");
+	if (GameSettings.isFullscreen()) {
+	    // Fullscreen
+	    long newwindow = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!",
+		    glfwGetPrimaryMonitor(), window);
+	    if (window != NULL) {
+		glfwDestroyWindow(window);
+	    }
+	    window = newwindow;
+	} else {
+	    // Create the window
+	    long newwindow = glfwCreateWindow(WIDTH, HEIGHT,
+		    "KauwgombalMisere", NULL, window);
+	    if (window != NULL) {
+		glfwDestroyWindow(window);
+	    }
+	    window = newwindow;
 	}
+	if (window == NULL)
+	    throw new RuntimeException("Failed to create the GLFW window");
 
 	glfwSetKeyCallback(window, keyCallback = new Keyboard());
 	glfwSetMouseButtonCallback(window, mouseCallback = new Mouse());
@@ -187,16 +200,15 @@ public class Launcher {
 
     private void loop() {
 
-	InitOpenGL();
-
 	// load a default java font
 	Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 	setFont(new TrueTypeFont(awtFont, true));
 
-	Game game = Game.getInstance();
+	lastFrame = glfwGetTime();
+	
+	game = Game.getInstance();
 	game.setup();
 	game.reset();
-	lastFrame = glfwGetTime();
 
 	// Run the rendering loop until the user has attempted to close
 	// the window or has pressed the ESCAPE key.
@@ -212,6 +224,12 @@ public class Launcher {
 	    // Poll for window events. The key callback above will only be
 	    // invoked during this call.
 	    glfwPollEvents();
+
+	    if (GameSettings.reload()) {
+		GameSettings.setReload(false);
+		init();
+		InitOpenGL();
+	    }
 	}
     }
 

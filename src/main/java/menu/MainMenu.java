@@ -93,10 +93,11 @@ public class MainMenu {
 	}
 	if (optBtn.isClicked()) {
 	    System.out.println("Options button clicked");
+	    game.setState(3);
 	}
 	if (exitBtn.isClicked()) {
 	    System.out.println("Exiting system via exit button");
-	    game.setState(3);
+	    game.setState(4);
 	}
     }
 

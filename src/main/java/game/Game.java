@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import menu.MainMenu;
+import menu.OptionMenu;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -21,7 +22,8 @@ import utillities.Texture;
 //import org.newdawn.slick.opengl.TextureLoader;
 
 /**
- * Class Game: a Game object represents a game, holding all the levels.
+ * @author Luke, Jasper Class Game: a Game object represents a game, holding all
+ *         the levels.
  */
 public final class Game {
 
@@ -32,14 +34,13 @@ public final class Game {
     private int lvl;
     private int maxLvl;
     private MainMenu menu;
+    private OptionMenu options;
     private int lives;
     private ArrayList<Sound> sounds = new ArrayList<Sound>();
     private ArrayList<Texture> textures = new ArrayList<Texture>();
- 
 
     /**
-     * Only instanced once
-     * Game: constructor.
+     * Only instanced once Game: constructor.
      */
     private Game() {
 	Logger.add("Instanced");
@@ -53,8 +54,10 @@ public final class Game {
 	loadSounds();
 	maxLvl = countLevels();
 	menu = new MainMenu();
+	options = new OptionMenu();
+
     }
-    
+
     /**
      * This method resets the progress of the game.
      */
@@ -64,7 +67,7 @@ public final class Game {
 	setScore(0);
 	loadLevel(1);
     }
-    
+
     /**
      * 
      * @return single instance of game
@@ -74,14 +77,22 @@ public final class Game {
     }
 
     private void loadSounds() {
-
-	sounds.add(new Sound("sounds/arrowHitBall.wav"));
-	sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
-	sounds.add(new Sound("sounds/arrowShoot.wav"));
-	sounds.add(new Sound("sounds/ballBounce.wav"));
-	sounds.add(new Sound("sounds/playerHit.wav"));
-	// Main menu sound
-	sounds.add(new Sound("sounds/arrowHitCeiling.wav"));
+	sounds.add(new Sound("sounds/sfx/arrowHitBall.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/arrowHitCeiling.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/arrowShoot.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/ballBounce.wav", GameSettings
+		.getSFXVolume()));
+	sounds.add(new Sound("sounds/sfx/playerHit.wav", GameSettings
+		.getSFXVolume()));
+	// Main menu music
+	sounds.add(new Sound("sounds/music/Solar_Sailer.wav", GameSettings
+		.getMusicVolume()));
+	// In game music
+	sounds.add(new Sound("sounds/music/Derezzed.wav", GameSettings
+		.getMusicVolume()));
     }
 
     /**
@@ -98,7 +109,8 @@ public final class Game {
 
     /**
      * 
-     * @param number Level number
+     * @param number
+     *            Level number
      */
     public void loadLevel(int number) {
 	setLvl(number);
@@ -139,7 +151,8 @@ public final class Game {
     /**
      * update: Update the state of the game.
      * 
-     * @param deltaTime time between frames.
+     * @param deltaTime
+     *            time between frames.
      */
     public void update(double deltaTime) {
 	if (Keyboard.isKeyReleased(GLFW_KEY_ESCAPE)) {
@@ -155,7 +168,6 @@ public final class Game {
 	    }
 	}
 	if (Level.levelComplete() && state == 0) {
-	    Logger.add("complete " + Level.levelComplete());
 	    nextLevel();
 	}
 
@@ -173,7 +185,7 @@ public final class Game {
 	    menu.update(deltaTime);
 	    break;
 	case (3):
-	    System.out.println("new state");
+	    options.update(deltaTime);
 	    break;
 	default:
 	    System.out.println("INVALID STATE: " + state
@@ -185,8 +197,6 @@ public final class Game {
 	Mouse.resetReleased();
 	Keyboard.resetReleased();
     }
-    
-  
 
     /**
      * render: Render the graphics of the game.
@@ -197,7 +207,7 @@ public final class Game {
 	    // game
 	    currentLvl.render();
 	    TextureImpl.bindNone();
-	    
+
 	    GL11.glScalef(1, -1, 1);
 	    // TextureImpl.bindNone();
 	    String levelString = "Level " + lvl + ": " + currentLvl.getName();
@@ -232,6 +242,9 @@ public final class Game {
 	case (2):
 	    menu.render();
 	    break;
+	case (3):
+	    options.render();
+	    break;
 	default:
 	    System.out.println("INVALID STATE: " + state
 		    + ". (Game.render method)");
@@ -250,7 +263,8 @@ public final class Game {
 
     /**
      * 
-     * @param state number of state to set
+     * @param state
+     *            number of state to set
      */
     public void setState(int state) {
 	this.state = state;
@@ -297,44 +311,45 @@ public final class Game {
      * @return the sounds
      */
     public ArrayList<Sound> getSounds() {
-        return sounds;
+	return sounds;
     }
 
     /**
-     * @param sounds the sounds to set
+     * @param sounds
+     *            the sounds to set
      */
     public void setSounds(ArrayList<Sound> sounds) {
-        this.sounds = sounds;
+	this.sounds = sounds;
     }
 
     /**
      * @return the textures
      */
     public ArrayList<Texture> getTextures() {
-        return textures;
+	return textures;
     }
 
     /**
-     * @param textures the textures to set
+     * @param textures
+     *            the textures to set
      */
     public void setTextures(ArrayList<Texture> textures) {
-        this.textures = textures;
+	this.textures = textures;
     }
-
-
 
     /**
      * @return the currentLvl
      */
     public Level getCurrentLvl() {
-        return currentLvl;
+	return currentLvl;
     }
 
     /**
-     * @param currentLvl the currentLvl to set
+     * @param currentLvl
+     *            the currentLvl to set
      */
     public void setCurrentLvl(Level currentLvl) {
-        this.currentLvl = currentLvl;
+	this.currentLvl = currentLvl;
     }
 
     /**
@@ -345,7 +360,8 @@ public final class Game {
     }
 
     /**
-     * @param score the score to set
+     * @param score
+     *            the score to set
      */
     public void setScore(int score) {
 	this.score = score;

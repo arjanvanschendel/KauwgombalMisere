@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
@@ -34,7 +35,7 @@ public class Sound {
 	 * dVolume: the change in volume. Does not work for values beneath -6
 	 * somehow.
 	 */
-	private float dVolume;
+	private float volume;
 
 	/**
 	 * The AudioInputStream. Gets reset with every .play();
@@ -60,7 +61,7 @@ public class Sound {
 	public Sound(final String filename) {
 		f = new File(filename);
 		audiostream = null;
-		dVolume = 0;
+		volume = 100;
 		playing = false;
 	}
 
@@ -75,7 +76,7 @@ public class Sound {
 	public Sound(final String filename, final float dv) {
 		audiostream = null;
 		f = new File(filename);
-		dVolume = Math.max(-6f, dv);
+		volume = Math.max(0, dv);
 		playing = false;
 	}
 
@@ -105,13 +106,21 @@ public class Sound {
 				clip.open(audiostream);
 				FloatControl gainControl = (FloatControl) clip
 						.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(dVolume);
-					clip.loop(n);
+				BooleanControl muteControl = (BooleanControl) clip
+						.getControl(BooleanControl.Type.MUTE);
+				if (volume == 0) {
+					muteControl.setValue(true);
+				} else {
+					muteControl.setValue(false);
+					gainControl.setValue((float) (Math.log(volume / 100d)
+							/ Math.log(10.0) * 20.0));
+
+				}
+				clip.loop(n);
 			} catch (UnsupportedAudioFileException | IOException
 					| LineUnavailableException e) {
 				e.printStackTrace();
 			}
-
 
 			device = true;
 
@@ -147,15 +156,29 @@ public class Sound {
 	 * @return dVolume
 	 */
 	public final float getVolume() {
-		return dVolume;
+		return volume;
 	}
 
 	/**
-	 * setVolume: set dVolume.
+	 * setVolume: set volume.
 	 * 
-	 * @param ndV
+	 * @param vol
+	 *            volume to set
 	 */
-	public final void setVolume(final float ndV) {
-		dVolume = Math.max(-6, ndV);
+	public final void setVolume(final float vol) {
+		volume = Math.max(0, vol);
+		if (clip != null) {
+			FloatControl gainControl = (FloatControl) clip
+					.getControl(FloatControl.Type.MASTER_GAIN);
+			BooleanControl muteControl = (BooleanControl) clip
+					.getControl(BooleanControl.Type.MUTE);
+			if (volume == 0) {
+				muteControl.setValue(true);
+			} else {
+				muteControl.setValue(false);
+				gainControl.setValue((float) (Math.log(volume / 100d)
+						/ Math.log(10.0) * 20.0));
+			}
+		}
 	}
 }

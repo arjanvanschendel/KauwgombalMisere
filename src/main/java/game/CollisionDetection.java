@@ -9,7 +9,7 @@ import shapes.Point;
 
 /**
  * 
- * JAPSER
+ * @author Jasper
  *
  */
 public class CollisionDetection {
