@@ -208,13 +208,13 @@ public class OptionMenu {
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
 		font.drawString(- font.getWidth("Sound Effect Volume:"),
-				(float) -Launcher.getCAMHEIGHT() / 3 - 180 - font.getHeight("Sound Effect Volume:")/2, "Sound Effect Volume:", Color.white);
+				(float) -Launcher.getCAMHEIGHT() / 3f - 180 - font.getHeight("Sound Effect Volume:")/2, "Sound Effect Volume:", Color.white);
 
 		font.drawString(- font.getWidth("Music Effect Volume:"),
-				(float) -Launcher.getCAMHEIGHT() / 3 - 110 - font.getHeight("Music Effect Volume:")/2, "Music Effect Volume:", Color.white);
+				(float) -Launcher.getCAMHEIGHT() / 3f - 110 - font.getHeight("Music Effect Volume:")/2, "Music Effect Volume:", Color.white);
 
 		font.drawString(- font.getWidth("Fullscreen:"),
-				(float) -Launcher.getCAMHEIGHT() / 3 - 50, "Fullscreen:", Color.white);
+				(float) -Launcher.getCAMHEIGHT() / 3f - 50, "Fullscreen:", Color.white);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 
