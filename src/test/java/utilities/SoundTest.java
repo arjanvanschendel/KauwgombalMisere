@@ -133,11 +133,11 @@ public class SoundTest {
 	@Test
 	public final void volumeCapTest() {
 		Sound snd3 = new Sound("res/Screaming_ducks.wav", -10);
-		assertTrue(snd3.getVolume() == -6f);
+		assertEquals(snd3.getVolume(), 0, 0.01);
 		snd3.setVolume(10f);
 		assertTrue(snd3.getVolume() == 10f);
 		snd3.setVolume(-10f);
-		assertTrue(snd3.getVolume() == -6f);
+		assertEquals(snd3.getVolume(), 0, 0.01);
 	}
 
 }
