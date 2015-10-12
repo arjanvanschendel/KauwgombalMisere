@@ -27,7 +27,7 @@ public class ExtraLifePowerUp extends PowerUp {
 
 	/**
 	 * 
-	 * Constructor for FastArrowPowerUp.
+	 * Constructor for ExtraLifePowerUp.
 	 * 
 	 * @param posx
 	 *            x-coordinate at which the PowerUp spawns.
@@ -35,10 +35,10 @@ public class ExtraLifePowerUp extends PowerUp {
 	 *            y-coordinate at which the PowerUp spawns.
 	 */
 	public ExtraLifePowerUp(final float posx, final float posy) {
-		super(posx, posy, new Color(200,70,70));
+		super(posx, posy, new Color(200, 70, 70));
 
 		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, new Color(200,70,70));
+				Launcher.getCAMHEIGHT() - 55, 20, 20, new Color(200, 70, 70));
 		setPowerDuration(0);
 	}
 
@@ -59,8 +59,7 @@ public class ExtraLifePowerUp extends PowerUp {
 	}
 
 	/**
-	 * Deactivates the effect by resetting the arrow speed to the old arrow
-	 * speed.
+	 * Deactivates the PowerUp. speed.
 	 */
 	@Override
 	public final void deactivate() {
