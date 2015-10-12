@@ -20,6 +20,10 @@ public final class GameVariables {
 	 */
 	private static float movementSpeed = 5;
 	/**
+	 * Number of lives left.
+	 */
+	private static int lives = 3;
+	/**
 	 * Basic movement speed.
 	 */
 	private static float normalMovementSpeed = 5;
@@ -169,6 +173,20 @@ public final class GameVariables {
 	 */
 	public static void setGravity(float gravity) {
 		GameVariables.gravity = gravity;
+	}
+
+	/**
+	 * @return the lives
+	 */
+	public static int getLives() {
+		return lives;
+	}
+
+	/**
+	 * @param lives the lives to set
+	 */
+	public static void setLives(int lives) {
+		GameVariables.lives = lives;
 	}
 
 

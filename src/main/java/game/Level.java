@@ -153,7 +153,7 @@ public class Level {
 	    pro.update(deltaTime);
 	}
 	if (player == null || !player.isAlive()) {
-	    if (game.getLives() > 1) {
+	    if (GameVariables.getLives() > 1) {
 		game.decreaseLives();
 		readLevel();
 	    } else {
