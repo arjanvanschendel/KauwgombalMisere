@@ -73,7 +73,7 @@ public class Level {
 	popUpObjects.clear();
 	objects.clear();
 	pro = null;
-
+	removeObjects.clear();
 	CollisionDetection.clear();
 
     }
