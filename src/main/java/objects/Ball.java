@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import powerups.ExtraLifePowerUp;
+import powerups.FastArrowPowerUp;
 import powerups.SlowBallPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
@@ -22,11 +24,11 @@ import utillities.Logger;
  *
  */
 public class Ball extends Circle implements GameObject {
-    	
-    	/**
-    	 * Get current game instance.
-    	 */
-    	private Game game = Game.getInstance();
+
+	/**
+	 * Get current game instance.
+	 */
+	private Game game = Game.getInstance();
 	/**
 	 * deltaX the force in the X direction.
 	 */
@@ -41,8 +43,8 @@ public class Ball extends Circle implements GameObject {
 	 * Height the ball bounces to.
 	 */
 	private float height;
-	
-	//private ScorePopUp popUp;
+
+	// private ScorePopUp popUp;
 
 	/**
 	 * Ball: constructor.
@@ -98,7 +100,7 @@ public class Ball extends Circle implements GameObject {
 								/ (GameVariables.getGravity() / 2));
 						deltaY = (float) (GameVariables.getGravity() * time / 10);
 						posy += deltaY * 60 * deltaTime;
-						
+
 						game.getSounds().get(3).play();
 
 					} else if (collision.getSide() == 2) {
@@ -108,9 +110,8 @@ public class Ball extends Circle implements GameObject {
 						deltaX = -deltaX;
 						posx += deltaX * 60 * deltaTime;
 
-
 						game.getSounds().get(3).play();
-						
+
 					} else if (collision.getSide() == 4) {
 						posx = ((Box) collision.getCol()).getPosx() - radius;
 						deltaX = -deltaX;
@@ -130,7 +131,8 @@ public class Ball extends Circle implements GameObject {
 	final void hit() {
 		this.updateScore();
 		Logger.add("ball hit");
-		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(), this.getRadius());
+		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(),
+				this.getRadius());
 		Level.addPopUp(popUp);
 		Level.remove(this);
 		Ball ball = new Ball(posx, posy, radius / 2);
@@ -156,18 +158,17 @@ public class Ball extends Circle implements GameObject {
 	 */
 	final void dropPowerUp() {
 		Random rand = new Random();
-		int randomNum = rand.nextInt(2);
-		if (randomNum == 1) {
-			char ballsize = this.getRadius() > 20 ? 'b' : 's';
-			switch (ballsize) {
-			case 'b':
+		double randomNum = rand.nextDouble();
+		if (randomNum > 0.5) {
+			double randomNum2 = rand.nextDouble();
+			if (randomNum2 > 0.5) {
+				Level.addPowerUp(new FastArrowPowerUp(posx, posy));
+			} else if (randomNum2 < 0.125) {
+				Level.addPowerUp(new SlowBallPowerUp(posx, posy));
+			} else if (randomNum2 >= 0.375 && randomNum2 <= 0.5) {
+				Level.addPowerUp(new ExtraLifePowerUp(posx, posy));
+			} else if (randomNum2 >= 0.125 && randomNum2 < 0.375) {
 				Level.addPowerUp(new MovementPowerUp(posx, posy));
-				break;
-			case 's':
-				Level.addPowerUp(new SlowBallPowerUp(posx, posy));
-			default:
-				Level.addPowerUp(new SlowBallPowerUp(posx, posy));
-				break;
 			}
 		}
 	}
@@ -178,15 +179,16 @@ public class Ball extends Circle implements GameObject {
 	final void updateScore() {
 
 		char ballsize = this.getRadius() > 20 ? 'b' : 's';
-		//game.ballHit(this.getPosx(), this.getPosy(), ballsize); is this being used?
+		// game.ballHit(this.getPosx(), this.getPosy(), ballsize); is this being
+		// used?
 		switch (ballsize) {
 		case 'b':
-		    	game.setScore(game.getScore() + 20);
+			game.setScore(game.getScore() + 20);
 			break;
 		case 's':
-		    	game.setScore(game.getScore() + 10);
+			game.setScore(game.getScore() + 10);
 		default:
-		    	game.setScore(game.getScore());
+			game.setScore(game.getScore());
 			break;
 		}
 
@@ -228,7 +230,8 @@ public class Ball extends Circle implements GameObject {
 	/**
 	 * set DeltaX.
 	 * 
-	 * @param deltaX float to set
+	 * @param deltaX
+	 *            float to set
 	 */
 	public final void setDeltaX(float deltaX) {
 		this.deltaX = deltaX;
@@ -245,7 +248,9 @@ public class Ball extends Circle implements GameObject {
 
 	/**
 	 * set DeltaY.
-	 * @param deltaY float to set
+	 * 
+	 * @param deltaY
+	 *            float to set
 	 */
 	public void setDeltaY(float deltaY) {
 		this.deltaY = deltaY;
