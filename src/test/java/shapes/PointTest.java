@@ -1,10 +1,9 @@
 package shapes;
 
-import org.junit.Test;
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
-import shapes.Point;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Bart
@@ -12,17 +11,23 @@ import shapes.Point;
  */
 public class PointTest {
 
-    Point _point;
-    Point _point1;
+	private Point point;
+	private Point point1;
 
-    @Before
-    public void before() {
-	_point = new Point(-200, 150);
-	_point1 = new Point(-400, -150);
-    }
-
-    @Test
-    public void dotProductTest() {
-	assertEquals((long) _point.dot(_point1), 57500);
-    }
+	/**
+	 * Setup executed before each test.
+	 */
+	@Before
+	public void before() {
+		point = new Point(-200, 150);
+		point1 = new Point(-400, -150);
+	}
+	
+	/**
+	 * Tests the dot product method in Point.
+	 */
+	@Test
+	public void dotProductTest() {
+		assertEquals((long) point.dot(point1), 57500);
+	}
 }

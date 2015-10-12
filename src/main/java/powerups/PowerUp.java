@@ -121,7 +121,7 @@ public abstract class PowerUp extends Box implements GameObject {
 	 * basicDeactivate: Resets main variables used by every PowerUp.
 	 */
 	protected final void basicDeactivate() {
-		Logger.add( this.getClass().getSimpleName() + ": deactivated");
+		Logger.add(this.getClass().getSimpleName() + ": deactivated");
 		active = false;
 		timeRemaining = powerDuration;
 		Level.remove(this);

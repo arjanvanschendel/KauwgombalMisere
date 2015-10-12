@@ -10,13 +10,22 @@ import org.junit.Test;
 
 import utillities.Logger;
 
+/**
+ * Tests for the Logger class.
+ * 
+ * @author Matthias
+ *
+ */
 public class LoggerTest {
 
+	/**
+	 * Setup executed before each test.
+	 */
 	@Before
 	public void setup() {
 		Logger.init();
 	}
-	
+
 	/**
 	 * test the add function of the logger.
 	 */
@@ -26,7 +35,7 @@ public class LoggerTest {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm" + ":ss");
 		String currTime = sdf.format(cal.getTime());
-		
+
 		Logger.add("<Running test>");
 		assertEquals(Logger.getLog(), currTime + " - <Running test>\n");
 	}

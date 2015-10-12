@@ -173,10 +173,19 @@ public final class Game {
 		switch (state) {
 		case (0):
 			// Playing
+			if (!getSounds().get(6).isPlaying()) {
+				getSounds().get(5).stop();
+				getSounds().get(6).play();
+			}
 			currentLvl.update(deltaTime);
 			break;
 		case (1):
 			// Paused
+
+			if (!getSounds().get(5).isPlaying()) {
+				getSounds().get(6).stop();
+				getSounds().get(5).play();
+			}
 			break;
 
 		case (2):

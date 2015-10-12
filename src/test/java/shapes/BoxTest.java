@@ -1,12 +1,13 @@
 package shapes;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.awt.Color;
 
-import org.junit.Test;
 import org.junit.Before;
-
-import static org.junit.Assert.*;
-import shapes.Box;
+import org.junit.Test;
 
 /**
  * @author Bart
@@ -15,54 +16,72 @@ import shapes.Box;
 
 public class BoxTest {
 
-    Box _box;
-    Point _point = new Point(-460, 1900);
-    Point _point1 = new Point(-499, 1999);
-    Point _point2 = new Point(-501, 2001);
+	private Box box;
+	private Point point = new Point(-460, 1900);
+	private Point point1 = new Point(-499, 1999);
+	private Point point2 = new Point(-501, 2001);
 
-    @Before
-    public void before() {
-	_box = new Box(-500, 0, 50, 2000, Color.BLACK);
-    }
+	/**
+	 * Setup executed before each test.
+	 */
+	@Before
+	public void before() {
+		box = new Box(-500, 0, 50, 2000, Color.BLACK);
+	}
 
-    @Test
-    public void posTest() {
-	assertEquals((long) _box.getHeight(), 2000);
-	assertEquals((long) _box.getWidth(), 50);
-	assertEquals((long) _box.getPosx(), -500);
-	assertEquals((long) _box.getPosy(), 0);
-	_box.setPosx(-400);
-	_box.setPosy(-100);
-	assertEquals((long) _box.getPosx(), -400);
-	assertEquals((long) _box.getPosy(), -100);
-    }
+	/**
+	 * Tests the position of a box.
+	 * 
+	 */
+	@Test
+	public void posTest() {
+		assertEquals((long) box.getHeight(), 2000);
+		assertEquals((long) box.getWidth(), 50);
+		assertEquals((long) box.getPosx(), -500);
+		assertEquals((long) box.getPosy(), 0);
+		box.setPosx(-400);
+		box.setPosy(-100);
+		assertEquals((long) box.getPosx(), -400);
+		assertEquals((long) box.getPosy(), -100);
+	}
 
-    @Test
-    public void cornersTest() {
-	assertEquals((long) _box.getCorners()[0].getX(), -500);
-	assertEquals((long) _box.getCorners()[2].getY(), 2000);
-	assertEquals((long) _box.getCorners()[3].getX(), -500);
-    }
+	/**
+	 * Tests if the corners are in the correct position.
+	 */
+	@Test
+	public void cornersTest() {
+		assertEquals((long) box.getCorners()[0].getX(), -500);
+		assertEquals((long) box.getCorners()[2].getY(), 2000);
+		assertEquals((long) box.getCorners()[3].getX(), -500);
+	}
 
-    @Test
-    public void anotherCornersTest() {
-	_box.setHeight(1000);
-	_box.setWidth(200);
-	assertEquals((long) _box.getCorners()[2].getX(), -300);
-	assertEquals((long) _box.getCorners()[2].getY(), 1000);
-    }
+	/**
+	 * Checks the corners width a different position and width.
+	 */
+	@Test
+	public void anotherCornersTest() {
+		box.setHeight(1000);
+		box.setWidth(200);
+		assertEquals((long) box.getCorners()[2].getX(), -300);
+		assertEquals((long) box.getCorners()[2].getY(), 1000);
+	}
 
-    @Test
-    public void colorTest() {
-	assertEquals(_box.getColor(), Color.BLACK);
-	_box.setColor(Color.RED);
-	assertEquals(_box.getColor(), Color.RED);
-    }
-
-    @Test
-    public void pointInShapeTest() {
-	assertTrue(_box.pointInShape(_point));
-	assertTrue(_box.pointInShape(_point1));
-	assertFalse(_box.pointInShape(_point2));
-    }
+	/**
+	 * Tests if setColor works correctly.
+	 */
+	@Test
+	public void colorTest() {
+		assertEquals(box.getColor(), Color.BLACK);
+		box.setColor(Color.RED);
+		assertEquals(box.getColor(), Color.RED);
+	}
+	/**
+	 * Tests the pointInShape with different points.
+	 */
+	@Test
+	public void pointInShapeTest() {
+		assertTrue(box.pointInShape(point));
+		assertTrue(box.pointInShape(point1));
+		assertFalse(box.pointInShape(point2));
+	}
 }

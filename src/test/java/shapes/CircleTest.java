@@ -1,12 +1,12 @@
 package shapes;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import java.awt.Color;
 
-import org.junit.Test;
 import org.junit.Before;
-
-import static org.junit.Assert.*;
-import shapes.Circle;
+import org.junit.Test;
 
 /**
  * @author Bart
@@ -14,58 +14,82 @@ import shapes.Circle;
  */
 public class CircleTest {
 
-    private Circle _circle;
-    private Circle _circle1;
+	private Circle circle;
+	private Circle circle1;
 
-    @Before
-    public void before() {
-	_circle = new Circle(0, 400, 25, Color.CYAN);
-	_circle1 = new Circle(0, 400, 25);
-    }
+	/**
+	 * Setup executed before each test.
+	 */
+	@Before
+	public void setup() {
+		circle = new Circle(0, 400, 25, Color.CYAN);
+		circle1 = new Circle(0, 400, 25);
+	}
 
-    @Test
-    public void firstColorTest() {
-	assertEquals(_circle.getColor(), Color.CYAN);
-    }
+	/**
+	 * Tests the color constructor.
+	 */
+	@Test
+	public void firstColorTest() {
+		assertEquals(circle.getColor(), Color.CYAN);
+	}
 
-    @Test
-    public void secondColorTest() {
-	_circle.setColor(Color.GREEN);
-	assertNotEquals(_circle.getColor(), Color.CYAN);
-	assertEquals(_circle.getColor(), Color.GREEN);
-    }
+	/**
+	 * Tests the setColor method.
+	 */
+	@Test
+	public void secondColorTest() {
+		circle.setColor(Color.GREEN);
+		assertNotEquals(circle.getColor(), Color.CYAN);
+		assertEquals(circle.getColor(), Color.GREEN);
+	}
 
-    @Test
-    public void radiusTest() {
-	assertEquals((long) _circle.getRadius(), 25);
-    }
+	/**
+	 * Tests the radius constructor.
+	 */
+	@Test
+	public void radiusTest() {
+		assertEquals((long) circle.getRadius(), 25);
+	}
 
-    @Test
-    public void changeParametersTest() {
-	_circle.setPosx(-100);
-	_circle.setPosy(300);
-	_circle.setRadius(50);
-	assertEquals((long) _circle.getPosx(), -100);
-	assertEquals((long) _circle.getPosy(), 300);
-	assertEquals((long) _circle.getRadius(), 50);
-    }
+	/**
+	 * Tests posx, posy and radius setters.
+	 */
+	@Test
+	public void changeParametersTest() {
+		circle.setPosx(-100);
+		circle.setPosy(300);
+		circle.setRadius(50);
+		assertEquals((long) circle.getPosx(), -100);
+		assertEquals((long) circle.getPosy(), 300);
+		assertEquals((long) circle.getRadius(), 50);
+	}
 
-    @Test
-    public void positionTest() {
-	assertEquals((long) _circle.getPosx(), 0);
-	assertEquals((long) _circle.getPosy(), 400);
-    }
+	/**
+	 * Tests position constructor.
+	 */
+	@Test
+	public void positionTest() {
+		assertEquals((long) circle.getPosx(), 0);
+		assertEquals((long) circle.getPosy(), 400);
+	}
 
-    @Test
-    public void noColorConstructor() {
-	assertEquals(_circle1.getColor(), new Color(0, 0, 0));
-    }
+	/**
+	 * Tests constructor without a color.
+	 */
+	@Test
+	public void noColorConstructor() {
+		assertEquals(circle1.getColor(), new Color(0, 0, 0));
+	}
 
-    @Test
-    public void equalsTest() {
-	assertNotEquals(_circle1, _circle);
-	Circle duplicate = _circle;
-	assertEquals(duplicate, _circle);
-    }
+	/**
+	 * Tests the equals method of circle.
+	 */
+	@Test
+	public void equalsTest() {
+		assertNotEquals(circle1, circle);
+		Circle duplicate = circle;
+		assertEquals(duplicate, circle);
+	}
 
 }

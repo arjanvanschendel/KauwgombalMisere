@@ -3,7 +3,6 @@ package objects;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import game.CollisionDetection;
-import game.Game;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,9 @@ import org.junit.Test;
  */
 public class ProjectileTest {
 
+	/**
+	 * Setup executed before each test.
+	 */
     @Before
     public void setup() {
 	CollisionDetection.clear();
