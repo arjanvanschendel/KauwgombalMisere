@@ -2,6 +2,7 @@ package game;
 
 import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.Callbacks.glfwSetCallback;
+import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -22,7 +23,6 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
@@ -34,7 +34,10 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.awt.Font;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback.SAM;
@@ -128,26 +131,35 @@ public class Launcher {
 			window = newwindow;
 		} else {
 			// Create the window
-			long newwindow = glfwCreateWindow(width, height,
+			long newwindow = glfwCreateWindow(width / 2, height / 2,
 					"KauwgombalMisere", NULL, window);
 			if (window != NULL) {
 				glfwDestroyWindow(window);
 			}
 			window = newwindow;
+
+			// Correct window size
+			IntBuffer w = BufferUtils.createIntBuffer(1);
+			IntBuffer h = BufferUtils.createIntBuffer(1);
+
+			GLFW.glfwGetWindowSize(window, w, h);
+
+			w.rewind();
+			h.rewind();
+			width = w.get();
+			height = h.get();
 		}
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
 		}
-		keyCallback = new Keyboard();
-		mouseCallback = new Mouse();
-		glfwSetKeyCallback(window, keyCallback);
-		glfwSetMouseButtonCallback(window, mouseCallback);
+
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
 		glfwSwapInterval(0);
 		// Make the window visible
 		glfwShowWindow(window);
+
 	}
 
 	/**
@@ -206,8 +218,13 @@ public class Launcher {
 
 			}
 		});
+
 		glfwSetCallback(window, windowResize);
 
+		keyCallback = new Keyboard();
+		mouseCallback = new Mouse();
+		glfwSetKeyCallback(window, keyCallback);
+		glfwSetMouseButtonCallback(window, mouseCallback);
 	}
 
 	/**
