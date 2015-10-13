@@ -141,7 +141,9 @@ public final class Game {
 			loadLevel(getLvl() + 1);
 		} else {
 			Logger.add("game won");
-			setState(3);
+			GameVariables.setLives(3);
+			loadLevel(1);
+			setState(2);
 		}
 
 	}
