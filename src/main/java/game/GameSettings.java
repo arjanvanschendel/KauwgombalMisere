@@ -28,7 +28,7 @@ public final class GameSettings {
 	/**
 	 * Current music volume.
 	 */
-	private static boolean fullscreen = false;
+	private static boolean fullscreen = true;
 
 	private static boolean reload = false;
 
