@@ -3,7 +3,6 @@ package objects;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import game.CollisionDetection;
-import game.Game;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,68 +14,71 @@ import org.junit.Test;
  */
 public class ProjectileTest {
 
-    @Before
-    public void setup() {
-	CollisionDetection.clear();
-    }
+	/**
+	 * Setup executed before each test.
+	 */
+	@Before
+	public void setup() {
+		CollisionDetection.clear();
+	}
 
-    /**
+	/**
      * 
      */
-    @Test
-    public void updateEmptyCollisionsTest() {
-	Projectile a = new Projectile(0, 0);
-	a.update(0);
-	assertFalse(a.getHitBall());
-    }
+	@Test
+	public void updateEmptyCollisionsTest() {
+		Projectile a = new Projectile(0, 0);
+		a.update(0);
+		assertFalse(a.getHitBall());
+	}
 
-    /**
+	/**
      * 
      */
-    @Test
-    public void updateNonEmptyCollisionsTest() {
-	Projectile a = new Projectile(0, 0);
-	Projectile b = new Projectile(10, 10);
-	CollisionDetection.addCollider(b);
-	a.update(0);
-	assertFalse(a.getHitBall());
-    }
+	@Test
+	public void updateNonEmptyCollisionsTest() {
+		Projectile a = new Projectile(0, 0);
+		Projectile b = new Projectile(10, 10);
+		CollisionDetection.addCollider(b);
+		a.update(0);
+		assertFalse(a.getHitBall());
+	}
 
-    /**
+	/**
      * 
      */
-    @Test
-    public void updateBallCollisionsTest() {
-	Projectile a = new Projectile(0, 0);
-	Ball b = new Ball(0, 0, 1);
-	CollisionDetection.addCollider(b);
-	a.update(0);
-	assertTrue(a.getHitBall());
-    }
+	@Test
+	public void updateBallCollisionsTest() {
+		Projectile a = new Projectile(0, 0);
+		Ball b = new Ball(0, 0, 1);
+		CollisionDetection.addCollider(b);
+		a.update(0);
+		assertTrue(a.getHitBall());
+	}
 
-    /**
+	/**
      * 
      */
-    @Test
-    public void updateBoxCollisionsTest() {
-	Projectile a = new Projectile(0, 0);
-	Wall b = new Wall(0, 0, 1, 1, null);
-	CollisionDetection.addCollider(b);
-	a.update(0);
-	assertFalse(a.getHitBall());
-    }
+	@Test
+	public void updateBoxCollisionsTest() {
+		Projectile a = new Projectile(0, 0);
+		Wall b = new Wall(0, 0, 1, 1, null);
+		CollisionDetection.addCollider(b);
+		a.update(0);
+		assertFalse(a.getHitBall());
+	}
 
-    /**
+	/**
      * 
      */
-    @Test
-    public void updateCeilingCollisionsTest() {
-	Projectile a = new Projectile(0, 0);
-	Wall b = new Wall(0, 1, 1, 10, null);
-	a.setHeight(1.1f);
-	CollisionDetection.addCollider(b);
-	a.update(0);
-	assertFalse(a.getHitBall());
-    }
+	@Test
+	public void updateCeilingCollisionsTest() {
+		Projectile a = new Projectile(0, 0);
+		Wall b = new Wall(0, 1, 1, 10, null);
+		a.setHeight(1.1f);
+		CollisionDetection.addCollider(b);
+		a.update(0);
+		assertFalse(a.getHitBall());
+	}
 
 }

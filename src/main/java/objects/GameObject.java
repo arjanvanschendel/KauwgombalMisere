@@ -1,21 +1,24 @@
 package objects;
 
 /**
- * GameObject interface
+ * GameObject interface.
+ * 
  * @author Luke
  *
  */
 public interface GameObject {
 
-    	/**
-    	 * Update method.
-    	 * @param deltaTime time between frames
-    	 */
-	public void update(double deltaTime);
-	
+	/**
+	 * Update method.
+	 * 
+	 * @param deltaTime
+	 *            time between frames
+	 */
+	void update(double deltaTime);
+
 	/**
 	 * Render method.
 	 */
-	public void render();
-	
+	void render();
+
 }

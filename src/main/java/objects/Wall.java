@@ -1,9 +1,11 @@
 package objects;
+
 import java.awt.Color;
 import shapes.Box;
 
 /**
  * Class that represents wall.
+ * 
  * @author Luke
  *
  */
@@ -14,11 +16,16 @@ public class Wall extends Box implements GameObject {
 
 	/**
 	 * 
-	 * @param posx x position
-	 * @param posy y position
-	 * @param width width of wall
-	 * @param height height of wall
-	 * @param color color of wall
+	 * @param posx
+	 *            x position
+	 * @param posy
+	 *            y position
+	 * @param width
+	 *            width of wall
+	 * @param height
+	 *            height of wall
+	 * @param color
+	 *            color of wall
 	 */
 	public Wall(float posx, float posy, float width, float height, Color color) {
 		super(posx, posy, width, height, color);

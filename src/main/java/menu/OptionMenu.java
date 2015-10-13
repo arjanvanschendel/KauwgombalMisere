@@ -23,7 +23,7 @@ import utillities.Texture;
  */
 public class OptionMenu {
 
-    	private Game game = Game.getInstance();
+	private Game game = Game.getInstance();
 	/**
 	 * Font type used.
 	 */
@@ -121,7 +121,8 @@ public class OptionMenu {
 	 */
 	public final void update(final double deltaTime) {
 		if (!game.getSounds().get(5).isPlaying()) {
-		    game.getSounds().get(5).play();
+			game.getSounds().get(6).stop();
+			game.getSounds().get(5).play();
 		}
 
 		for (Button btn : buttons) {
@@ -161,13 +162,13 @@ public class OptionMenu {
 	 * Method to save settings.
 	 */
 	private void save() {
-	    game.getSounds().get(0).setVolume(GameSettings.getSFXVolume());
-	    game.getSounds().get(1).setVolume(GameSettings.getSFXVolume());
-	    game.getSounds().get(2).setVolume(GameSettings.getSFXVolume());
-	    game.getSounds().get(3).setVolume(GameSettings.getSFXVolume());
-	    game.getSounds().get(4).setVolume(GameSettings.getSFXVolume());
-	    game.getSounds().get(5).setVolume(GameSettings.getMusicVolume());
-	    game.getSounds().get(6).setVolume(GameSettings.getMusicVolume());
+		game.getSounds().get(0).setVolume(GameSettings.getSFXVolume());
+		game.getSounds().get(1).setVolume(GameSettings.getSFXVolume());
+		game.getSounds().get(2).setVolume(GameSettings.getSFXVolume());
+		game.getSounds().get(3).setVolume(GameSettings.getSFXVolume());
+		game.getSounds().get(4).setVolume(GameSettings.getSFXVolume());
+		game.getSounds().get(5).setVolume(GameSettings.getMusicVolume());
+		game.getSounds().get(6).setVolume(GameSettings.getMusicVolume());
 		GameSettings.setFullscreen(fullscreenCheckbox.isChecked());
 	}
 

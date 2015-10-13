@@ -1,6 +1,6 @@
 package powerups;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import game.CollisionDetection;
 import objects.Player;
 import objects.Projectile;
@@ -76,8 +76,8 @@ public abstract class PowerUpTest {
 	}
 
 	/**
-	 * Test if the power up is activated by a player. And then
-	 * deactivated over a certain amount of time
+	 * Test if the power up is activated by a player. And then deactivated over
+	 * a certain amount of time
 	 */
 	@Test
 	public final void activationTestPlayer() {
@@ -100,10 +100,10 @@ public abstract class PowerUpTest {
 
 		CollisionDetection.removeCollider(player);
 	}
-	
+
 	/**
-	 * Test if the power up is activated by a projectile. And then
-	 * deactivated over a certain amount of time
+	 * Test if the power up is activated by a projectile. And then deactivated
+	 * over a certain amount of time
 	 */
 	@Test
 	public final void activationTestProjectile() {

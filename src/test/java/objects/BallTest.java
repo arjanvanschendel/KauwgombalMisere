@@ -22,6 +22,9 @@ public class BallTest {
 	private Ball b;
 	private Ball r;
 
+	/**
+	 * Setup executed before the tests.
+	 */
 	@Before
 	public void setup() {
 		g = new Ball(100, 100, 50 / 4);
@@ -31,6 +34,9 @@ public class BallTest {
 		r = new Ball(0, 0, 50);
 	}
 
+	/**
+	 * Tests equals method.
+	 */
 	@Test
 	public void equalsTest() {
 		assertEquals(g, g1);
@@ -38,6 +44,9 @@ public class BallTest {
 		assertNotEquals(b, r);
 	}
 
+	/**
+	 * Hit test small ball.
+	 */
 	@Test
 	public void hitTestSmallBall() {
 		Level lvl = new Level("levels/test/level1.lvl");
@@ -48,6 +57,9 @@ public class BallTest {
 		assertTrue(Level.levelComplete());
 	}
 
+	/**
+	 * Hit test big ball.
+	 */
 	@Test
 	public void hitTestBigBall() {
 		Level.clear();

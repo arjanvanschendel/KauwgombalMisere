@@ -16,41 +16,41 @@ import utillities.SpriteSheet;
  */
 public class IdleState implements PlayerState {
 
-    private Game game = Game.getInstance();
-    private SpriteSheet idle;
+	private Game game = Game.getInstance();
+	private SpriteSheet idle;
 
-    /**
-     * Set spritesheet if texture detected.
-     */
-    public IdleState() {
-	if (!game.getTextures().isEmpty()) {
-	    idle = new SpriteSheet(game.getTextures().get(0), 2, 31);
+	/**
+	 * Set spritesheet if texture detected.
+	 */
+	public IdleState() {
+		if (!game.getTextures().isEmpty()) {
+			idle = new SpriteSheet(game.getTextures().get(0), 2, 31);
+		}
 	}
-    }
-    
-    /**
-     * Update selected spritesheet.
-     */
-    @Override
-    public void update(Player player) {
-	player.setSelected(idle);
-    }
 
-    /**
-     * Handle inputs in this state.
-     */
-    @Override
-    public void handleInputs(Player player, double deltaTime) {
-	if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)
-		|| Keyboard.isKeyDown(GLFW_KEY_RIGHT)
-		|| Keyboard.isKeyDown(GLFW_KEY_D)) {
-	    player.setState(new WalkingState());
-	} else {
-	    player.walkStop(deltaTime);
+	/**
+	 * Update selected spritesheet.
+	 */
+	@Override
+	public void update(Player player) {
+		player.setSelected(idle);
 	}
-	if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
-	    player.shoot();
+
+	/**
+	 * Handle inputs in this state.
+	 */
+	@Override
+	public void handleInputs(Player player, double deltaTime) {
+		if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)
+				|| Keyboard.isKeyDown(GLFW_KEY_RIGHT)
+				|| Keyboard.isKeyDown(GLFW_KEY_D)) {
+			player.setState(new WalkingState());
+		} else {
+			player.walkStop(deltaTime);
+		}
+		if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
+			player.shoot();
+		}
 	}
-    }
 
 }

@@ -34,7 +34,7 @@ public class FastArrowPowerUpTest extends PowerUpTest {
 	}
 
 	@Override
-	void setOldValue() {		
+	void setOldValue() {
 	}
 
 }
