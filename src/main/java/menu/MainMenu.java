@@ -24,8 +24,6 @@ import org.newdawn.slick.opengl.TextureImpl;
 public class MainMenu {
 
     private Game game = Game.getInstance();
-    private Font awtFont = new Font("Courier New", Font.BOLD, 48);
-    private TrueTypeFont font = new TrueTypeFont(awtFont, true);
     private ArrayList<Button> buttons = new ArrayList<Button>();
     private Button playBtn;
     private Button exitBtn;
