@@ -83,7 +83,7 @@ public class Player extends Box implements GameObject {
 	 * Update sprite of spritesheet.
 	 */
 	private void updateSprite() {
-		if (System.currentTimeMillis() >= target) {
+		if (System.currentTimeMillis() >= target && selected != null) {
 			selected.nextSprite();
 			target = System.currentTimeMillis() + targetDelta;
 		}
@@ -232,5 +232,4 @@ public class Player extends Box implements GameObject {
 	public final void setMirrored(boolean mirrored) {
 		this.mirrored = mirrored;
 	}
-
 }
