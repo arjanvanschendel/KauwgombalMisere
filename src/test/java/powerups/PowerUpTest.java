@@ -56,6 +56,11 @@ public abstract class PowerUpTest {
 	abstract void isNotActiveTest();
 
 	/**
+	 * Execute before activating.
+	 */
+	abstract void setOldValue();
+
+	/**
 	 * Test if gravity properly effects the power up.
 	 */
 	@Test
@@ -71,32 +76,51 @@ public abstract class PowerUpTest {
 	}
 
 	/**
-	 * Test if the power up is activated by a player or projectile. And then
+	 * Test if the power up is activated by a player. And then
 	 * deactivated over a certain amount of time
 	 */
 	@Test
-	public final void activationTest() {
+	public final void activationTestPlayer() {
 		power.setPosy(15);
-		
+
+		setOldValue();
 		isNotActiveTest();
 		Player player = new Player(0, 15);
 		CollisionDetection.addCollider(player);
+		setOldValue();
 		power.update(0);
 		isActiveTest();
 		power.update(1);
-		isActiveTest();
+		if (power.getPowerDuration() > 1) {
+			isActiveTest();
+		}
+		setOldValue();
 		power.update(10);
 		isNotActiveTest();
 
 		CollisionDetection.removeCollider(player);
+	}
+	
+	/**
+	 * Test if the power up is activated by a projectile. And then
+	 * deactivated over a certain amount of time
+	 */
+	@Test
+	public final void activationTestProjectile() {
+		power.setPosy(15);
 
+		setOldValue();
 		isNotActiveTest();
 		Projectile pro = new Projectile(0, 15);
 		CollisionDetection.addCollider(pro);
+		setOldValue();
 		power.update(0);
 		isActiveTest();
 		power.update(1);
-		isActiveTest();
+		if (power.getPowerDuration() > 1) {
+			isActiveTest();
+		}
+		setOldValue();
 		power.update(10);
 		isNotActiveTest();
 

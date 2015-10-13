@@ -33,4 +33,9 @@ public class SlowBallPowerUpTest extends PowerUpTest {
 				GameVariables.getNormalBallSpeed(), 0);
 	}
 
+	@Override
+	void setOldValue() {
+		
+	}
+
 }

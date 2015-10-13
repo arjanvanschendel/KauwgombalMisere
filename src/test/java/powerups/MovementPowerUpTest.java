@@ -33,4 +33,9 @@ public class MovementPowerUpTest extends PowerUpTest {
 				GameVariables.getNormalMovementSpeed(), 0);
 	}
 
+	@Override
+	void setOldValue() {
+		
+	}
+
 }

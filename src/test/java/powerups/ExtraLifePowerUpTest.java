@@ -11,30 +11,32 @@ import game.GameVariables;
  * @author Jasper
  *
  */
-public class FastArrowPowerUpTest extends PowerUpTest {
+public class ExtraLifePowerUpTest extends PowerUpTest {
+
+	private int oldLives;
 
 	@Override
 	final PowerUp getPowerUp() {
-		return new FastArrowPowerUp(0, 20);
+		return new ExtraLifePowerUp(0, 20);
 	}
 
 	@Override
 	final void isActiveTest() {
-		assertTrue(FastArrowPowerUp.isActive());
-		assertEquals(GameVariables.getArrowSpeed(),
-				GameVariables.getFastArrowSpeed(), 0);
+		assertTrue(ExtraLifePowerUp.isActive());
+		assertEquals(GameVariables.getLives(), oldLives + 1, 0);
 
 	}
 
 	@Override
 	final void isNotActiveTest() {
-		assertFalse(FastArrowPowerUp.isActive());
-		assertEquals(GameVariables.getArrowSpeed(),
-				GameVariables.getNormalArrowSpeed(), 0);
+		assertFalse(ExtraLifePowerUp.isActive());
+		assertEquals(GameVariables.getLives(), oldLives, 0);
 	}
 
 	@Override
-	void setOldValue() {		
+	void setOldValue() {
+		oldLives = GameVariables.getLives();
+
 	}
 
 }

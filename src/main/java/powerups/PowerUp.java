@@ -81,7 +81,7 @@ public abstract class PowerUp extends Box implements GameObject {
 		}
 		if (active) {
 			timeRemaining -= deltaTime;
-			if (timeRemaining > 0) {
+			if (timeRemaining >= 0) {
 				effect();
 			} else {
 				deactivate();
@@ -107,7 +107,7 @@ public abstract class PowerUp extends Box implements GameObject {
 	 * activate: Activates the PowerUp.
 	 */
 	protected final void basicActivate() {
-		Logger.add("powerup activated");
+		Logger.add(this.getClass().getSimpleName() + ": activated");
 		timeRemaining = powerDuration;
 		active = true;
 	}
@@ -121,7 +121,7 @@ public abstract class PowerUp extends Box implements GameObject {
 	 * basicDeactivate: Resets main variables used by every PowerUp.
 	 */
 	protected final void basicDeactivate() {
-		Logger.add("powerup deactivated");
+		Logger.add( this.getClass().getSimpleName() + ": deactivated");
 		active = false;
 		timeRemaining = powerDuration;
 		Level.remove(this);
@@ -138,6 +138,13 @@ public abstract class PowerUp extends Box implements GameObject {
 	 */
 	public final void setPowerDuration(final float powerDur) {
 		this.powerDuration = powerDur;
+	}
+
+	/**
+	 * @return the powerDuration
+	 */
+	public float getPowerDuration() {
+		return powerDuration;
 	}
 
 	/**
