@@ -291,18 +291,38 @@ public class Level {
 
 	/**
 	 * returns the levels song.
+	 * 
 	 * @return the levels song
 	 */
 	public Sound getSong() {
 		return music;
 	}
-
+	
+	/**
+	 * Checks if a song has been played yet, using its name.
+	 * @param e the song to check
+	 * @return wether a song has played yet
+	 */
+	public boolean songPlayed(String e) {
+		for (Sound songTemp : game.getPlayedSongs()) {
+			if (songTemp.getName().equals("sounds/music/" + e)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * sets the song for this level.
-	 * @param song the song to change to
+	 * 
+	 * @param song
+	 *            the song to change to
 	 */
-	public void setSong(String song) {
-		music = new Sound("sounds/music/" + song, GameSettings.getMusicVolume());
+	public void setSong(String song) {		
+		if (!songPlayed(song)) {
+			music = new Sound("sounds/music/" + song,
+					GameSettings.getMusicVolume());
+		}
 	}
 
 }

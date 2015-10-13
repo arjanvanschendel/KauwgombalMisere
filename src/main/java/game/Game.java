@@ -36,6 +36,7 @@ public final class Game {
 	private MainMenu menu;
 	private OptionMenu options;
 	private ArrayList<Sound> sounds = new ArrayList<Sound>();
+	private ArrayList<Sound> playedSongs = new ArrayList<Sound>();
 	private ArrayList<Texture> textures = new ArrayList<Texture>();
 
 	/**
@@ -117,6 +118,9 @@ public final class Game {
 	 * nextLevel: moves the player to the next level.
 	 */
 	public void nextLevel() {
+		for (Sound song : playedSongs) {
+			song.stop();
+		}
 		if (lvl < maxLvl) {
 			Logger.add("next level");
 			loadLevel(getLvl() + 1);
@@ -148,12 +152,11 @@ public final class Game {
 	 */
 	public void playCurrentLevelSong() {
 		for (int i = 5; i < getSounds().size(); i++) {
-			if (getSounds().get(i).isPlaying()) {
-				getSounds().get(i).stop();
-			}
+			getSounds().get(i).stop();
 		}
-		if (!currentLvl.getSong().isPlaying()) {
+		if (!currentLvl.getSong().isPlaying() && !playedSongs.contains(currentLvl.getSong())) {
 			currentLvl.getSong().play();
+			playedSongs.add(currentLvl.getSong());
 		}
 	}
 
@@ -183,7 +186,9 @@ public final class Game {
 		switch (state) {
 		case (0):
 			// Playing
-			playCurrentLevelSong();	
+			if (currentLvl.getSong() != null) {
+				playCurrentLevelSong();
+			}
 			currentLvl.update(deltaTime);
 			break;
 		case (1):
@@ -361,5 +366,13 @@ public final class Game {
 	 */
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	public ArrayList<Sound> getPlayedSongs(){
+		return playedSongs;
+	}
+	
+	public void addPlayedSong(Sound e){
+		playedSongs.add(e);
 	}
 }

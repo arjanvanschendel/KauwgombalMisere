@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import utillities.Sound;
 import utillities.Texture;
 
 /**
@@ -72,9 +73,15 @@ public class MainMenu {
 	 *            The speed of the game
 	 */
 	public final void update(final double deltaTime) {
+		for (Sound song : game.getPlayedSongs()) {
+			song.stop();
+		}
 		if (!game.getSounds().get(5).isPlaying()) {
-			game.getCurrentLvl().getSong().stop();
+			if (game.getCurrentLvl().getSong() != null) {
+				game.getCurrentLvl().getSong().stop();
+			}
 			game.getSounds().get(5).play();
+			game.addPlayedSong(game.getSounds().get(5));
 		}
 
 		for (Button btn : buttons) {
