@@ -18,44 +18,44 @@ import utillities.SpriteSheet;
  */
 public class WalkingState implements PlayerState {
 
-    private Game game = Game.getInstance();
-    private SpriteSheet walking;
-    
-    /**
+	private Game game = Game.getInstance();
+	private SpriteSheet walking;
+
+	/**
      * 
      */
-    public WalkingState() {
-	if (!game.getTextures().isEmpty()) {
-	    walking = new SpriteSheet(game.getTextures().get(1), 2, 20);
+	public WalkingState() {
+		if (!game.getTextures().isEmpty()) {
+			walking = new SpriteSheet(game.getTextures().get(1), 2, 20);
+		}
 	}
-    }
-    
-    /**
-     * Update method.
-     */
-    @Override
-    public void update(Player player) {
-	player.setSelected(walking);
-    }
 
-    /**
-     * Handle inputs.
-     */
-    @Override
-    public void handleInputs(Player player, double deltaTime) {
-	if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)) {
-	    player.setMirrored(false);
-	    player.walkLeft(deltaTime);
-	} else if (Keyboard.isKeyDown(GLFW_KEY_RIGHT)
-		|| Keyboard.isKeyDown(GLFW_KEY_D)) {
-	    player.setMirrored(true);
-	    player.walkRight(deltaTime);
-	} else {
-	    player.setState(new IdleState());
+	/**
+	 * Update method.
+	 */
+	@Override
+	public void update(Player player) {
+		player.setSelected(walking);
 	}
-	if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
-	    player.shoot();
+
+	/**
+	 * Handle inputs.
+	 */
+	@Override
+	public void handleInputs(Player player, double deltaTime) {
+		if (Keyboard.isKeyDown(GLFW_KEY_LEFT) || Keyboard.isKeyDown(GLFW_KEY_A)) {
+			player.setMirrored(false);
+			player.walkLeft(deltaTime);
+		} else if (Keyboard.isKeyDown(GLFW_KEY_RIGHT)
+				|| Keyboard.isKeyDown(GLFW_KEY_D)) {
+			player.setMirrored(true);
+			player.walkRight(deltaTime);
+		} else {
+			player.setState(new IdleState());
+		}
+		if (Keyboard.isKeyDown(GLFW_KEY_SPACE)) {
+			player.shoot();
+		}
 	}
-    }
 
 }

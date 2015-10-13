@@ -12,7 +12,7 @@ public final class GameSettings {
 	 * GameSettings constructor.
 	 */
 	private GameSettings() {
-		
+
 	}
 
 	/**
@@ -31,58 +31,67 @@ public final class GameSettings {
 	private static boolean fullscreen = false;
 
 	private static boolean reload = false;
-	
+
 	/**
 	 * @return the volume
 	 */
 	public static float getSFXVolume() {
 		return sfxVolume;
 	}
+
 	/**
-	 * @param vol the volume to set
+	 * @param vol
+	 *            the volume to set
 	 */
 	public static void setSFXVolume(final float vol) {
 		sfxVolume = vol;
 	}
-	
-	
+
 	/**
 	 * @return the volume
 	 */
 	public static float getMusicVolume() {
 		return musicVolume;
 	}
+
 	/**
-	 * @param vol the volume to set
+	 * @param vol
+	 *            the volume to set
 	 */
 	public static void setMusicVolume(final float vol) {
 		musicVolume = vol;
 	}
+
 	/**
 	 * @return the fullscreen
 	 */
 	public static boolean isFullscreen() {
 		return fullscreen;
 	}
+
 	/**
-	 * @param full the fullscreen to set
+	 * @param full
+	 *            the fullscreen to set
 	 */
 	public static void setFullscreen(final boolean full) {
 		if (fullscreen != full) {
-			reload = true;			
+			reload = true;
 		}
 		fullscreen = full;
 	}
 
 	/**
 	 * Let's the launcher know that it should reload the window.
-	 * @return reload 
+	 * 
+	 * @return reload
 	 */
 	public static boolean reload() {
 		return reload;
 	}
+
 	/**
-	 * @param r sets reload.
+	 * @param r
+	 *            sets reload.
 	 */
 	public static void setReload(final boolean r) {
 		reload = r;

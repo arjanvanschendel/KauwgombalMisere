@@ -22,7 +22,7 @@ public class PointTest {
 		point = new Point(-200, 150);
 		point1 = new Point(-400, -150);
 	}
-	
+
 	/**
 	 * Tests the dot product method in Point.
 	 */

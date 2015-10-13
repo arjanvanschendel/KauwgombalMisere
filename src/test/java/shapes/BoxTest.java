@@ -75,6 +75,7 @@ public class BoxTest {
 		box.setColor(Color.RED);
 		assertEquals(box.getColor(), Color.RED);
 	}
+
 	/**
 	 * Tests the pointInShape with different points.
 	 */

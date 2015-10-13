@@ -35,7 +35,7 @@ public class SlowBallPowerUpTest extends PowerUpTest {
 
 	@Override
 	void setOldValue() {
-		
+
 	}
 
 }

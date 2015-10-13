@@ -12,9 +12,9 @@ public final class GameVariables {
 	 * GameVariables constructor.
 	 */
 	private GameVariables() {
-		
+
 	}
-	
+
 	/**
 	 * Current movement speed of the player.
 	 */
@@ -65,8 +65,7 @@ public final class GameVariables {
 	 * Slow ball speed.
 	 */
 	private static float slowBallSpeed = (float) 0.5;
-	
-	
+
 	/**
 	 * @return the normal Ball speed
 	 */
@@ -87,7 +86,7 @@ public final class GameVariables {
 	public static float getArrowSpeed() {
 		return arrowSpeed;
 	}
-	
+
 	/**
 	 * @return the normalArrowSpeed
 	 */
@@ -110,22 +109,23 @@ public final class GameVariables {
 	}
 
 	/**
-	 * @param aSpeed the arrowSpeed to set
+	 * @param aSpeed
+	 *            the arrowSpeed to set
 	 */
 	public static void setArrowSpeed(final float aSpeed) {
 		GameVariables.arrowSpeed = aSpeed;
 	}
-	
-	
+
 	/**
 	 * @return the movementSpeed
 	 */
 	public static float getMovementSpeed() {
 		return movementSpeed;
 	}
-	
+
 	/**
-	 * @param mSpeed the new movementSpeed to set
+	 * @param mSpeed
+	 *            the new movementSpeed to set
 	 */
 	public static void setMovementSpeed(final float mSpeed) {
 		GameVariables.movementSpeed = mSpeed;
@@ -139,7 +139,8 @@ public final class GameVariables {
 	}
 
 	/**
-	 * @param speed the ball speed to set
+	 * @param speed
+	 *            the ball speed to set
 	 */
 	public static void setBallSpeed(final float speed) {
 		GameVariables.ballSpeed = speed;
@@ -169,7 +170,8 @@ public final class GameVariables {
 	}
 
 	/**
-	 * @param gravity the gravity to set
+	 * @param gravity
+	 *            the gravity to set
 	 */
 	public static void setGravity(float gravity) {
 		GameVariables.gravity = gravity;
@@ -183,12 +185,11 @@ public final class GameVariables {
 	}
 
 	/**
-	 * @param lives the lives to set
+	 * @param lives
+	 *            the lives to set
 	 */
 	public static void setLives(int lives) {
 		GameVariables.lives = lives;
 	}
 
-
-	
 }

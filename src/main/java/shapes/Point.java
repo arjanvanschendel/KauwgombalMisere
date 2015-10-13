@@ -11,8 +11,10 @@ public class Point {
 
 	/**
 	 * 
-	 * @param x x position
-	 * @param y y position
+	 * @param x
+	 *            x position
+	 * @param y
+	 *            y position
 	 */
 	public Point(float x, float y) {
 		this.x = x;
@@ -21,6 +23,7 @@ public class Point {
 
 	/**
 	 * getX.
+	 * 
 	 * @return float x
 	 */
 	public float getX() {
@@ -29,7 +32,9 @@ public class Point {
 
 	/**
 	 * setX.
-	 * @param x float to set
+	 * 
+	 * @param x
+	 *            float to set
 	 */
 	public void setX(float x) {
 		this.x = x;
@@ -37,6 +42,7 @@ public class Point {
 
 	/**
 	 * getY.
+	 * 
 	 * @return float y
 	 */
 	public float getY() {
@@ -45,7 +51,9 @@ public class Point {
 
 	/**
 	 * setY.
-	 * @param y float to set
+	 * 
+	 * @param y
+	 *            float to set
 	 */
 	public void setY(float y) {
 		this.y = y;
@@ -53,7 +61,9 @@ public class Point {
 
 	/**
 	 * Dot: returns the dot product of two vectors/points.
-	 * @param d point
+	 * 
+	 * @param d
+	 *            point
 	 * @return float
 	 */
 	public float dot(Point d) {

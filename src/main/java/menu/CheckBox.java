@@ -74,7 +74,8 @@ public class CheckBox extends Box {
 	/**
 	 * Update method used to check if the player checked this box.
 	 * 
-	 * @param deltaTime Between the last 2 frames.
+	 * @param deltaTime
+	 *            Between the last 2 frames.
 	 */
 	public final void update(final double deltaTime) {
 		if (Mouse.isButtonReleased(0)
@@ -82,7 +83,7 @@ public class CheckBox extends Box {
 			checked = !checked;
 		}
 	}
-	
+
 	@Override
 	public final void render() {
 		leftSide.render();

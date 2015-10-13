@@ -35,7 +35,7 @@ public class MovementPowerUpTest extends PowerUpTest {
 
 	@Override
 	void setOldValue() {
-		
+
 	}
 
 }

@@ -43,7 +43,7 @@ public class BallTest {
 		assertNotEquals(g, g2);
 		assertNotEquals(b, r);
 	}
-	
+
 	/**
 	 * Hit test small ball.
 	 */

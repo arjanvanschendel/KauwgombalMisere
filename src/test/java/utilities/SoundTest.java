@@ -12,6 +12,7 @@ import utillities.Sound;
 
 /**
  * Tests the Sound class.
+ * 
  * @author Matthias
  *
  */
@@ -63,7 +64,7 @@ public class SoundTest {
 		snd.stop();
 		assertFalse(snd.isPlaying());
 	}
-	
+
 	/**
 	 * test the loop function.
 	 */
@@ -105,7 +106,7 @@ public class SoundTest {
 		snd2.stop();
 		assertFalse(snd2.isPlaying());
 	}
-	
+
 	/**
 	 * test the loop function.
 	 */
@@ -126,7 +127,7 @@ public class SoundTest {
 		snd2.stop();
 		assertFalse(snd2.isPlaying());
 	}
-	
+
 	/**
 	 * volumeCapTest: tests if the volume cap works.
 	 */
