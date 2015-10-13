@@ -37,8 +37,8 @@ public class ExtraLifePowerUp extends PowerUp {
 	public ExtraLifePowerUp(final float posx, final float posy) {
 		super(posx, posy, new Color(200, 70, 70));
 
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, new Color(200, 70, 70));
+		indicator = new Box(Launcher.getCamWidth() / 2 - 40,
+				Launcher.getCamHeight() - 55, 20, 20, new Color(200, 70, 70));
 		setPowerDuration(0);
 	}
 

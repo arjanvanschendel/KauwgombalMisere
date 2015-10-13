@@ -32,21 +32,21 @@ public class MainMenu {
 	 */
 	public MainMenu() {
 		playBtn = new Button((float) -75,
-				(float) Launcher.getCAMHEIGHT() / 3 + 40, (float) 150,
+				(float) Launcher.getCamHeight() / 3 + 40, (float) 150,
 				(float) 25, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
-		optBtn = new Button((float) -75, (float) Launcher.getCAMHEIGHT() / 3,
+		optBtn = new Button((float) -75, (float) Launcher.getCamHeight() / 3,
 				(float) 150, (float) 25, java.awt.Color.white, "Options");
 		buttons.add(optBtn);
 		exitBtn = new Button((float) -75,
-				(float) Launcher.getCAMHEIGHT() / 3 - 40, (float) 150,
+				(float) Launcher.getCamHeight() / 3 - 40, (float) 150,
 				(float) 25, java.awt.Color.white, "Exit");
 		buttons.add(exitBtn);
 		background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP);
 
-		width = Launcher.getCAMWIDTH();
-		height = Launcher.getCAMHEIGHT();
+		width = Launcher.getCamWidth();
+		height = Launcher.getCamHeight();
 		System.out.println("WxH = " + width + "x" + height);
 	}
 

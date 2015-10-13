@@ -45,8 +45,8 @@ public class FastArrowPowerUp extends PowerUp {
 	public FastArrowPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.CYAN);
 
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, Color.CYAN);
+		indicator = new Box(Launcher.getCamWidth() / 2 - 40,
+				Launcher.getCamHeight() - 55, 20, 20, Color.CYAN);
 		setPowerDuration(3);
 	}
 

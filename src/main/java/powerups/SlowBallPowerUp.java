@@ -45,8 +45,8 @@ public class SlowBallPowerUp extends PowerUp {
 	public SlowBallPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.MAGENTA);
 
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 75, 20, 20, Color.MAGENTA);
+		indicator = new Box(Launcher.getCamWidth() / 2 - 40,
+				Launcher.getCamHeight() - 75, 20, 20, Color.MAGENTA);
 		setPowerDuration(3);
 	}
 

@@ -301,28 +301,28 @@ public class Launcher {
 	/**
 	 * @return the cAMWIDTH
 	 */
-	public static int getCAMWIDTH() {
+	public static int getCamWidth() {
 		return camWidth;
 	}
 
 	/**
 	 * @return the cAMHEIGHT
 	 */
-	public static int getCAMHEIGHT() {
+	public static int getCamHeight() {
 		return camHeight;
 	}
 
 	/**
 	 * @return the wIDTH
 	 */
-	public static int getWIDTH() {
+	public static int getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return the hEIGHT
 	 */
-	public static int getHEIGHT() {
+	public static int getHeight() {
 		return height;
 	}
 

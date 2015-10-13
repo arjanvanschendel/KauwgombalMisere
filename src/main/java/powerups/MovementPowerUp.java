@@ -44,8 +44,8 @@ public class MovementPowerUp extends PowerUp {
 	 */
 	public MovementPowerUp(final float posx, final float posy) {
 		super(posx, posy, Color.GREEN);
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 30, 20, 20, Color.GREEN);
+		indicator = new Box(Launcher.getCamWidth() / 2 - 40,
+				Launcher.getCamHeight() - 30, 20, 20, Color.GREEN);
 		setPowerDuration(3);
 	}
 
