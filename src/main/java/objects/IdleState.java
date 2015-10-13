@@ -24,7 +24,7 @@ public class IdleState implements PlayerState {
 	 */
 	public IdleState() {
 		if (!game.getTextures().isEmpty()) {
-			idle = new SpriteSheet(game.getTextures().get(0), 2, 31);
+			idle = new SpriteSheet(game.getTextures().get("IdleSprite"), 2, 31);
 		}
 	}
 

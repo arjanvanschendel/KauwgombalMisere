@@ -4,7 +4,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import menu.MainMenu;
 import menu.OptionMenu;
@@ -35,9 +36,9 @@ public final class Game {
 	private int maxLvl;
 	private MainMenu menu;
 	private OptionMenu options;
-	private ArrayList<Sound> sounds = new ArrayList<Sound>();
-	private ArrayList<Sound> playedSongs = new ArrayList<Sound>();
-	private ArrayList<Texture> textures = new ArrayList<Texture>();
+	private HashMap<String, Sound> soundFX = new HashMap<String, Sound>();
+	private HashMap<String, Sound> music = new HashMap<String, Sound>();
+	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
 	/**
 	 * Only instanced once Game: constructor.
@@ -77,29 +78,43 @@ public final class Game {
 	}
 
 	private void loadSounds() {
-		sounds.add(new Sound("sounds/sfx/arrowHitBall.wav", GameSettings
-				.getSFXVolume()));
-		sounds.add(new Sound("sounds/sfx/arrowHitCeiling.wav", GameSettings
-				.getSFXVolume()));
-		sounds.add(new Sound("sounds/sfx/arrowShoot.wav", GameSettings
-				.getSFXVolume()));
-		sounds.add(new Sound("sounds/sfx/ballBounce.wav", GameSettings
-				.getSFXVolume()));
-		sounds.add(new Sound("sounds/sfx/playerHit.wav", GameSettings
-				.getSFXVolume()));
-		sounds.add(new Sound("sounds/music/Derezzed.wav", GameSettings
-				.getSFXVolume()));
+
+		// Sound effects
+		soundFX.put("arrowHitBall", new Sound("sounds/sfx/arrowHitBall.wav",
+				GameSettings.getSFXVolume()));
+		soundFX.put("arrowHitCeiling", new Sound(
+				"sounds/sfx/arrowHitCeiling.wav", GameSettings.getSFXVolume()));
+		soundFX.put("arrowShoot", new Sound("sounds/sfx/arrowShoot.wav",
+				GameSettings.getSFXVolume()));
+		soundFX.put("ballBounce", new Sound("sounds/sfx/ballBounce.wav",
+				GameSettings.getSFXVolume()));
+		soundFX.put("playerHit", new Sound("sounds/sfx/playerHit.wav",
+				GameSettings.getSFXVolume()));
+
+		// Music Files
+		music.put("Solar_Sailer", new Sound("sounds/music/Solar_Sailer.wav",
+				GameSettings.getMusicVolume()));
+		music.put("Derezzed", new Sound("sounds/music/Derezzed.wav",
+				GameSettings.getMusicVolume()));
+		music.put("HelemaalMooi", new Sound("sounds/music/HelemaalMooi.wav",
+				GameSettings.getMusicVolume()));
+		music.put("JOHNCENA", new Sound("sounds/music/JOHNCENA.wav",
+				GameSettings.getMusicVolume()));
+		music.put("Satisfaction", new Sound("sounds/music/Satisfaction.wav",
+				GameSettings.getMusicVolume()));
+		music.put("shakeItOff", new Sound("sounds/music/shakeItOff.wav",
+				GameSettings.getMusicVolume()));
 	}
 
 	/**
 	 * loadTextures: load the textures onto memory.
 	 */
 	private void loadTextures() {
-		textures.add(0, new Texture("res/IdleSprite.png", GL11.GL_NEAREST,
+		textures.put("IdleSprite", new Texture("res/IdleSprite.png",
+				GL11.GL_NEAREST, GL11.GL_REPEAT));
+		textures.put("Run", new Texture("res/Run.png", GL11.GL_NEAREST,
 				GL11.GL_REPEAT));
-		textures.add(1, new Texture("res/Run.png", GL11.GL_NEAREST,
-				GL11.GL_REPEAT));
-		textures.add(2, new Texture("res/arrow.png", GL11.GL_NEAREST,
+		textures.put("arrow", new Texture("res/arrow.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP));
 	}
 
@@ -118,8 +133,8 @@ public final class Game {
 	 * nextLevel: moves the player to the next level.
 	 */
 	public void nextLevel() {
-		for (Sound song : playedSongs) {
-			song.stop();
+		for (Entry<String, Sound> entry : soundFX.entrySet()) {
+			entry.getValue().stop();
 		}
 		if (lvl < maxLvl) {
 			Logger.add("next level");
@@ -151,12 +166,11 @@ public final class Game {
 	 * Stops all current songs and plays the song for the current level.
 	 */
 	public void playCurrentLevelSong() {
-		for (int i = 5; i < getSounds().size(); i++) {
-			getSounds().get(i).stop();
-		}
-		if (!currentLvl.getSong().isPlaying() && !playedSongs.contains(currentLvl.getSong())) {
-			currentLvl.getSong().play();
-			playedSongs.add(currentLvl.getSong());
+		if (currentLvl.getLevelSong() != null && !currentLvl.getLevelSong().isPlaying()) {
+			for (Entry<String, Sound> entry : getMusic().entrySet()) {
+				entry.getValue().stop();
+			}
+			currentLvl.getLevelSong().play();
 		}
 	}
 
@@ -186,9 +200,7 @@ public final class Game {
 		switch (state) {
 		case (0):
 			// Playing
-			if (currentLvl.getSong() != null) {
-				playCurrentLevelSong();
-			}
+			playCurrentLevelSong();
 			currentLvl.update(deltaTime);
 			break;
 		case (1):
@@ -311,22 +323,29 @@ public final class Game {
 	/**
 	 * @return the sounds
 	 */
-	public ArrayList<Sound> getSounds() {
-		return sounds;
+	public HashMap<String, Sound> getSoundFX() {
+		return soundFX;
+	}
+
+	/**
+	 * @return the sounds
+	 */
+	public HashMap<String, Sound> getMusic() {
+		return music;
 	}
 
 	/**
 	 * @param sounds
 	 *            the sounds to set
 	 */
-	public void setSounds(ArrayList<Sound> sounds) {
-		this.sounds = sounds;
+	public void setSoundFX(HashMap<String, Sound> sounds) {
+		this.soundFX = sounds;
 	}
 
 	/**
 	 * @return the textures
 	 */
-	public ArrayList<Texture> getTextures() {
+	public HashMap<String, Texture> getTextures() {
 		return textures;
 	}
 
@@ -334,7 +353,7 @@ public final class Game {
 	 * @param textures
 	 *            the textures to set
 	 */
-	public void setTextures(ArrayList<Texture> textures) {
+	public void setTextures(HashMap<String, Texture> textures) {
 		this.textures = textures;
 	}
 
@@ -366,13 +385,5 @@ public final class Game {
 	 */
 	public void setScore(int score) {
 		this.score = score;
-	}
-	
-	public ArrayList<Sound> getPlayedSongs(){
-		return playedSongs;
-	}
-	
-	public void addPlayedSong(Sound e){
-		playedSongs.add(e);
 	}
 }

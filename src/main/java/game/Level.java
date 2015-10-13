@@ -34,7 +34,7 @@ public class Level {
 	private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
 	private Player player;
 	private String name = "";
-	private Sound music;
+	private String music = "Derezzed";
 
 	private static Projectile pro;
 
@@ -116,8 +116,8 @@ public class Level {
 			Logger.add("projectile shot");
 			pro = projectile;
 			CollisionDetection.addCollider(pro);
-			if (!game.getSounds().isEmpty()) {
-				game.getSounds().get(2).play();
+			if (!game.getSoundFX().isEmpty()) {
+				game.getSoundFX().get("arrowShoot").play();
 			}
 		} else if (projectile == null) {
 			CollisionDetection.removeCollider(pro);
@@ -230,7 +230,7 @@ public class Level {
 					} else if (type.equals("name")) {
 						name = para[0];
 					} else if (type.equals("song")) {
-						setSong(param);
+						music = param;
 					}
 				}
 			}
@@ -294,35 +294,8 @@ public class Level {
 	 * 
 	 * @return the levels song
 	 */
-	public Sound getSong() {
-		return music;
-	}
-	
-	/**
-	 * Checks if a song has been played yet, using its name.
-	 * @param e the song to check
-	 * @return wether a song has played yet
-	 */
-	public boolean songPlayed(String e) {
-		for (Sound songTemp : game.getPlayedSongs()) {
-			if (songTemp.getName().equals("sounds/music/" + e)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * sets the song for this level.
-	 * 
-	 * @param song
-	 *            the song to change to
-	 */
-	public void setSong(String song) {		
-		if (!songPlayed(song)) {
-			music = new Sound("sounds/music/" + song,
-					GameSettings.getMusicVolume());
-		}
+	public Sound getLevelSong() {
+		return game.getMusic().get(music);
 	}
 
 }

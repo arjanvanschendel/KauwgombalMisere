@@ -196,8 +196,8 @@ public class Player extends Box implements GameObject {
 	 * die: lets the player die.
 	 */
 	private void die() {
-		if (game.getSounds().size() > 0) {
-			game.getSounds().get(4).play();
+		if (game.getSoundFX().size() > 0) {
+			game.getSoundFX().get("playerHit").play();
 		}
 		alive = false;
 	}

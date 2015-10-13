@@ -5,6 +5,7 @@ import game.Game;
 import game.Launcher;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
@@ -73,15 +74,14 @@ public class MainMenu {
 	 *            The speed of the game
 	 */
 	public final void update(final double deltaTime) {
-		for (Sound song : game.getPlayedSongs()) {
-			song.stop();
-		}
-		if (!game.getSounds().get(5).isPlaying()) {
-			if (game.getCurrentLvl().getSong() != null) {
-				game.getCurrentLvl().getSong().stop();
+		if (!game.getMusic().get("Solar_Sailer").isPlaying()) {
+			for (Entry<String, Sound> entry : game.getMusic().entrySet()) {
+				entry.getValue().stop();
 			}
-			game.getSounds().get(5).play();
-			game.addPlayedSong(game.getSounds().get(5));
+			if (game.getCurrentLvl().getLevelSong() != null) {
+				game.getCurrentLvl().getLevelSong().stop();
+			}
+			game.getMusic().get("Solar_Sailer").play();
 		}
 
 		for (Button btn : buttons) {
