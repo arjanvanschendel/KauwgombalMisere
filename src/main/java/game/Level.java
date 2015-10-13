@@ -16,6 +16,7 @@ import objects.Wall;
 import powerups.PowerUp;
 import utillities.Logger;
 import utillities.ObjectGenerator;
+import utillities.Sound;
 
 /**
  * Level Class: an object of this class represents a level in the game,
@@ -33,6 +34,7 @@ public class Level {
 	private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
 	private Player player;
 	private String name = "";
+	private Sound music;
 
 	private static Projectile pro;
 
@@ -227,6 +229,8 @@ public class Level {
 						CollisionDetection.addCollider(player);
 					} else if (type.equals("name")) {
 						name = para[0];
+					} else if (type.equals("song")) {
+						setSong(param);
 					}
 				}
 			}
@@ -283,6 +287,22 @@ public class Level {
 	 */
 	public static final void setPopUpObjects(ArrayList<GameObject> popUpObjects) {
 		Level.popUpObjects = popUpObjects;
+	}
+
+	/**
+	 * returns the levels song.
+	 * @return the levels song
+	 */
+	public Sound getSong() {
+		return music;
+	}
+
+	/**
+	 * sets the song for this level.
+	 * @param song the song to change to
+	 */
+	public void setSong(String song) {
+		music = new Sound("sounds/music/" + song, GameSettings.getMusicVolume());
 	}
 
 }

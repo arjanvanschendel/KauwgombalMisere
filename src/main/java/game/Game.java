@@ -86,12 +86,8 @@ public final class Game {
 				.getSFXVolume()));
 		sounds.add(new Sound("sounds/sfx/playerHit.wav", GameSettings
 				.getSFXVolume()));
-		// Main menu music
-		sounds.add(new Sound("sounds/music/Solar_Sailer.wav", GameSettings
-				.getMusicVolume()));
-		// In game music
 		sounds.add(new Sound("sounds/music/Derezzed.wav", GameSettings
-				.getMusicVolume()));
+				.getSFXVolume()));
 	}
 
 	/**
@@ -148,6 +144,20 @@ public final class Game {
 	}
 
 	/**
+	 * Stops all current songs and plays the song for the current level.
+	 */
+	public void playCurrentLevelSong() {
+		for (int i = 5; i < getSounds().size(); i++) {
+			if (getSounds().get(i).isPlaying()) {
+				getSounds().get(i).stop();
+			}
+		}
+		if (!currentLvl.getSong().isPlaying()) {
+			currentLvl.getSong().play();
+		}
+	}
+
+	/**
 	 * update: Update the state of the game.
 	 * 
 	 * @param deltaTime
@@ -173,19 +183,12 @@ public final class Game {
 		switch (state) {
 		case (0):
 			// Playing
-			if (!getSounds().get(6).isPlaying()) {
-				getSounds().get(5).stop();
-				getSounds().get(6).play();
-			}
+			playCurrentLevelSong();	
 			currentLvl.update(deltaTime);
 			break;
 		case (1):
 			// Paused
-
-			if (!getSounds().get(5).isPlaying()) {
-				getSounds().get(6).stop();
-				getSounds().get(5).play();
-			}
+			playCurrentLevelSong();
 			break;
 
 		case (2):

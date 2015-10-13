@@ -73,7 +73,7 @@ public class MainMenu {
 	 */
 	public final void update(final double deltaTime) {
 		if (!game.getSounds().get(5).isPlaying()) {
-			game.getSounds().get(6).stop();
+			game.getCurrentLvl().getSong().stop();
 			game.getSounds().get(5).play();
 		}
 
