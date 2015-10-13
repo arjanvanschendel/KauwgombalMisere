@@ -126,11 +126,6 @@ public class MainMenu {
 	for (Button btn : buttons) {
 	    btn.render();
 	}
-
-	GL11.glScalef(1, -1, 1);
-	TextureImpl.bindNone();
-	font.drawString(0, -100, "sample text", Color.cyan);
-	GL11.glScalef(1, -1, 1);
 	GL11.glDisable(GL11.GL_TEXTURE_2D);
     }
 }
