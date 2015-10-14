@@ -16,6 +16,7 @@
 		<lwjgl.version>3.0.0a</lwjgl.version>
 		<junit.version>4.12</junit.version>
 		<checkstyle.plugin.version>2.15</checkstyle.plugin.version>
+		<surefire.plugin.version>2.18.1</surefire.plugin.version>
 		<pmd.plugin.version>3.4</pmd.plugin.version>
 		<findbugs.version>3.0.0</findbugs.version>
 		<lib.directory>target/natives</lib.directory>
@@ -99,8 +100,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.plugin.version}</version>
 				<configuration>
-					<argLine>-Djava.library.path=${lib.directory}</argLine>
+					<argLine>-Djava.library.path=${basedir}/target/natives</argLine>
 				</configuration>
 			</plugin>
 
