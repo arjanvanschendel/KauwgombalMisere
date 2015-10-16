@@ -4,7 +4,8 @@ import java.awt.Color;
 
 import shapes.Box;
 import shapes.Point;
-import utillities.Mouse;
+import utillities.CursorPos;
+import utillities.MouseButtons;
 
 /**
  * 
@@ -79,8 +80,8 @@ public class CheckBox extends Box {
 	 *            Between the last 2 frames.
 	 */
 	public final void update(final double deltaTime) {
-		if (Mouse.isButtonReleased(0)
-				&& super.pointInShape(Mouse.getCursorPos())) {
+		if (MouseButtons.isButtonReleased(0)
+				&& super.pointInShape(CursorPos.getCursorPos())) {
 			checked = !checked;
 		}
 	}

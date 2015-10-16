@@ -1,11 +1,12 @@
 package powerups;
 
+import game.GameVariables;
+import game.Launcher;
+
 import java.awt.Color;
 
 import shapes.Box;
 import shapes.Point;
-import game.GameVariables;
-import game.Launcher;
 
 /**
  * 
@@ -35,8 +36,8 @@ public class ExtraLifePowerUp extends PowerUp {
 	 */
 	public ExtraLifePowerUp(final Point pos) {
 		super(pos, new Color(200, 70, 70));
-		Point indPos = new Point(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55);
+		Point indPos = new Point(Launcher.getCamWidth() / 2 - 40,
+				Launcher.getCamHeight() - 55);
 		indicator = new Box(indPos, 20, 20, new Color(200, 70, 70));
 		setPowerDuration(0);
 	}

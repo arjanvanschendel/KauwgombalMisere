@@ -2,6 +2,7 @@ package game;
 
 import static org.lwjgl.glfw.Callbacks.errorCallbackPrint;
 import static org.lwjgl.glfw.Callbacks.glfwSetCallback;
+import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -13,6 +14,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
@@ -22,7 +24,6 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.glfw.GLFW.GLFWWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
@@ -34,7 +35,10 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.awt.Font;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback.SAM;
@@ -43,9 +47,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
 
+import shapes.Point;
+import utillities.CursorPos;
 import utillities.Keyboard;
 import utillities.Logger;
-import utillities.Mouse;
+import utillities.MouseButtons;
 
 /**
  * Initialises window and OpenGL. Also starts the loop and calculates the delta
@@ -60,8 +66,9 @@ public class Launcher {
 	private GLFWErrorCallback errorCallback;
 	private Keyboard keyCallback;
 	private double lastFrame;
-	private Mouse mouseCallback;
+	private MouseButtons mouseButtonsCallback;
 	private GLFWWindowSizeCallback windowResize;
+	private CursorPos cursorPositionCallback;
 	private static int camWidth;
 	private static int camHeight;
 	private static int width;
@@ -83,7 +90,8 @@ public class Launcher {
 			// Release window and window callbacks
 			glfwDestroyWindow(window);
 			keyCallback.release();
-			mouseCallback.release();
+			mouseButtonsCallback.release();
+			cursorPositionCallback.release();
 		} finally {
 			// Terminate GLFW and release the GLFWerrorfun
 			glfwTerminate();
@@ -128,26 +136,35 @@ public class Launcher {
 			window = newwindow;
 		} else {
 			// Create the window
-			long newwindow = glfwCreateWindow(width, height,
+			long newwindow = glfwCreateWindow(width / 2, height / 2,
 					"KauwgombalMisere", NULL, window);
 			if (window != NULL) {
 				glfwDestroyWindow(window);
 			}
 			window = newwindow;
+
+			// Correct window size
+			IntBuffer w = BufferUtils.createIntBuffer(1);
+			IntBuffer h = BufferUtils.createIntBuffer(1);
+
+			GLFW.glfwGetWindowSize(window, w, h);
+
+			w.rewind();
+			h.rewind();
+			width = w.get();
+			height = h.get();
 		}
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
 		}
-		keyCallback = new Keyboard();
-		mouseCallback = new Mouse();
-		glfwSetKeyCallback(window, keyCallback);
-		glfwSetMouseButtonCallback(window, mouseCallback);
+
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
 		glfwSwapInterval(0);
 		// Make the window visible
 		glfwShowWindow(window);
+
 	}
 
 	/**
@@ -206,8 +223,15 @@ public class Launcher {
 
 			}
 		});
+
 		glfwSetCallback(window, windowResize);
 
+		keyCallback = new Keyboard();
+		mouseButtonsCallback = new MouseButtons();
+		cursorPositionCallback = new CursorPos();
+		glfwSetKeyCallback(window, keyCallback);
+		glfwSetMouseButtonCallback(window, mouseButtonsCallback);
+		glfwSetCursorPosCallback(window, cursorPositionCallback);
 	}
 
 	/**
@@ -284,28 +308,28 @@ public class Launcher {
 	/**
 	 * @return the cAMWIDTH
 	 */
-	public static int getCAMWIDTH() {
+	public static int getCamWidth() {
 		return camWidth;
 	}
 
 	/**
 	 * @return the cAMHEIGHT
 	 */
-	public static int getCAMHEIGHT() {
+	public static int getCamHeight() {
 		return camHeight;
 	}
 
 	/**
 	 * @return the wIDTH
 	 */
-	public static int getWIDTH() {
+	public static int getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return the hEIGHT
 	 */
-	public static int getHEIGHT() {
+	public static int getHeight() {
 		return height;
 	}
 
@@ -322,6 +346,18 @@ public class Launcher {
 	 */
 	public static void setFont(TrueTypeFont font) {
 		Launcher.font = font;
+	}
+
+	/**
+	 * Convert a pixel position to an openGL position.
+	 * 
+	 * @param point To be converted
+	 */
+	public static void pixelToOpenGLPos(Point point) {
+		point.setX(((float) point.getX() / Launcher.getWidth())
+				* Launcher.getCamWidth() - (float) Launcher.getCamWidth() / 2);
+		point.setY(-(((float) point.getY() / Launcher.getHeight())
+				* Launcher.getCamHeight() - Launcher.getCamHeight()));
 	}
 
 }

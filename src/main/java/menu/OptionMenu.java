@@ -84,36 +84,37 @@ public class OptionMenu {
 	public OptionMenu() {
 		background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP);
-		Point savePos = new Point((float) -Launcher.getCAMWIDTH() / 10,
-				(float) Launcher.getCAMHEIGHT() / 3 - 150);
+		
+		Point savePos = new Point((float) -Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 - 150);
 		saveBtn = new Button(savePos, 150f, 25f, java.awt.Color.white, "Save");
 		buttons.add(saveBtn);
 		
-		Point backPos = new Point((float) Launcher.getCAMWIDTH() / 10,
-				(float) Launcher.getCAMHEIGHT() / 3 - 150);
+		Point backPos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 - 150);
 		backBtn = new Button(backPos, 150f, 25f, java.awt.Color.white, "Back");
 		buttons.add(backBtn);
 
-		Point sfxPos = new Point((float) Launcher.getCAMWIDTH() / 10,
-				(float) Launcher.getCAMHEIGHT() / 3 + 180);
+		Point sfxPos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 + 180);
 		sfxVolumeSlider = new Slider(sfxPos, 200f, 15f, java.awt.Color.blue,
 				GameSettings.getSFXVolume());
 		sliders.add(sfxVolumeSlider);
 
-		Point musicPos = new Point((float) Launcher.getCAMWIDTH() / 10,
-				(float) Launcher.getCAMHEIGHT() / 3 + 110);
+		Point musicPos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 + 110);
 		musicVolumeSlider = new Slider(musicPos, 200f, 15f,
 				java.awt.Color.blue, GameSettings.getMusicVolume());
 		sliders.add(musicVolumeSlider);
 
-		Point pos = new Point((float) Launcher.getCAMWIDTH() / 10,
-				(float) Launcher.getCAMHEIGHT() / 3 + 30);
+		Point pos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 + 30);
 		fullscreenCheckbox = new CheckBox(pos, 20f, java.awt.Color.blue,
 				GameSettings.isFullscreen());
 		checkboxes.add(fullscreenCheckbox);
 
-		width = Launcher.getCAMWIDTH();
-		height = Launcher.getCAMHEIGHT();
+		width = Launcher.getCamWidth();
+		height = Launcher.getCamHeight();
 		System.out.println("WxH = " + width + "x" + height);
 
 	}
@@ -216,18 +217,18 @@ public class OptionMenu {
 		TextureImpl.bindNone();
 		font.drawString(
 				-font.getWidth("Sound Effect Volume:"),
-				(float) -Launcher.getCAMHEIGHT() / 3f - 180
+				(float) -Launcher.getCamHeight() / 3f - 180
 						- font.getHeight("Sound Effect Volume:") / 2f,
 				"Sound Effect Volume:", Color.white);
 
 		font.drawString(
 				-font.getWidth("Music Effect Volume:"),
-				(float) -Launcher.getCAMHEIGHT() / 3f - 110
+				(float) -Launcher.getCamHeight() / 3f - 110
 						- font.getHeight("Music Effect Volume:") / 2f,
 				"Music Effect Volume:", Color.white);
 
 		font.drawString(-font.getWidth("Fullscreen:"),
-				(float) -Launcher.getCAMHEIGHT() / 3f - 50, "Fullscreen:",
+				(float) -Launcher.getCamHeight() / 3f - 50, "Fullscreen:",
 				Color.white);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
