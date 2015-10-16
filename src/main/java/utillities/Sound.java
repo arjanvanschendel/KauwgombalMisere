@@ -50,7 +50,6 @@ public class Sound {
 	 */
 	private boolean playing;
 
-	private String name;
 	/**
 	 * Sound: constructor.
 	 * 
@@ -77,7 +76,6 @@ public class Sound {
 	 */
 	public Sound(final String filename, final float dv) {
 		audiostream = null;
-		setName(filename);
 		f = new File(filename);
 		volume = Math.max(0, dv);
 		playing = false;
@@ -185,13 +183,5 @@ public class Sound {
 						/ Math.log(10.0) * 20.0));
 			}
 		}
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }
