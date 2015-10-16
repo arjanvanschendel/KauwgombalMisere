@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import shapes.Point;
 import utillities.Texture;
 
 /**
@@ -31,16 +32,16 @@ public class MainMenu {
 	 * A class to draw and maintain the main menu.
 	 */
 	public MainMenu() {
-		playBtn = new Button((float) -75,
-				(float) Launcher.getCamHeight() / 3 + 40, (float) 150,
-				(float) 25, java.awt.Color.white, "Play");
+		Point playPos = new Point(-75f,
+				(float) Launcher.getCamHeight() / 3 + 40);
+		playBtn = new Button(playPos, 150f, 25f, java.awt.Color.white, "Play");
 		buttons.add(playBtn);
-		optBtn = new Button((float) -75, (float) Launcher.getCamHeight() / 3,
-				(float) 150, (float) 25, java.awt.Color.white, "Options");
+		Point optPos = new Point(-75f, (float) Launcher.getCamHeight() / 3);
+		optBtn = new Button(optPos, 150f, 25f, java.awt.Color.white, "Options");
 		buttons.add(optBtn);
-		exitBtn = new Button((float) -75,
-				(float) Launcher.getCamHeight() / 3 - 40, (float) 150,
-				(float) 25, java.awt.Color.white, "Exit");
+		Point exitPos = new Point(-75f,
+				(float) Launcher.getCamHeight() / 3 - 40);
+		exitBtn = new Button(exitPos, 150f, 25f, java.awt.Color.white, "Exit");
 		buttons.add(exitBtn);
 		background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP);

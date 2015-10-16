@@ -6,6 +6,7 @@ package shapes;
  *
  */
 public class Point {
+	
 	private float x;
 	private float y;
 
@@ -19,6 +20,15 @@ public class Point {
 	public Point(float x, float y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	/**
+	 * Constructor for cloning a object.
+	 * @param point object to clone
+	 */
+	public Point(Point point) {
+		this.x = point.x;
+		this.y = point.y;
 	}
 
 	/**

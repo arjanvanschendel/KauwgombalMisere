@@ -26,7 +26,8 @@ public class BoxTest {
 	 */
 	@Before
 	public void before() {
-		box = new Box(-500, 0, 50, 2000, Color.BLACK);
+		Point pos = new Point(-500, 0);
+		box = new Box(pos, 50, 2000, Color.BLACK);
 	}
 
 	/**
@@ -37,12 +38,12 @@ public class BoxTest {
 	public void posTest() {
 		assertEquals((long) box.getHeight(), 2000);
 		assertEquals((long) box.getWidth(), 50);
-		assertEquals((long) box.getPosx(), -500);
-		assertEquals((long) box.getPosy(), 0);
-		box.setPosx(-400);
-		box.setPosy(-100);
-		assertEquals((long) box.getPosx(), -400);
-		assertEquals((long) box.getPosy(), -100);
+		assertEquals((long) box.getPosX(), -500);
+		assertEquals((long) box.getPosY(), 0);
+		box.setPosX(-400);
+		box.setPosY(-100);
+		assertEquals((long) box.getPosX(), -400);
+		assertEquals((long) box.getPosY(), -100);
 	}
 
 	/**

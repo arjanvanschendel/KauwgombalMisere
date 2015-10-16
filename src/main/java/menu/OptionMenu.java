@@ -13,6 +13,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
+import shapes.Point;
 import utillities.Texture;
 
 /**
@@ -83,28 +84,33 @@ public class OptionMenu {
 	public OptionMenu() {
 		background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP);
-
-		saveBtn = new Button(-(float) Launcher.getCamWidth() / 10,
-				(float) Launcher.getCamHeight() / 3 - 150, (float) 150,
-				(float) 25, java.awt.Color.white, "Save");
+		
+		Point savePos = new Point((float) -Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 - 150);
+		saveBtn = new Button(savePos, 150f, 25f, java.awt.Color.white, "Save");
 		buttons.add(saveBtn);
-		backBtn = new Button(+(float) Launcher.getCamWidth() / 10,
-				(float) Launcher.getCamHeight() / 3 - 150, (float) 150,
-				(float) 25, java.awt.Color.white, "Back");
+		
+		Point backPos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 - 150);
+		backBtn = new Button(backPos, 150f, 25f, java.awt.Color.white, "Back");
 		buttons.add(backBtn);
 
-		sfxVolumeSlider = new Slider(+(float) Launcher.getCamWidth() / 10,
-				(float) Launcher.getCamHeight() / 3 + 180, (float) 200,
-				(float) 15, java.awt.Color.blue, GameSettings.getSFXVolume());
+		Point sfxPos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 + 180);
+		sfxVolumeSlider = new Slider(sfxPos, 200f, 15f, java.awt.Color.blue,
+				GameSettings.getSFXVolume());
 		sliders.add(sfxVolumeSlider);
-		musicVolumeSlider = new Slider(+(float) Launcher.getCamWidth() / 10,
-				(float) Launcher.getCamHeight() / 3 + 110, (float) 200,
-				(float) 15, java.awt.Color.blue, GameSettings.getMusicVolume());
+
+		Point musicPos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 + 110);
+		musicVolumeSlider = new Slider(musicPos, 200f, 15f,
+				java.awt.Color.blue, GameSettings.getMusicVolume());
 		sliders.add(musicVolumeSlider);
 
-		fullscreenCheckbox = new CheckBox(+(float) Launcher.getCamWidth() / 10,
-				(float) Launcher.getCamHeight() / 3 + 30, 20f,
-				java.awt.Color.blue, GameSettings.isFullscreen());
+		Point pos = new Point((float) Launcher.getCamWidth() / 10,
+				(float) Launcher.getCamHeight() / 3 + 30);
+		fullscreenCheckbox = new CheckBox(pos, 20f, java.awt.Color.blue,
+				GameSettings.isFullscreen());
 		checkboxes.add(fullscreenCheckbox);
 
 		width = Launcher.getCamWidth();

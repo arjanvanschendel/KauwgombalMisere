@@ -16,6 +16,7 @@ import powerups.SlowBallPowerUp;
 import powerups.MovementPowerUp;
 import shapes.Box;
 import shapes.Circle;
+import shapes.Point;
 import utillities.Logger;
 
 /**
@@ -49,15 +50,13 @@ public class Ball extends Circle implements GameObject {
 	/**
 	 * Ball: constructor.
 	 * 
-	 * @param posx
-	 *            X position
-	 * @param posy
-	 *            Y position
+	 * @param pos
+	 *            the starting position of the circle in Point format
 	 * @param radius
 	 *            radius of the ball
 	 */
-	public Ball(final float posx, final float posy, final float radius) {
-		super(posx, posy, radius);
+	public Ball(final Point pos, final float radius) {
+		super(pos, radius);
 
 		switch ((int) radius) {
 		case 50:
@@ -73,7 +72,7 @@ public class Ball extends Circle implements GameObject {
 			setColor(Color.green);
 			break;
 		}
-		height = posy;
+		height = getPosY();
 	}
 
 	/**
@@ -85,38 +84,38 @@ public class Ball extends Circle implements GameObject {
 	public final void update(final double updateTime) {
 		double deltaTime = (double) (updateTime * GameVariables.getBallSpeed());
 		deltaY -= deltaTime * GameVariables.getGravity();
-		setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
-		setPosy((float) (getPosy() + deltaY * 60 * deltaTime));
+		setPosX((float) (getPosX() + deltaX * 60 * deltaTime));
+		setPosY((float) (getPosY() + deltaY * 60 * deltaTime));
 		ArrayList<Collision> collisions = CollisionDetection.collision(this);
 
 		if (!collisions.isEmpty()) {
 			for (Collision collision : collisions) {
 				if (collision.getCol() instanceof Wall) {
 					if (collision.getSide() == 1) {
-						setPosy(((Box) collision.getCol()).getPosy()
+						setPosY(((Box) collision.getCol()).getPosY()
 								+ ((Box) collision.getCol()).getHeight()
 								+ getRadius());
 						float time = (float) Math.sqrt(height
 								/ (GameVariables.getGravity() / 2));
 						deltaY = (float) (GameVariables.getGravity() * time / 10);
-						setPosy((float) (getPosy() + deltaY * 60 * deltaTime));
+						setPosY((float) (getPosY() + deltaY * 60 * deltaTime));
 
 						game.getSounds().get(3).play();
 
 					} else if (collision.getSide() == 2) {
-						setPosx(((Box) collision.getCol()).getPosx()
+						setPosX(((Box) collision.getCol()).getPosX()
 								+ ((Box) collision.getCol()).getWidth()
 								+ getRadius());
 						deltaX = -deltaX;
-						setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
+						setPosX((float) (getPosX() + deltaX * 60 * deltaTime));
 
 						game.getSounds().get(3).play();
 
 					} else if (collision.getSide() == 4) {
-						setPosx(((Box) collision.getCol()).getPosx()
+						setPosX(((Box) collision.getCol()).getPosX()
 								- getRadius());
 						deltaX = -deltaX;
-						setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
+						setPosX((float) (getPosX() + deltaX * 60 * deltaTime));
 
 						game.getSounds().get(3).play();
 					}
@@ -132,12 +131,13 @@ public class Ball extends Circle implements GameObject {
 	final void hit() {
 		this.updateScore();
 		Logger.add("ball hit");
-		ScorePopUp popUp = new ScorePopUp(this.getPosx(), this.getPosy(),
+		ScorePopUp popUp = new ScorePopUp(this.getPosX(), this.getPosY(),
 				this.getRadius());
 		Level.addPopUp(popUp);
 		Level.remove(this);
-		Ball ball = new Ball(getPosx(), getPosy(), getRadius() / 2);
-		Ball ball2 = new Ball(getPosx(), getPosy(), getRadius() / 2);
+		Point p = new Point(getPosX(), getPosY());
+		Ball ball = new Ball(p, getRadius() / 2);
+		Ball ball2 = new Ball(p, getRadius() / 2);
 		if (ball.getRadius() > 10) {
 			Logger.add("ball splits");
 
@@ -162,14 +162,15 @@ public class Ball extends Circle implements GameObject {
 		double randomNum = rand.nextDouble();
 		if (randomNum > 0.5) {
 			double randomNum2 = rand.nextDouble();
+			Point pos = new Point(getPosX(), getPosY());
 			if (randomNum2 > 0.5) {
-				Level.addPowerUp(new FastArrowPowerUp(getPosx(), getPosy()));
+				Level.addPowerUp(new FastArrowPowerUp(pos));
 			} else if (randomNum2 < 0.125) {
-				Level.addPowerUp(new SlowBallPowerUp(getPosx(), getPosy()));
+				Level.addPowerUp(new SlowBallPowerUp(pos));
 			} else if (randomNum2 >= 0.375 && randomNum2 <= 0.5) {
-				Level.addPowerUp(new ExtraLifePowerUp(getPosx(), getPosy()));
+				Level.addPowerUp(new ExtraLifePowerUp(pos));
 			} else if (randomNum2 >= 0.125 && randomNum2 < 0.375) {
-				Level.addPowerUp(new MovementPowerUp(getPosx(), getPosy()));
+				Level.addPowerUp(new MovementPowerUp(pos));
 			}
 		}
 	}
@@ -179,7 +180,7 @@ public class Ball extends Circle implements GameObject {
 	 */
 	final void updateScore() {
 
-		// game.ballHit(this.getPosx(), this.getPosy(), ballsize); is this being
+		// game.ballHit(this.getPosX(), this.getPosY(), ballsize); is this being
 		// used?
 		if (this.getRadius() > 20) {
 			game.setScore(game.getScore() + 20);

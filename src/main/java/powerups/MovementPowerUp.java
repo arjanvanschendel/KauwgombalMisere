@@ -1,10 +1,12 @@
 package powerups;
 
+import game.GameVariables;
+import game.Launcher;
+
 import java.awt.Color;
 
 import shapes.Box;
-import game.GameVariables;
-import game.Launcher;
+import shapes.Point;
 
 /**
  * 
@@ -37,15 +39,14 @@ public class MovementPowerUp extends PowerUp {
 	 * 
 	 * Constructor for MovementPowerUp.
 	 * 
-	 * @param posx
-	 *            x-coordinate at which the PowerUp spawns.
-	 * @param posy
-	 *            y-coordinate at which the PowerUp spawns.
+	 * @param pos
+	 *            position of spawning powerup in Point format
 	 */
-	public MovementPowerUp(final float posx, final float posy) {
-		super(posx, posy, Color.GREEN);
-		indicator = new Box(Launcher.getCamWidth() / 2 - 40,
-				Launcher.getCamHeight() - 30, 20, 20, Color.GREEN);
+	public MovementPowerUp(final Point pos) {
+		super(pos, Color.GREEN);
+		Point iPos = new Point(Launcher.getCamWidth() / 2 - 40,
+				Launcher.getCamHeight() - 30);
+		indicator = new Box(iPos, 20, 20, Color.GREEN);
 		setPowerDuration(3);
 	}
 

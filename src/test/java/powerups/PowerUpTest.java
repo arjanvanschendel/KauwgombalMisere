@@ -9,6 +9,8 @@ import objects.Wall;
 import org.junit.Before;
 import org.junit.Test;
 
+import shapes.Point;
+
 /**
  * 
  * Abstract PowerUpTest used to test the basic functionaliteit of all PowerUps.
@@ -31,9 +33,10 @@ public abstract class PowerUpTest {
 	public final void setup() {
 		CollisionDetection.clear();
 		power = getPowerUp();
-
-		Wall floor = new Wall(-100, 0, 200, 15, null);
-		Wall ceiling = new Wall(-100, 20, 200, 15, null);
+		Point pF = new Point(-100, 0);
+		Point pC = new Point(-100, 20);
+		Wall floor = new Wall(pF, 200, 15, null);
+		Wall ceiling = new Wall(pC, 200, 15, null);
 		CollisionDetection.addCollider(floor);
 		CollisionDetection.addCollider(ceiling);
 	}
@@ -66,12 +69,12 @@ public abstract class PowerUpTest {
 	@Test
 	public final void gravityTest() {
 		// Gravity test
-		assertEquals(power.getPosy(), 20, 0);
+		assertEquals(power.getPosY(), 20f, 0.1f);
 		power.update(0.1);
-		assertEquals(power.getPosy(), 17, 0.1);
+		assertEquals(power.getPosY(), 17f, 0.1f);
 		power.update(0.1);
 		// Blocked by the ground
-		assertEquals(power.getPosy(), 15, 0.1);
+		assertEquals(power.getPosY(), 15f, 0.1f);
 
 	}
 
@@ -81,11 +84,12 @@ public abstract class PowerUpTest {
 	 */
 	@Test
 	public final void activationTestPlayer() {
-		power.setPosy(15);
+		power.setPosY(15);
 
 		setOldValue();
 		isNotActiveTest();
-		Player player = new Player(0, 15);
+		Point p = new Point(0, 15);
+		Player player = new Player(p);
 		CollisionDetection.addCollider(player);
 		setOldValue();
 		power.update(0);
@@ -107,11 +111,12 @@ public abstract class PowerUpTest {
 	 */
 	@Test
 	public final void activationTestProjectile() {
-		power.setPosy(15);
+		power.setPosY(15);
 
 		setOldValue();
 		isNotActiveTest();
-		Projectile pro = new Projectile(0, 15);
+		Point p = new Point(0, 15);
+		Projectile pro = new Projectile(p);
 		CollisionDetection.addCollider(pro);
 		setOldValue();
 		power.update(0);

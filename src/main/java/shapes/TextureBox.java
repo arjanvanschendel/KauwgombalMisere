@@ -29,10 +29,8 @@ public class TextureBox extends Box {
 	/**
 	 * Constructor for a texturebox which does not hold a texture yet.
 	 * 
-	 * @param posx
-	 *            The starting x-position for the box
-	 * @param posy
-	 *            The starting y-position for the box
+	 * @param pos
+	 *            the starting position of the box in Point format
 	 * @param width
 	 *            The width of the box
 	 * @param height
@@ -40,19 +38,17 @@ public class TextureBox extends Box {
 	 * @param color
 	 *            The base color of the box
 	 */
-	public TextureBox(final float posx, final float posy, final float width,
-			final float height, final Color color) {
-		super(posx, posy, width, height, color);
+	public TextureBox(final Point pos, final float width, final float height,
+			final Color color) {
+		super(pos, width, height, color);
 		texture = null;
 	}
 
 	/**
 	 * Constructor for a texturebox which does not hold a texture yet.
 	 * 
-	 * @param posx
-	 *            The starting x-position for the box
-	 * @param posy
-	 *            The starting y-position for the box
+	 * @param pos
+	 *            the starting position of the box in Point format
 	 * @param width
 	 *            The width of the box
 	 * @param height
@@ -62,19 +58,17 @@ public class TextureBox extends Box {
 	 * @param txt
 	 *            The texture that the box should show
 	 */
-	public TextureBox(final float posx, final float posy, final float width,
-			final float height, final Color color, final Texture txt) {
-		super(posx, posy, width, height, color);
+	public TextureBox(final Point pos, final float width, final float height,
+			final Color color, final Texture txt) {
+		super(pos, width, height, color);
 		texture = txt;
 	}
 
 	/**
 	 * Constructor for a texturebox which does not hold a texture yet.
 	 * 
-	 * @param posx
-	 *            The starting x-position for the box
-	 * @param posy
-	 *            The starting y-position for the box
+	 * @param pos
+	 *            the starting position of the box in Point format
 	 * @param width
 	 *            The width of the box
 	 * @param height
@@ -85,9 +79,9 @@ public class TextureBox extends Box {
 	 *            The location where the texture the box should show is located
 	 *            at
 	 */
-	public TextureBox(final float posx, final float posy, final float width,
-			final float height, final Color color, final String txtloc) {
-		super(posx, posy, width, height, color);
+	public TextureBox(final Point pos, final float width, final float height,
+			final Color color, final String txtloc) {
+		super(pos, width, height, color);
 		texture = new Texture(txtloc, GL11.GL_NEAREST, GL11.GL_CLAMP);
 	}
 

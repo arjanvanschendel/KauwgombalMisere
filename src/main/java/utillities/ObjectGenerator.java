@@ -5,6 +5,7 @@ import java.awt.Color;
 import objects.Ball;
 import objects.Player;
 import objects.Wall;
+import shapes.Point;
 
 /**
  * Parse objects.
@@ -26,8 +27,8 @@ public final class ObjectGenerator {
 	 * @return player
 	 */
 	public static Player genPlayer(String[] args) {
-		Player res = new Player(Float.parseFloat(args[0]),
-				Float.parseFloat(args[1]));
+		Point pos = new Point(Float.parseFloat(args[0]), Float.parseFloat(args[1]));
+		Player res = new Player(pos);
 		return res;
 	}
 
@@ -39,8 +40,8 @@ public final class ObjectGenerator {
 	 * @return wall
 	 */
 	public static Wall genWall(String[] args) {
-		Wall res = new Wall(Float.parseFloat(args[0]),
-				Float.parseFloat(args[1]), Float.parseFloat(args[2]),
+		Point pos = new Point(Float.parseFloat(args[0]), Float.parseFloat(args[1]));
+		Wall res = new Wall(pos, Float.parseFloat(args[2]),
 				Float.parseFloat(args[3]), new Color(Float.parseFloat(args[4]),
 						Float.parseFloat(args[5]), Float.parseFloat(args[6])));
 		return res;
@@ -54,8 +55,8 @@ public final class ObjectGenerator {
 	 * @return ball
 	 */
 	public static Ball genBall(String[] args) {
-		Ball res = new Ball(Float.parseFloat(args[0]),
-				Float.parseFloat(args[1]), Float.parseFloat(args[2]));
+		Point pos = new Point(Float.parseFloat(args[0]), Float.parseFloat(args[1]));
+		Ball res = new Ball(pos, Float.parseFloat(args[2]));
 		return res;
 	}
 }
