@@ -50,6 +50,10 @@ public class Sound {
 	 */
 	private boolean playing;
 
+	private FloatControl gainControl;
+
+	private BooleanControl muteControl;
+
 	/**
 	 * Sound: constructor.
 	 * 
@@ -62,6 +66,21 @@ public class Sound {
 		audiostream = null;
 		volume = 100;
 		playing = false;
+		
+
+
+		try {
+			audiostream = AudioSystem.getAudioInputStream(f);
+			clip = AudioSystem.getClip();
+			clip.open(audiostream);
+			gainControl = (FloatControl) clip
+					.getControl(FloatControl.Type.MASTER_GAIN);
+			muteControl = (BooleanControl) clip
+					.getControl(BooleanControl.Type.MUTE);
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -79,6 +98,20 @@ public class Sound {
 		f = new File(filename);
 		volume = Math.max(0, dv);
 		playing = false;
+
+
+		try {
+			audiostream = AudioSystem.getAudioInputStream(f);
+			clip = AudioSystem.getClip();
+			clip.open(audiostream);
+			gainControl = (FloatControl) clip
+					.getControl(FloatControl.Type.MASTER_GAIN);
+			muteControl = (BooleanControl) clip
+					.getControl(BooleanControl.Type.MUTE);
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -101,29 +134,15 @@ public class Sound {
 	 */
 	public final void loop(final int n) {
 		try {
-			clip = null;
+			if (volume == 0) {
+				muteControl.setValue(true);
+			} else {
+				muteControl.setValue(false);
+				gainControl.setValue((float) (Math.log(volume / 100d)
+						/ Math.log(10.0) * 20.0));
 
-			try {
-				audiostream = AudioSystem.getAudioInputStream(f);
-				clip = AudioSystem.getClip();
-				clip.open(audiostream);
-				FloatControl gainControl = (FloatControl) clip
-						.getControl(FloatControl.Type.MASTER_GAIN);
-				BooleanControl muteControl = (BooleanControl) clip
-						.getControl(BooleanControl.Type.MUTE);
-				if (volume == 0) {
-					muteControl.setValue(true);
-				} else {
-					muteControl.setValue(false);
-					gainControl.setValue((float) (Math.log(volume / 100d)
-							/ Math.log(10.0) * 20.0));
-
-				}
-				clip.loop(n);
-			} catch (UnsupportedAudioFileException | IOException
-					| LineUnavailableException e) {
-				e.printStackTrace();
 			}
+			clip.loop(n);
 
 			device = true;
 
