@@ -10,6 +10,7 @@ import org.newdawn.slick.opengl.TextureImpl;
 
 import shapes.Box;
 import shapes.Circle;
+import shapes.Point;
 import utillities.Mouse;
 
 /**
@@ -55,10 +56,8 @@ public class Slider extends Box {
 	 * 
 	 * Constructor for slider.
 	 * 
-	 * @param posx
-	 *            x-coordinate
-	 * @param posy
-	 *            y-coordinate
+	 * @param pos
+	 *            position of the slider in Point format
 	 * @param width
 	 *            size of the checkbox
 	 * @param height
@@ -68,14 +67,19 @@ public class Slider extends Box {
 	 * @param color
 	 *            Color of the checkbox
 	 */
-	public Slider(final float posx, final float posy, final float width,
-			final float height, final Color color, final float percent) {
-		super(posx, posy, width, height, color);
+	public Slider(final Point pos, final float width, final float height,
+			final Color color, final float percent) {
+		super(pos, width, height, color);
 		percentage = percent;
-		begin = new Circle(posx, posy + height / 2, height / 2, color);
-		end = new Circle(posx + width, posy + height / 2, height / 2, color);
-		value = new Circle((float) (posx + getWidth() * (percentage / 100)),
-				posy + height / 2, height / 1.5f, Color.black);
+		Point pB = new Point(pos.getX(), pos.getY() + height / 2);
+		begin = new Circle(pB, height / 2, color);
+
+		Point pE = new Point(pos.getX() + width, pos.getY() + height / 2);
+		end = new Circle(pE, height / 2, color);
+
+		Point pV = new Point((float) (pos.getX() + getWidth()
+				* (percentage / 100)), pos.getY() + height / 2);
+		value = new Circle(pV, height / 1.5f, Color.black);
 	}
 
 	/**
@@ -91,13 +95,13 @@ public class Slider extends Box {
 			dragged = false;
 		}
 
-		value.setPosx((float) (getPosx() + getWidth() * (percentage / 100)));
+		value.setPosX((float) (getPosX() + getWidth() * (percentage / 100)));
 		if (Mouse.isButtonDown(0) && super.pointInShape(Mouse.getCursorPos())) {
 			dragged = true;
 		}
 
 		if (dragged) {
-			float dMouseSlider = (Mouse.getCursorPos().getX() - getPosx())
+			float dMouseSlider = (Mouse.getCursorPos().getX() - getPosX())
 					/ getWidth();
 			float mouseValue = dMouseSlider * 100;
 			if (mouseValue > 100) {
@@ -117,18 +121,18 @@ public class Slider extends Box {
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
 		Launcher.getFont().drawString(
-				getPosx() - Launcher.getFont().getWidth("0") / 2f, -getPosy(),
+				getPosX() - Launcher.getFont().getWidth("0") / 2f, -getPosY(),
 				"0", org.newdawn.slick.Color.white);
 
 		Launcher.getFont().drawString(
-				getPosx() + getWidth() - Launcher.getFont().getWidth("100")
-						/ 2f, -getPosy(), "100", org.newdawn.slick.Color.white);
+				getPosX() + getWidth() - Launcher.getFont().getWidth("100")
+						/ 2f, -getPosY(), "100", org.newdawn.slick.Color.white);
 
 		DecimalFormat df = new DecimalFormat("#");
 		Launcher.getFont().drawString(
-				(float) (getPosx() + getWidth() * (percentage / 100) - Launcher
+				(float) (getPosX() + getWidth() * (percentage / 100) - Launcher
 						.getFont().getWidth(df.format(percentage)) / 2f),
-				-getPosy()
+				-getPosY()
 						- Launcher.getFont().getHeight(df.format(percentage))
 						- getHeight(), df.format(percentage),
 				org.newdawn.slick.Color.white);

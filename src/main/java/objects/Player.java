@@ -16,6 +16,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import shapes.Box;
+import shapes.Point;
 import utillities.Logger;
 import utillities.SpriteSheet;
 import utillities.Texture;
@@ -41,13 +42,10 @@ public class Player extends Box implements GameObject {
 	/**
 	 * Player: constructor.
 	 * 
-	 * @param posX
-	 *            X value of position
-	 * @param posY
-	 *            Y value of position
+	 * @param pos position of the player in Point format
 	 */
-	public Player(float posX, float posY) {
-		super(posX, posY, 60, 100, new Color(1, 1, 1));
+	public Player(Point pos) {
+		super(pos, 60, 100, new Color(1, 1, 1));
 		setState(new IdleState());
 		state.update(this);
 		mirrored = false;
@@ -66,11 +64,11 @@ public class Player extends Box implements GameObject {
 					die();
 				} else if (collision.getCol() instanceof Wall) {
 					if (collision.getSide() == 4) {
-						setPosx(((Box) collision.getCol()).getPosx()
+						setPosX(((Box) collision.getCol()).getPosX()
 								- getWidth());
 						deltaX = 0;
 					} else if (collision.getSide() == 2) {
-						setPosx(((Box) collision.getCol()).getPosx()
+						setPosX(((Box) collision.getCol()).getPosX()
 								+ ((Box) collision.getCol()).getWidth());
 						deltaX = 0;
 					}
@@ -96,8 +94,8 @@ public class Player extends Box implements GameObject {
 	 */
 	private void handleInputs(double deltaTime) {
 		state.handleInputs(this, deltaTime);
-		setPosx((float) (getPosx() + deltaX * 60 * deltaTime));
-		setPosy((float) (getPosy() + deltaY * 60 * deltaTime));
+		setPosX((float) (getPosX() + deltaX * 60 * deltaTime));
+		setPosY((float) (getPosY() + deltaY * 60 * deltaTime));
 	}
 
 	/**
@@ -141,8 +139,9 @@ public class Player extends Box implements GameObject {
 	 * Lets the player shoot a vertical beam or activate a powerup.
 	 */
 	public void shoot() {
-		Projectile p = new Projectile(this.getPosx() + (this.getWidth() / 2),
-				this.getPosy());
+		
+		Point pos = new Point(this.getPosX() + (this.getWidth() / 2), this.getPosY());
+		Projectile p = new Projectile(pos);
 		Level.setProjectile(p);
 	}
 

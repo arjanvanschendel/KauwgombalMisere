@@ -3,6 +3,7 @@ package powerups;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import shapes.Point;
 import game.GameVariables;
 
 /**
@@ -15,7 +16,8 @@ public class SlowBallPowerUpTest extends PowerUpTest {
 
 	@Override
 	final PowerUp getPowerUp() {
-		return new SlowBallPowerUp(0, 20);
+		Point p = new Point(0, 20);
+		return new SlowBallPowerUp(p);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package powerups;
 import java.awt.Color;
 
 import shapes.Box;
+import shapes.Point;
 import game.GameVariables;
 import game.Launcher;
 
@@ -29,16 +30,14 @@ public class ExtraLifePowerUp extends PowerUp {
 	 * 
 	 * Constructor for ExtraLifePowerUp.
 	 * 
-	 * @param posx
-	 *            x-coordinate at which the PowerUp spawns.
-	 * @param posy
-	 *            y-coordinate at which the PowerUp spawns.
+	 * @param pos
+	 *            position of spawning powerup in Point format
 	 */
-	public ExtraLifePowerUp(final float posx, final float posy) {
-		super(posx, posy, new Color(200, 70, 70));
-
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, new Color(200, 70, 70));
+	public ExtraLifePowerUp(final Point pos) {
+		super(pos, new Color(200, 70, 70));
+		Point indPos = new Point(Launcher.getCAMWIDTH() / 2 - 40,
+				Launcher.getCAMHEIGHT() - 55);
+		indicator = new Box(indPos, 20, 20, new Color(200, 70, 70));
 		setPowerDuration(0);
 	}
 

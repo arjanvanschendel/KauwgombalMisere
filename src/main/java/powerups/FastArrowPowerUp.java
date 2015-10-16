@@ -3,6 +3,7 @@ package powerups;
 import java.awt.Color;
 
 import shapes.Box;
+import shapes.Point;
 import game.GameVariables;
 import game.Launcher;
 
@@ -37,16 +38,14 @@ public class FastArrowPowerUp extends PowerUp {
 	 * 
 	 * Constructor for FastArrowPowerUp.
 	 * 
-	 * @param posx
-	 *            x-coordinate at which the PowerUp spawns.
-	 * @param posy
-	 *            y-coordinate at which the PowerUp spawns.
+	 * @param pos
+	 *            position of spawning powerup in Point format
 	 */
-	public FastArrowPowerUp(final float posx, final float posy) {
-		super(posx, posy, Color.CYAN);
-
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 55, 20, 20, Color.CYAN);
+	public FastArrowPowerUp(final Point pos) {
+		super(pos, Color.CYAN);
+		Point iPos = new Point(Launcher.getCAMWIDTH() / 2 - 40,
+				Launcher.getCAMHEIGHT() - 55);
+		indicator = new Box(iPos, 20, 20, Color.CYAN);
 		setPowerDuration(3);
 	}
 
