@@ -128,25 +128,25 @@ public class Ball extends Circle implements GameObject {
 	/**
 	 * Hit method is called when a projectile hits the ball.
 	 */
-	final void hit() {
+	public final void hit() {
 		this.updateScore();
 		Logger.add("ball hit");
+		Point p = new Point(getPosX(), getPosY());
 		ScorePopUp popUp = new ScorePopUp(this.getPosX(), this.getPosY(),
 				this.getRadius());
 		Level.addPopUp(popUp);
 		Level.remove(this);
-		Point p = new Point(getPosX(), getPosY());
+		
 		Ball ball = new Ball(p, getRadius() / 2);
-		Ball ball2 = new Ball(p, getRadius() / 2);
+		Ball ball2 = new Ball(new Point(p), getRadius() / 2);	
 		if (ball.getRadius() > 10) {
 			Logger.add("ball splits");
-
-			ball2.deltaX = -deltaX;
-			ball.deltaX = deltaX;
-			ball.height = height - height / 3;
-			ball2.height = height - height / 3;
-			ball.deltaY = GameVariables.getGravity() / 3;
-			ball2.deltaY = GameVariables.getGravity() / 3;
+			ball2.setDeltaX(-deltaX);
+			ball.setDeltaX(deltaX);
+			ball.setHeight(height - height / 3);
+			ball2.setHeight(height - height / 3);
+			ball.setDeltaY(GameVariables.getGravity() / 3);
+			ball2.setDeltaY(GameVariables.getGravity() / 3);
 			Level.addBall(ball);
 			Level.addBall(ball2);
 		}
@@ -259,6 +259,20 @@ public class Ball extends Circle implements GameObject {
 	 */
 	public void setDeltaY(float deltaY) {
 		this.deltaY = deltaY;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public final float getHeight() {
+		return height;
+	}
+
+	/**
+	 * @param height the height to set
+	 */
+	public final void setHeight(float height) {
+		this.height = height;
 	}
 
 }
