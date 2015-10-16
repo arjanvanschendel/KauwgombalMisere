@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
 
+import shapes.Point;
+
 /**
  * @author Bart
  * 
@@ -15,22 +17,19 @@ import org.newdawn.slick.opengl.TextureImpl;
  */
 public class ScorePopUp implements GameObject {
 
-	private float posx;
-	private float posy;
+	private Point pos;
 	private String score;
 	private Color color;
 
 	/**
-	 * @param posX
-	 *            xpos van popup.
-	 * @param posY
-	 *            ypos van popup.
+	 * @param pos
+	 *            position of the popup
 	 * @param radius
 	 *            the radius of the ball hit.
 	 */
-	public ScorePopUp(final float posX, final float posY, final float radius) {
-		posx = posX;
-		posy = posY * -1;
+	public ScorePopUp(final Point pos, final float radius) {
+		this.pos = pos;
+		pos.setY(pos.getY() * -1);
 		switch ((int) radius) {
 		case 50:
 			score = 20 + "";
@@ -55,18 +54,18 @@ public class ScorePopUp implements GameObject {
 	 * 
 	 * @return horizontal position.
 	 */
-	public final float getPosx() {
-		return posx;
+	public final float getPosX() {
+		return pos.getX();
 	}
 
 	/**
 	 * Setter for horizontal position.
 	 * 
-	 * @param posX
+	 * @param x
 	 *            float to set
 	 */
-	public final void setPosx(float posX) {
-		this.posx = posX;
+	public final void setPosX(float x) {
+		this.pos.setX(x);
 	}
 
 	/**
@@ -74,45 +73,26 @@ public class ScorePopUp implements GameObject {
 	 * 
 	 * @return vertical position.
 	 */
-	public final float getPosy() {
-		return posy;
+	public final float getPosY() {
+		return pos.getY();
 	}
 
 	/**
 	 * Setter for vertical position.
 	 * 
-	 * @param posY
+	 * @param y
 	 *            position to set.
 	 */
-	public final void setPosy(final float posY) {
-		this.posy = posY;
+	public final void setPosY(final float y) {
+		this.pos.setY(y);
 	}
-
-	/**
-	 * Getter for color.
-	 * 
-	 * @return color.
-	 */
-	public final Color getColor() {
-		return color;
-	}
-
-	/**
-	 * Setter for color.
-	 * 
-	 * @param colorNew
-	 *            to set.
-	 */
-	public final void setColor(final Color colorNew) {
-		this.color = colorNew;
-	}
-
+	
 	/**
 	 * Update method for this class.
 	 */
 	@Override
 	public final void update(final double deltaTime) {
-		setPosy((float) (getPosy() - 120 * deltaTime));
+		setPosY((float) (getPosY() - 120 * deltaTime));
 	}
 
 	/**
@@ -123,7 +103,7 @@ public class ScorePopUp implements GameObject {
 		TextureImpl.bindNone();
 		GL11.glPushMatrix();
 		GL11.glScaled(1, -1, 1);
-		Launcher.getFont().drawString(getPosx(), getPosy(), score, getColor());
+		Launcher.getFont().drawString(getPosX(), getPosY(), score, color);
 		GL11.glPopMatrix();
 
 	}
