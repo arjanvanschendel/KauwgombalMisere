@@ -9,7 +9,8 @@ import org.newdawn.slick.opengl.TextureImpl;
 
 import shapes.Box;
 import shapes.Point;
-import utillities.Mouse;
+import utillities.CursorPos;
+import utillities.MouseButtons;
 
 /**
  * 
@@ -47,8 +48,8 @@ public class Button extends Box {
 	 *            time between frames
 	 */
 	public void update(double deltaTime) {
-		if (Mouse.isButtonReleased(0)
-				&& super.pointInShape(Mouse.getCursorPos())) {
+		if (MouseButtons.isButtonReleased(0)
+				&& super.pointInShape(CursorPos.getCursorPos())) {
 			clicked = true;
 		} else {
 			clicked = false;

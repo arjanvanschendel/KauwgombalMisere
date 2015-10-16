@@ -1,23 +1,20 @@
 package utillities;
 
-import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.glfwGetMouseButton;
 import game.Launcher;
 
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
-import static org.lwjgl.glfw.GLFW.glfwGetMouseButton;
-import shapes.Point;
-
 /**
+ * 
+ * Keeps track of the currently pressed/released mouse buttons.
  * 
  * @author Jasper
  *
  */
-public class Mouse extends GLFWMouseButtonCallback {
+public class MouseButtons extends GLFWMouseButtonCallback {
 
 	private static boolean[] buttons = new boolean[8];
 	private static boolean[] releasedButtons = new boolean[8];
@@ -43,31 +40,6 @@ public class Mouse extends GLFWMouseButtonCallback {
 		boolean res = releasedButtons[keycode];
 		return res;
 	}
-
-	/**
-	 * 
-	 * @return Point
-	 */
-	public static Point getCursorPos() {
-
-		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
-		DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
-
-		glfwGetCursorPos(Launcher.getWindow(), x, y);
-
-		x.rewind();
-		y.rewind();
-		float xf = (float) x.get();
-		float yf = (float) y.get();
-		xf = ((float) xf / Launcher.getWidth()) * Launcher.getCamWidth()
-				- (float) Launcher.getCamWidth() / 2;
-		yf = -(((float) yf / Launcher.getHeight()) * Launcher.getCamHeight() - Launcher
-				.getCamHeight());
-		Point res = new Point(xf, yf);
-
-		return res;
-	}
-
 	/**
 	 * Reset released.
 	 */

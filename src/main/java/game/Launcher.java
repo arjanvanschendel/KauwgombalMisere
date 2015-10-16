@@ -14,6 +14,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
@@ -46,9 +47,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.TrueTypeFont;
 
+import shapes.Point;
+import utillities.CursorPos;
 import utillities.Keyboard;
 import utillities.Logger;
-import utillities.Mouse;
+import utillities.MouseButtons;
 
 /**
  * Initialises window and OpenGL. Also starts the loop and calculates the delta
@@ -63,8 +66,9 @@ public class Launcher {
 	private GLFWErrorCallback errorCallback;
 	private Keyboard keyCallback;
 	private double lastFrame;
-	private Mouse mouseCallback;
+	private MouseButtons mouseButtonsCallback;
 	private GLFWWindowSizeCallback windowResize;
+	private CursorPos cursorPositionCallback;
 	private static int camWidth;
 	private static int camHeight;
 	private static int width;
@@ -86,7 +90,8 @@ public class Launcher {
 			// Release window and window callbacks
 			glfwDestroyWindow(window);
 			keyCallback.release();
-			mouseCallback.release();
+			mouseButtonsCallback.release();
+			cursorPositionCallback.release();
 		} finally {
 			// Terminate GLFW and release the GLFWerrorfun
 			glfwTerminate();
@@ -222,9 +227,11 @@ public class Launcher {
 		glfwSetCallback(window, windowResize);
 
 		keyCallback = new Keyboard();
-		mouseCallback = new Mouse();
+		mouseButtonsCallback = new MouseButtons();
+		cursorPositionCallback = new CursorPos();
 		glfwSetKeyCallback(window, keyCallback);
-		glfwSetMouseButtonCallback(window, mouseCallback);
+		glfwSetMouseButtonCallback(window, mouseButtonsCallback);
+		glfwSetCursorPosCallback(window, cursorPositionCallback);
 	}
 
 	/**
@@ -339,6 +346,18 @@ public class Launcher {
 	 */
 	public static void setFont(TrueTypeFont font) {
 		Launcher.font = font;
+	}
+
+	/**
+	 * Convert a pixel position to an openGL position.
+	 * 
+	 * @param point To be converted
+	 */
+	public static void pixelToOpenGLPos(Point point) {
+		point.setX(((float) point.getX() / Launcher.getWidth())
+				* Launcher.getCamWidth() - (float) Launcher.getCamWidth() / 2);
+		point.setY(-(((float) point.getY() / Launcher.getHeight())
+				* Launcher.getCamHeight() - Launcher.getCamHeight()));
 	}
 
 }

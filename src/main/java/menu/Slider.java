@@ -11,7 +11,8 @@ import org.newdawn.slick.opengl.TextureImpl;
 import shapes.Box;
 import shapes.Circle;
 import shapes.Point;
-import utillities.Mouse;
+import utillities.CursorPos;
+import utillities.MouseButtons;
 
 /**
  * 
@@ -90,18 +91,18 @@ public class Slider extends Box {
 	 */
 	public final void update(final double deltaTime) {
 		changed = false;
-		if (Mouse.isButtonReleased(0) && dragged) {
+		if (MouseButtons.isButtonReleased(0) && dragged) {
 			changed = true;
 			dragged = false;
 		}
 
 		value.setPosX((float) (getPosX() + getWidth() * (percentage / 100)));
-		if (Mouse.isButtonDown(0) && super.pointInShape(Mouse.getCursorPos())) {
+		if (MouseButtons.isButtonDown(0) && super.pointInShape(CursorPos.getCursorPos())) {
 			dragged = true;
 		}
 
 		if (dragged) {
-			float dMouseSlider = (Mouse.getCursorPos().getX() - getPosX())
+			float dMouseSlider = (CursorPos.getCursorPos().getX() - getPosX())
 					/ getWidth();
 			float mouseValue = dMouseSlider * 100;
 			if (mouseValue > 100) {
