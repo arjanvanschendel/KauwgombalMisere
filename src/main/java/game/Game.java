@@ -173,18 +173,18 @@ public final class Game {
 		switch (state) {
 		case (0):
 			// Playing
-			if (!getSounds().get(6).isPlaying()) {
-				getSounds().get(5).stop();
-				getSounds().get(6).play();
+			if (!soundPlaying(6)) {
+				stopSound(5);
+				playSound(6);
 			}
 			currentLvl.update(deltaTime);
 			break;
 		case (1):
 			// Paused
 
-			if (!getSounds().get(5).isPlaying()) {
-				getSounds().get(6).stop();
-				getSounds().get(5).play();
+			if (!soundPlaying(5)) {
+				stopSound(6);
+				playSound(5);
 			}
 			break;
 
@@ -260,7 +260,45 @@ public final class Game {
 			setState(2);
 		}
 	}
+	
+	/**
+	 * Play sound from sounds list.
+	 * @param index index of sound.
+	 */
+	public void playSound(int index) {
+		if (!sounds.isEmpty()) {
+			if (index <= sounds.size()) {
+				sounds.get(index).play();
+			}
+		}
+	}
 
+	/**
+	 * Stop sound from sounds list.
+	 * @param index index of sound.
+	 */
+	public void stopSound(int index) {
+		if (!sounds.isEmpty()) {
+			if (index <= sounds.size()) {
+				sounds.get(index).stop();
+			}
+		}
+	}
+	
+	/**
+	 * check if sound is playing.
+	 * @param index index of sound
+	 * @return true if sound is playing
+	 */
+	public boolean soundPlaying(int index) {
+		if (!sounds.isEmpty()) {
+			if (index <= sounds.size()) {
+				return sounds.get(index).isPlaying();
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @return int state

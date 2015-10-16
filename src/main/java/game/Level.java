@@ -114,9 +114,7 @@ public class Level {
 			Logger.add("projectile shot");
 			pro = projectile;
 			CollisionDetection.addCollider(pro);
-			if (!game.getSounds().isEmpty()) {
-				game.getSounds().get(2).play();
-			}
+			game.playSound(2);
 		} else if (projectile == null) {
 			CollisionDetection.removeCollider(pro);
 			pro = null;

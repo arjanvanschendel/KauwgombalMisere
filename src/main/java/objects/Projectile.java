@@ -59,9 +59,9 @@ public class Projectile extends Box implements GameObject {
 				if (collision.getCol() instanceof Wall
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
-					if (!game.getSounds().isEmpty()) {
-						game.getSounds().get(1).play();
-					}
+
+						game.playSound(1);
+				
 				} else if (collision.getCol() instanceof Ball) {
 					ball = (Ball) collision.getCol();
 					hitBall = true;
@@ -69,9 +69,7 @@ public class Projectile extends Box implements GameObject {
 			}
 		}
 		if (hitBall) {
-			if (!game.getSounds().isEmpty()) {
-				game.getSounds().get(0).play();
-			}
+			game.playSound(0);
 			ball.hit();
 			Level.setProjectile(null);
 		}

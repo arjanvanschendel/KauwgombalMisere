@@ -100,7 +100,7 @@ public class Ball extends Circle implements GameObject {
 						deltaY = (float) (GameVariables.getGravity() * time / 10);
 						setPosY((float) (getPosY() + deltaY * 60 * deltaTime));
 
-						game.getSounds().get(3).play();
+						game.playSound(3);
 
 					} else if (collision.getSide() == 2) {
 						setPosX(((Box) collision.getCol()).getPosX()
@@ -109,7 +109,7 @@ public class Ball extends Circle implements GameObject {
 						deltaX = -deltaX;
 						setPosX((float) (getPosX() + deltaX * 60 * deltaTime));
 
-						game.getSounds().get(3).play();
+						game.playSound(3);
 
 					} else if (collision.getSide() == 4) {
 						setPosX(((Box) collision.getCol()).getPosX()
@@ -117,7 +117,7 @@ public class Ball extends Circle implements GameObject {
 						deltaX = -deltaX;
 						setPosX((float) (getPosX() + deltaX * 60 * deltaTime));
 
-						game.getSounds().get(3).play();
+						game.playSound(3);
 					}
 				}
 			}

@@ -73,9 +73,9 @@ public class MainMenu {
 	 *            The speed of the game
 	 */
 	public final void update(final double deltaTime) {
-		if (!game.getSounds().get(5).isPlaying()) {
-			game.getSounds().get(6).stop();
-			game.getSounds().get(5).play();
+		if (!game.soundPlaying(5)) {
+			game.stopSound(6);
+			game.playSound(5);
 		}
 
 		for (Button btn : buttons) {

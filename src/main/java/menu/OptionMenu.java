@@ -126,9 +126,9 @@ public class OptionMenu {
 	 *            The speed of the game
 	 */
 	public final void update(final double deltaTime) {
-		if (!game.getSounds().get(5).isPlaying()) {
-			game.getSounds().get(6).stop();
-			game.getSounds().get(5).play();
+		if (!game.soundPlaying(5)) {
+			game.stopSound(6);
+			game.playSound(5);
 		}
 
 		for (Button btn : buttons) {
@@ -155,7 +155,7 @@ public class OptionMenu {
 		if (sfxVolumeSlider.isChanged()) {
 			GameSettings.setSFXVolume(sfxVolumeSlider.getPercentage());
 			game.getSounds().get(2).setVolume(GameSettings.getSFXVolume());
-			game.getSounds().get(2).play();
+			game.playSound(2);
 		}
 
 		if (musicVolumeSlider.isChanged()) {
