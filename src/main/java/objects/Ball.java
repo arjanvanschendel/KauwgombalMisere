@@ -132,11 +132,9 @@ public class Ball extends Circle implements GameObject {
 		this.updateScore();
 		Logger.add("ball hit");
 		Point p = new Point(getPosX(), getPosY());
-		ScorePopUp popUp = new ScorePopUp(this.getPosX(), this.getPosY(),
-				this.getRadius());
+		ScorePopUp popUp = new ScorePopUp(new Point(p), this.getRadius());
 		Level.addPopUp(popUp);
 		Level.remove(this);
-		
 		Ball ball = new Ball(p, getRadius() / 2);
 		Ball ball2 = new Ball(new Point(p), getRadius() / 2);	
 		if (ball.getRadius() > 10) {
