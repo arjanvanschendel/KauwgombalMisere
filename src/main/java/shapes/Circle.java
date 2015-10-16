@@ -15,6 +15,7 @@ import java.awt.Color;
  *
  */
 public class Circle {
+	
 	private Point pos;
 	private float radius;
 	private Color color;
