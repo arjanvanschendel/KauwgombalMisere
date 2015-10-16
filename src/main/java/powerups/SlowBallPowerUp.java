@@ -3,6 +3,7 @@ package powerups;
 import java.awt.Color;
 
 import shapes.Box;
+import shapes.Point;
 import game.GameVariables;
 import game.Launcher;
 
@@ -37,16 +38,14 @@ public class SlowBallPowerUp extends PowerUp {
 	 * 
 	 * Constructor for MovementPowerUp.
 	 * 
-	 * @param posx
-	 *            x-coordinate at which the PowerUp spawns.
-	 * @param posy
-	 *            y-coordinate at which the PowerUp spawns.
+	 * @param pos
+	 *            position of spawning powerup in Point format
 	 */
-	public SlowBallPowerUp(final float posx, final float posy) {
-		super(posx, posy, Color.MAGENTA);
-
-		indicator = new Box(Launcher.getCAMWIDTH() / 2 - 40,
-				Launcher.getCAMHEIGHT() - 75, 20, 20, Color.MAGENTA);
+	public SlowBallPowerUp(final Point pos) {
+		super(pos, Color.MAGENTA);
+		Point iPos = new Point(Launcher.getCAMWIDTH() / 2 - 40,
+				Launcher.getCAMHEIGHT() - 75);
+		indicator = new Box(iPos, 20, 20, Color.MAGENTA);
 		setPowerDuration(3);
 	}
 

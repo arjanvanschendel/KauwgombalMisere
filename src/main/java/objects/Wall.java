@@ -1,7 +1,9 @@
 package objects;
 
 import java.awt.Color;
+
 import shapes.Box;
+import shapes.Point;
 
 /**
  * Class that represents wall.
@@ -16,10 +18,8 @@ public class Wall extends Box implements GameObject {
 
 	/**
 	 * 
-	 * @param posx
-	 *            x position
-	 * @param posy
-	 *            y position
+	 * @param pos
+	 *            position of the wall in Point format
 	 * @param width
 	 *            width of wall
 	 * @param height
@@ -27,8 +27,8 @@ public class Wall extends Box implements GameObject {
 	 * @param color
 	 *            color of wall
 	 */
-	public Wall(float posx, float posy, float width, float height, Color color) {
-		super(posx, posy, width, height, color);
+	public Wall(Point pos, float width, float height, Color color) {
+		super(pos, width, height, color);
 	}
 
 	/**
@@ -36,8 +36,8 @@ public class Wall extends Box implements GameObject {
 	 */
 	@Override
 	public void update(double deltaTime) {
-		setPosx(getPosx() + (float) (deltaX * deltaTime));
-		setPosy(getPosy() + (float) (deltaY * deltaTime));
+		setPosX(getPosX() + (float) (deltaX * deltaTime));
+		setPosY(getPosY() + (float) (deltaY * deltaTime));
 	}
 
 }

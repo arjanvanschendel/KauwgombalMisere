@@ -9,6 +9,8 @@ import game.Level;
 import org.junit.Before;
 import org.junit.Test;
 
+import shapes.Point;
+
 /**
  * @author Matthias
  *
@@ -27,11 +29,11 @@ public class BallTest {
 	 */
 	@Before
 	public void setup() {
-		g = new Ball(100, 100, 50 / 4);
-		g1 = new Ball(100, 100, 50 / 4);
-		g2 = new Ball(1, 0, 50 / 4);
-		b = new Ball(0, 0, 50 / 2);
-		r = new Ball(0, 0, 50);
+		g = new Ball(new Point(100, 100), 50 / 4);
+		g1 = new Ball(new Point(100, 100), 50 / 4);
+		g2 = new Ball(new Point(1, 0), 50 / 4);
+		b = new Ball(new Point(0, 0), 50 / 2);
+		r = new Ball(new Point(0, 0), 50);
 	}
 
 	/**

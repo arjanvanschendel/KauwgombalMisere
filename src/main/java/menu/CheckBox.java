@@ -3,6 +3,7 @@ package menu;
 import java.awt.Color;
 
 import shapes.Box;
+import shapes.Point;
 import utillities.Mouse;
 
 /**
@@ -47,10 +48,8 @@ public class CheckBox extends Box {
 	 * 
 	 * Constructor for checkbox.
 	 * 
-	 * @param posx
-	 *            x-coordinate
-	 * @param posy
-	 *            y-coordinate
+	 * @param pos
+	 *            position of the checkbox in Point format
 	 * @param size
 	 *            size of the checkbox
 	 * @param color
@@ -58,17 +57,19 @@ public class CheckBox extends Box {
 	 * @param check
 	 *            Starting value of the checkbox
 	 */
-	public CheckBox(final float posx, final float posy, final float size,
-			final Color color, final boolean check) {
-		super(posx, posy, size, size, color);
+	public CheckBox(final Point pos, final float size, final Color color,
+			final boolean check) {
+		super(pos, size, size, color);
 		checked = check;
-		checkedBox = new Box(posx + size / 8, posy + size / 8, size - size / 4,
-				size - size / 4, color);
-		leftSide = new Box(posx, posy, size / 11, size, color);
-		rightSide = new Box(posx + size - size / 11, posy, size / 11, size,
-				color);
-		top = new Box(posx, posy + size - size / 11, size, size / 11, color);
-		bottom = new Box(posx, posy, size, size / 11, color);
+		checkedBox = new Box(new Point(pos.getX() + size / 8, pos.getY() + size
+				/ 8), size - size / 4, size - size / 4, color);
+		leftSide = new Box(pos, size / 11, size, color);
+		rightSide = new Box(
+				new Point(pos.getX() + size - size / 11, pos.getY()),
+				size / 11, size, color);
+		top = new Box(new Point(pos.getX(), pos.getY() + size - size / 11),
+				size, size / 11, color);
+		bottom = new Box(pos, size, size / 11, color);
 	}
 
 	/**

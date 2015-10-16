@@ -15,42 +15,35 @@ import java.awt.Color;
  *
  */
 public class Circle {
-	private float posx;
-	private float posy;
+	private Point pos;
 	private float radius;
 	private Color color;
 	private static final float EPSILON = 0.000001f;
 
 	/**
 	 * 
-	 * @param posx
-	 *            x position
-	 * @param posy
-	 *            y position
+	 * @param pos
+	 *            the starting position of the circle in Point format
 	 * @param radius
 	 *            radius circle
 	 * @param color
 	 *            color of circle
 	 */
-	public Circle(float posx, float posy, float radius, Color color) {
-		this.posx = posx;
-		this.posy = posy;
+	public Circle(Point pos, float radius, Color color) {
+		this.pos = pos;
 		this.radius = radius;
 		this.color = color;
 	}
 
 	/**
 	 * 
-	 * @param posx
-	 *            x position
-	 * @param posy
-	 *            y position
+	 * @param pos
+	 *            the starting position of the circle in Point format
 	 * @param radius
 	 *            radius circle
 	 */
-	public Circle(float posx, float posy, float radius) {
-		this.posx = posx;
-		this.posy = posy;
+	public Circle(Point pos, float radius) {
+		this.pos = pos;
 		this.radius = radius;
 		this.color = new Color(0, 0, 0);
 	}
@@ -64,8 +57,8 @@ public class Circle {
 				(float) color.getBlue() / 255, 1.0f);
 		glBegin(GL_POLYGON);
 		for (double i = 0; i < 2 * Math.PI; i += Math.PI / 12) {
-			glVertex2f((float) Math.cos(i) * radius + posx, (float) Math.sin(i)
-					* radius + posy);
+			glVertex2f((float) Math.cos(i) * radius + pos.getX(),
+					(float) Math.sin(i) * radius + pos.getY());
 		}
 		glEnd();
 
@@ -93,8 +86,8 @@ public class Circle {
 		if (that instanceof Circle) {
 			Circle circle2 = (Circle) that;
 			if (circle2.getColor().equals(color)
-					&& compareFloats(posx, circle2.getPosx())
-					&& compareFloats(posy, circle2.getPosy())
+					&& compareFloats(getPosX(), circle2.getPosX())
+					&& compareFloats(getPosY(), circle2.getPosY())
 					&& compareFloats(radius, circle2.getRadius())) {
 				return true;
 			}
@@ -113,36 +106,36 @@ public class Circle {
 
 	/**
 	 * 
-	 * @return posx
+	 * @return x value of position
 	 */
-	public float getPosx() {
-		return posx;
+	public float getPosX() {
+		return pos.getX();
 	}
 
 	/**
 	 * 
-	 * @param posx
+	 * @param x
 	 *            float to set
 	 */
-	public void setPosx(float posx) {
-		this.posx = posx;
+	public void setPosX(float x) {
+		this.pos.setX(x);
 	}
 
 	/**
 	 * 
-	 * @return posy
+	 * @return y value of position
 	 */
-	public float getPosy() {
-		return posy;
+	public float getPosY() {
+		return pos.getY();
 	}
 
 	/**
 	 * 
-	 * @param posy
+	 * @param y
 	 *            float to set
 	 */
-	public void setPosy(float posy) {
-		this.posy = posy;
+	public void setPosY(float y) {
+		this.pos.setY(y);
 	}
 
 	/**
