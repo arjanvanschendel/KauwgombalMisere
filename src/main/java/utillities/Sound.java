@@ -195,6 +195,9 @@ public class Sound implements LineListener {
 		}
 	}
 
+	/**
+	 * Closes the clip when the clip has finished playing or is stopped.
+	 */
 	@Override
 	public void update(LineEvent event) {
 		if (event.getType().equals(LineEvent.Type.STOP) && playing) {
