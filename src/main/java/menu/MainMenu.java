@@ -81,7 +81,7 @@ public class MainMenu {
 			if (game.getCurrentLvl().getLevelSong() != null) {
 				game.getCurrentLvl().getLevelSong().stop();
 			}
-			game.getMusic().get("Solar_Sailer").play();
+			game.getMusic().get("Solar_Sailer").loop(-1);
 		}
 
 		for (Button btn : buttons) {

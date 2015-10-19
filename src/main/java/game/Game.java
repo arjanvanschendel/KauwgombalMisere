@@ -172,7 +172,7 @@ public final class Game {
 			for (Entry<String, Sound> entry : getMusic().entrySet()) {
 				entry.getValue().stop();
 			}
-			currentLvl.getLevelSong().play();
+			currentLvl.getLevelSong().loop(-1);
 		}
 	}
 
