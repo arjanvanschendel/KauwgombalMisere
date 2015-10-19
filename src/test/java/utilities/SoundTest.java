@@ -33,7 +33,7 @@ public class SoundTest {
 	@Before
 	public final void setup() {
 		snd = new Sound("res/Screaming_ducks.wav");
-		snd2 = new Sound("res/Screaming_ducks.wav", 5);
+		snd2 = new Sound("res/Screaming_ducks.wav", 0);
 	}
 
 	/**
@@ -126,6 +126,43 @@ public class SoundTest {
 		assertTrue(snd2.isPlaying());
 		snd2.stop();
 		assertFalse(snd2.isPlaying());
+	}
+
+	/**
+	 * Start while sound is already playing.
+	 */
+	@Test
+	public final void restart() {
+		assertFalse(snd.isPlaying());
+		snd.play();
+		assertTrue(snd.isPlaying());
+		snd.play();
+		assertTrue(snd.isPlaying());
+	}
+
+	/**
+	 * Set volume while playing.
+	 */
+	@Test
+	public final void testSetVolume() {
+		snd.play();
+		assertTrue(snd.isPlaying());
+		assertEquals(snd.getVolume(), 100, 0);
+		snd.setVolume(50);
+		assertTrue(snd.isPlaying());
+		assertEquals(snd.getVolume(), 50, 0);
+		snd.setVolume(0);
+		assertTrue(snd.isPlaying());
+		assertEquals(snd.getVolume(), 0, 0);
+	}
+
+	/**
+	 * Tests the two constructors.
+	 */
+	@Test
+	public final void testConstruct() {
+		assertEquals(snd.getVolume(), 100, 0);
+		assertEquals(snd2.getVolume(), 0, 0);
 	}
 
 	/**
