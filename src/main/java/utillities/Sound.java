@@ -8,6 +8,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -17,7 +19,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Matthias Tavasszy
  *
  */
-public class Sound {
+public class Sound implements LineListener {
 
 	/**
 	 * indicates whether there is an audio device or not.
@@ -100,13 +102,11 @@ public class Sound {
 	 *            loops
 	 */
 	public final void loop(final int n) {
-		if (clip == null || !clip.isRunning()) {
-			if (clip != null) {
-				clip.close();
-			}
+		playing = false;
+		try {
 			try {
-				clip = null;
-				try {
+				if ((clip == null) || (!clip.isOpen())) {
+
 					audiostream = AudioSystem.getAudioInputStream(f);
 					clip = AudioSystem.getClip();
 					clip.open(audiostream);
@@ -122,20 +122,26 @@ public class Sound {
 								/ Math.log(10.0) * 20.0));
 
 					}
+					clip.addLineListener(this);
 					clip.loop(n);
-				} catch (UnsupportedAudioFileException | IOException
-						| LineUnavailableException e) {
-					e.printStackTrace();
+				} else {
+					clip.stop();
+					clip.flush();
+					clip.setFramePosition(0);
+					clip.loop(n);
 				}
-
-				device = true;
-
-			} catch (IllegalArgumentException e) {
-				device = false;
-				System.out.println("no device to play audio from");
+			} catch (UnsupportedAudioFileException | IOException
+					| LineUnavailableException e) {
+				e.printStackTrace();
 			}
-			playing = true;
+
+			device = true;
+
+		} catch (IllegalArgumentException e) {
+			device = false;
+			System.out.println("no device to play audio from");
 		}
+		playing = true;
 	}
 
 	/**
@@ -187,5 +193,13 @@ public class Sound {
 						/ Math.log(10.0) * 20.0));
 			}
 		}
+	}
+
+	@Override
+	public void update(LineEvent event) {
+		if (event.getType().equals(LineEvent.Type.STOP) && playing) {
+			clip.close();
+		}
+
 	}
 }
