@@ -16,7 +16,7 @@ import org.newdawn.slick.opengl.TextureImpl;
 
 import utillities.Keyboard;
 import utillities.Logger;
-import utillities.Mouse;
+import utillities.MouseButtons;
 import utillities.Sound;
 import utillities.Texture;
 
@@ -224,7 +224,7 @@ public final class Game {
 			// System.exit(1);
 
 		}
-		Mouse.resetReleased();
+		MouseButtons.resetReleased();
 		Keyboard.resetReleased();
 	}
 

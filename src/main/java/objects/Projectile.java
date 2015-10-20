@@ -2,10 +2,10 @@ package objects;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor4f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
-import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Collision;
 import game.CollisionDetection;
 import game.Game;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 import shapes.Box;
+import shapes.Point;
 import utillities.Texture;
 
 /**
@@ -33,14 +34,13 @@ public class Projectile extends Box implements GameObject {
 	private Texture texture = null;
 
 	/**
+	 * Constructor for Projectile object.
 	 * 
-	 * @param posx
-	 *            x position
-	 * @param posy
-	 *            y position
+	 * @param pos
+	 *            position of the projectile in Point format
 	 */
-	public Projectile(float posx, float posy) {
-		super(posx, posy, 10, 50, new Color(205, 205, 205));
+	public Projectile(Point pos) {
+		super(pos, 10, 50, new Color(205, 205, 205));
 
 	}
 

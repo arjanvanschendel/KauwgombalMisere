@@ -22,8 +22,9 @@ public class CircleTest {
 	 */
 	@Before
 	public void setup() {
-		circle = new Circle(0, 400, 25, Color.CYAN);
-		circle1 = new Circle(0, 400, 25);
+		Point p = new Point(0, 400);
+		circle = new Circle(p, 25, Color.CYAN);
+		circle1 = new Circle(p, 25);
 	}
 
 	/**
@@ -57,11 +58,11 @@ public class CircleTest {
 	 */
 	@Test
 	public void changeParametersTest() {
-		circle.setPosx(-100);
-		circle.setPosy(300);
+		circle.setPosX(-100);
+		circle.setPosY(300);
 		circle.setRadius(50);
-		assertEquals((long) circle.getPosx(), -100);
-		assertEquals((long) circle.getPosy(), 300);
+		assertEquals((long) circle.getPosX(), -100);
+		assertEquals((long) circle.getPosY(), 300);
 		assertEquals((long) circle.getRadius(), 50);
 	}
 
@@ -70,8 +71,8 @@ public class CircleTest {
 	 */
 	@Test
 	public void positionTest() {
-		assertEquals((long) circle.getPosx(), 0);
-		assertEquals((long) circle.getPosy(), 400);
+		assertEquals((long) circle.getPosX(), 0);
+		assertEquals((long) circle.getPosY(), 400);
 	}
 
 	/**

@@ -134,15 +134,15 @@ public final class CollisionDetection {
 
 		int side = 0;
 
-		float aX1 = a.getPosx();
-		float aX2 = a.getPosx() + a.getWidth();
-		float aY1 = a.getPosy();
-		float aY2 = a.getPosy() + a.getHeight();
+		float aX1 = a.getPosX();
+		float aX2 = a.getPosX() + a.getWidth();
+		float aY1 = a.getPosY();
+		float aY2 = a.getPosY() + a.getHeight();
 
-		float bX1 = b.getPosx();
-		float bX2 = b.getPosx() + b.getWidth();
-		float bY1 = b.getPosy();
-		float bY2 = b.getPosy() + b.getHeight();
+		float bX1 = b.getPosX();
+		float bX2 = b.getPosX() + b.getWidth();
+		float bY1 = b.getPosY();
+		float bY2 = b.getPosY() + b.getHeight();
 
 		if (aX1 <= bX2 && aX2 >= bX1 && aY1 <= bY2 && aY2 >= bY1) {
 			float[] distances = new float[4];
@@ -183,17 +183,17 @@ public final class CollisionDetection {
 		int side = 0;
 
 		Point[] corners = b.getCorners();
-		if (lineCircleIntersect(corners[0], corners[1], a.getPosx(),
-				a.getPosy(), a.getRadius())) {
+		if (lineCircleIntersect(corners[0], corners[1], a.getPosX(),
+				a.getPosY(), a.getRadius())) {
 			side = 3;
-		} else if (lineCircleIntersect(corners[1], corners[2], a.getPosx(),
-				a.getPosy(), a.getRadius())) {
+		} else if (lineCircleIntersect(corners[1], corners[2], a.getPosX(),
+				a.getPosY(), a.getRadius())) {
 			side = 2;
-		} else if (lineCircleIntersect(corners[2], corners[3], a.getPosx(),
-				a.getPosy(), a.getRadius())) {
+		} else if (lineCircleIntersect(corners[2], corners[3], a.getPosX(),
+				a.getPosY(), a.getRadius())) {
 			side = 1;
-		} else if (lineCircleIntersect(corners[3], corners[0], a.getPosx(),
-				a.getPosy(), a.getRadius())) {
+		} else if (lineCircleIntersect(corners[3], corners[0], a.getPosX(),
+				a.getPosY(), a.getRadius())) {
 			side = 4;
 		}
 		return side;

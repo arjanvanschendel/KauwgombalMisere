@@ -13,6 +13,7 @@ import objects.Player;
 import objects.Projectile;
 import objects.Wall;
 import shapes.Box;
+import shapes.Point;
 import utillities.Logger;
 
 /**
@@ -44,15 +45,13 @@ public abstract class PowerUp extends Box implements GameObject {
 	/**
 	 * Constructor for a basic PowerUp.
 	 * 
-	 * @param posx
-	 *            x-coordinate from which the PowerUp spawns
-	 * @param posy
-	 *            y-coordinate from which the PowerUp spawns
+	 * @param pos
+	 *            position of spawning powerup in Point format
 	 * @param color
 	 *            color of the PowerUp.
 	 */
-	public PowerUp(final float posx, final float posy, final Color color) {
-		super(posx, posy, 20, 20, color);
+	public PowerUp(final Point pos, final Color color) {
+		super(pos, 20, 20, color);
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public abstract class PowerUp extends Box implements GameObject {
 
 			deltaY -= (float) (deltaTime * GameVariables.getGravity());
 
-			setPosy((float) (getPosy() + 30 * deltaY * deltaTime));
+			setPosY((float) (getPosY() + 30 * deltaY * deltaTime));
 			ArrayList<Collision> collisions = CollisionDetection
 					.collision(this);
 
@@ -72,7 +71,7 @@ public abstract class PowerUp extends Box implements GameObject {
 				} else if (coll.getCol() instanceof Wall) {
 					if (coll.getSide() == 1) {
 						deltaY = 0;
-						setPosy(((Wall) coll.getCol()).getPosy()
+						setPosY(((Wall) coll.getCol()).getPosY()
 								+ ((Wall) coll.getCol()).getHeight());
 					}
 

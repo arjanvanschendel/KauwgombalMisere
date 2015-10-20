@@ -7,6 +7,8 @@ import game.CollisionDetection;
 import org.junit.Before;
 import org.junit.Test;
 
+import shapes.Point;
+
 /**
  * 
  * @author Luke
@@ -27,7 +29,8 @@ public class ProjectileTest {
      */
 	@Test
 	public void updateEmptyCollisionsTest() {
-		Projectile a = new Projectile(0, 0);
+		Point p = new Point(0, 0);
+		Projectile a = new Projectile(p);
 		a.update(0);
 		assertFalse(a.getHitBall());
 	}
@@ -37,8 +40,10 @@ public class ProjectileTest {
      */
 	@Test
 	public void updateNonEmptyCollisionsTest() {
-		Projectile a = new Projectile(0, 0);
-		Projectile b = new Projectile(10, 10);
+		Point pA = new Point(0, 0);
+		Point pB = new Point(10, 10);
+		Projectile a = new Projectile(pA);
+		Projectile b = new Projectile(pB);
 		CollisionDetection.addCollider(b);
 		a.update(0);
 		assertFalse(a.getHitBall());
@@ -49,8 +54,9 @@ public class ProjectileTest {
      */
 	@Test
 	public void updateBallCollisionsTest() {
-		Projectile a = new Projectile(0, 0);
-		Ball b = new Ball(0, 0, 1);
+		Point p = new Point(0, 0);
+		Projectile a = new Projectile(p);
+		Ball b = new Ball(new Point(0, 0), 1);
 		CollisionDetection.addCollider(b);
 		a.update(0);
 		assertTrue(a.getHitBall());
@@ -61,8 +67,10 @@ public class ProjectileTest {
      */
 	@Test
 	public void updateBoxCollisionsTest() {
-		Projectile a = new Projectile(0, 0);
-		Wall b = new Wall(0, 0, 1, 1, null);
+		Point p = new Point(0, 0);
+		Projectile a = new Projectile(p);
+		Point pW = new Point(0, 0);
+		Wall b = new Wall(pW, 1, 1, null);
 		CollisionDetection.addCollider(b);
 		a.update(0);
 		assertFalse(a.getHitBall());
@@ -73,8 +81,10 @@ public class ProjectileTest {
      */
 	@Test
 	public void updateCeilingCollisionsTest() {
-		Projectile a = new Projectile(0, 0);
-		Wall b = new Wall(0, 1, 1, 10, null);
+		Point p = new Point(0, 0);
+		Projectile a = new Projectile(p);
+		Point pW = new Point(0, 1);
+		Wall b = new Wall(pW, 1, 10, null);
 		a.setHeight(1.1f);
 		CollisionDetection.addCollider(b);
 		a.update(0);

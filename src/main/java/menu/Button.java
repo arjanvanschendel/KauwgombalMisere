@@ -8,7 +8,9 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureImpl;
 
 import shapes.Box;
-import utillities.Mouse;
+import shapes.Point;
+import utillities.CursorPos;
+import utillities.MouseButtons;
 
 /**
  * 
@@ -22,10 +24,8 @@ public class Button extends Box {
 
 	/**
 	 * 
-	 * @param posx
-	 *            x position
-	 * @param posy
-	 *            y position
+	 * @param pos
+	 *            position of the button in Point format
 	 * @param width
 	 *            width of button
 	 * @param height
@@ -35,9 +35,9 @@ public class Button extends Box {
 	 * @param buttonString
 	 *            text
 	 */
-	public Button(float posx, float posy, float width, float height,
-			Color color, String buttonString) {
-		super(posx, posy, width, height, color);
+	public Button(Point pos, float width, float height, Color color,
+			String buttonString) {
+		super(pos, width, height, color);
 		this.buttonString = buttonString;
 	}
 
@@ -48,8 +48,8 @@ public class Button extends Box {
 	 *            time between frames
 	 */
 	public void update(double deltaTime) {
-		if (Mouse.isButtonReleased(0)
-				&& super.pointInShape(Mouse.getCursorPos())) {
+		if (MouseButtons.isButtonReleased(0)
+				&& super.pointInShape(CursorPos.getCursorPos())) {
 			clicked = true;
 		} else {
 			clicked = false;
@@ -65,9 +65,9 @@ public class Button extends Box {
 		GL11.glScalef(1, -1, 1);
 		TextureImpl.bindNone();
 		Launcher.getFont().drawString(
-				(getPosx() + getWidth() / 2f)
+				(getPosX() + getWidth() / 2f)
 						- Launcher.getFont().getWidth(buttonString) / 2f,
-				-getPosy() - Launcher.getFont().getHeight(buttonString),
+				-getPosY() - Launcher.getFont().getHeight(buttonString),
 				buttonString, org.newdawn.slick.Color.black);
 		GL11.glScalef(1, -1, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

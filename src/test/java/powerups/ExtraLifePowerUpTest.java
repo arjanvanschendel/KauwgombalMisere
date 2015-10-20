@@ -3,6 +3,7 @@ package powerups;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import shapes.Point;
 import game.GameVariables;
 
 /**
@@ -17,7 +18,8 @@ public class ExtraLifePowerUpTest extends PowerUpTest {
 
 	@Override
 	final PowerUp getPowerUp() {
-		return new ExtraLifePowerUp(0, 20);
+		Point p = new Point(0, 20);
+		return new ExtraLifePowerUp(p);
 	}
 
 	@Override

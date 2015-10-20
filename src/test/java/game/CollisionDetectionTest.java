@@ -13,6 +13,8 @@ import objects.Wall;
 
 import org.junit.Test;
 
+import shapes.Point;
+
 /**
  * 
  * Tests for the CollisionDetection class.
@@ -29,7 +31,8 @@ public class CollisionDetectionTest {
 	public void collidersTest() {
 		// Set colliders
 		ArrayList<GameObject> objects = new ArrayList<GameObject>();
-		Wall a = new Wall(0, 0, 10, 10, null);
+		Point p = new Point(0, 0);
+		Wall a = new Wall(p, 10, 10, null);
 		objects.add(a);
 		assertNotEquals(CollisionDetection.getColliders(), objects);
 		CollisionDetection.setColliders(objects);
@@ -41,7 +44,8 @@ public class CollisionDetectionTest {
 		assertEquals(CollisionDetection.getColliders().size(), 0);
 
 		// Add collider
-		Wall b = new Wall(10, 0, 10, 10, null);
+		p = new Point(10, 0);
+		Wall b = new Wall(p, 10, 10, null);
 		assertFalse(CollisionDetection.getColliders().contains(a));
 		assertFalse(CollisionDetection.getColliders().contains(b));
 		CollisionDetection.addCollider(a);
@@ -64,7 +68,8 @@ public class CollisionDetectionTest {
 	public void impossibleCollisions() {
 
 		// Self collide
-		Wall a = new Wall(0, 0, 10, 10, null);
+		Point p = new Point(0, 0);
+		Wall a = new Wall(p, 10, 10, null);
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(a);
 
@@ -83,8 +88,10 @@ public class CollisionDetectionTest {
 		 */
 
 		// Hit Left of b
-		Wall a = new Wall(0, 0, 10, 10, null);
-		Wall b = new Wall(10, 0, 10, 10, null);
+		Point pA = new Point(0, 0);
+		Point pB = new Point(10, 0);
+		Wall a = new Wall(pA, 10, 10, null);
+		Wall b = new Wall(pB, 10, 10, null);
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
 
@@ -96,7 +103,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Right of b
-		a.setPosx(20);
+		a.setPosX(20);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -107,8 +114,8 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Top of b
-		a.setPosx(10);
-		a.setPosy(10);
+		a.setPosX(10);
+		a.setPosY(10);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -119,7 +126,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Bottom of b
-		a.setPosy(-10);
+		a.setPosY(-10);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -142,8 +149,10 @@ public class CollisionDetectionTest {
 		 */
 
 		// Near hit Left of b
-		Wall a = new Wall(-1, 0, 10, 10, null);
-		Wall b = new Wall(10, 0, 10, 10, null);
+		Point pA = new Point(-1, 0);
+		Point pB = new Point(10, 0);	
+		Wall a = new Wall(pA, 10, 10, null);
+		Wall b = new Wall(pB, 10, 10, null);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
@@ -152,22 +161,22 @@ public class CollisionDetectionTest {
 		assertEquals(0, collisions.size());
 
 		// Hit Right of b
-		a.setPosx(21);
+		a.setPosX(21);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collisions
 		assertEquals(0, collisions.size());
 
 		// Hit Top of b
-		a.setPosx(10);
-		a.setPosy(11);
+		a.setPosX(10);
+		a.setPosY(11);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collisions
 		assertEquals(0, collisions.size());
 
 		// Hit Bottom of b
-		a.setPosy(-11);
+		a.setPosY(-11);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collisions
@@ -185,8 +194,10 @@ public class CollisionDetectionTest {
 		 * Hit Sides 3 2 4 1
 		 */
 		// Hit Left of b
-		Wall a = new Wall(0, 0, 10, 10, null);
-		Ball b = new Ball(15, 5, 5);
+		Point p = new Point(0, 0);
+		Point pB = new Point(15, 5);
+		Wall a = new Wall(p, 10, 10, null);
+		Ball b = new Ball(pB, 5);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
@@ -199,7 +210,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Right of b
-		a.setPosx(20);
+		a.setPosX(20);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -210,8 +221,8 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Top of b
-		a.setPosx(10);
-		a.setPosy(10);
+		a.setPosX(10);
+		a.setPosY(10);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -222,7 +233,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Bottom of b
-		a.setPosy(-10);
+		a.setPosY(-10);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -245,8 +256,10 @@ public class CollisionDetectionTest {
 		 */
 
 		// Near hit Left of b
-		Wall a = new Wall(-1, 0, 10, 10, null);
-		Ball b = new Ball(15, 5, 5);
+		Point p = new Point(-1, 0);
+		Point pB = new Point(15, 5);
+		Wall a = new Wall(p, 10, 10, null);
+		Ball b = new Ball(pB, 5);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
@@ -255,22 +268,22 @@ public class CollisionDetectionTest {
 		assertEquals(0, collisions.size());
 
 		// Hit Right of b
-		a.setPosx(21);
+		a.setPosX(21);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collisions
 		assertEquals(0, collisions.size());
 
 		// Hit Top of b
-		a.setPosx(10);
-		a.setPosy(11);
+		a.setPosX(10);
+		a.setPosY(11);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collisions
 		assertEquals(0, collisions.size());
 
 		// Hit Bottom of b
-		a.setPosy(-11);
+		a.setPosY(-11);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collisions
@@ -289,8 +302,10 @@ public class CollisionDetectionTest {
 		 */
 
 		// Hit Left of b
-		Ball a = new Ball(5, 5, 5);
-		Wall b = new Wall(10, 0, 10, 10, null);
+		Point p = new Point(10, 0);
+		Point pB = new Point(5, 5);
+		Ball a = new Ball(pB, 5);
+		Wall b = new Wall(p, 10, 10, null);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
@@ -303,7 +318,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Right of b
-		a.setPosx(25);
+		a.setPosX(25);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -314,8 +329,8 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Top of b
-		a.setPosx(15);
-		a.setPosy(15);
+		a.setPosX(15);
+		a.setPosY(15);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -326,7 +341,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// Hit Bottom of b
-		a.setPosy(-5);
+		a.setPosY(-5);
 		collisions = CollisionDetection.collision(b);
 
 		// One Collision
@@ -337,7 +352,7 @@ public class CollisionDetectionTest {
 		assertEquals(a, collisions.get(0).getCol());
 
 		// No Collision
-		a.setPosy(-10);
+		a.setPosY(-10);
 		collisions = CollisionDetection.collision(b);
 
 		// No Collision
