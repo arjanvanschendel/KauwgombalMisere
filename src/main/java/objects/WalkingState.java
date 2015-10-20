@@ -26,7 +26,7 @@ public class WalkingState implements PlayerState {
      */
 	public WalkingState() {
 		if (!game.getTextures().isEmpty()) {
-			walking = new SpriteSheet(game.getTextures().get(1), 2, 20);
+			walking = new SpriteSheet(game.getTextures().get("Run"), 2, 20);
 		}
 	}
 

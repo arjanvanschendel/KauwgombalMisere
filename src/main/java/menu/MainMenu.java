@@ -5,9 +5,11 @@ import game.Game;
 import game.Launcher;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
+import utillities.Sound;
 import shapes.Point;
 import utillities.Texture;
 
@@ -73,9 +75,14 @@ public class MainMenu {
 	 *            The speed of the game
 	 */
 	public final void update(final double deltaTime) {
-		if (!game.getSounds().get(5).isPlaying()) {
-			game.getSounds().get(6).stop();
-			game.getSounds().get(5).play();
+		if (!game.getMusic().get("Solar_Sailer").isPlaying()) {
+			for (Entry<String, Sound> entry : game.getMusic().entrySet()) {
+				entry.getValue().stop();
+			}
+			if (game.getCurrentLvl().getLevelSong() != null) {
+				game.getCurrentLvl().getLevelSong().stop();
+			}
+			game.getMusic().get("Solar_Sailer").loop(-1);
 		}
 
 		for (Button btn : buttons) {

@@ -59,8 +59,8 @@ public class Projectile extends Box implements GameObject {
 				if (collision.getCol() instanceof Wall
 						&& collision.getSide() == 3) {
 					Level.setProjectile(null);
-					if (!game.getSounds().isEmpty()) {
-						game.getSounds().get(1).play();
+					if (!game.getSoundFX().isEmpty()) {
+						game.getSoundFX().get("arrowHitCeiling").play();
 					}
 				} else if (collision.getCol() instanceof Ball) {
 					ball = (Ball) collision.getCol();
@@ -69,8 +69,8 @@ public class Projectile extends Box implements GameObject {
 			}
 		}
 		if (hitBall) {
-			if (!game.getSounds().isEmpty()) {
-				game.getSounds().get(0).play();
+			if (!game.getSoundFX().isEmpty()) {
+				game.getSoundFX().get("arrowHitBall").play();
 			}
 			ball.hit();
 			Level.setProjectile(null);
@@ -87,7 +87,7 @@ public class Projectile extends Box implements GameObject {
 	@Override
 	public final void render() {
 		if (texture == null) {
-			texture = game.getTextures().get(2);
+			texture = game.getTextures().get("arrow");
 		}
 		texture.bind();
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

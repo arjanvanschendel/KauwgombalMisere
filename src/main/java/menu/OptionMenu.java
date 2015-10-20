@@ -7,12 +7,14 @@ import game.Launcher;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
+import utillities.Sound;
 import shapes.Point;
 import utillities.Texture;
 
@@ -126,9 +128,15 @@ public class OptionMenu {
 	 *            The speed of the game
 	 */
 	public final void update(final double deltaTime) {
-		if (!game.getSounds().get(5).isPlaying()) {
-			game.getSounds().get(6).stop();
-			game.getSounds().get(5).play();
+
+		if (!game.getMusic().get("Solar_Sailer").isPlaying()) {
+			for (Entry<String, Sound> entry : game.getMusic().entrySet()) {
+				entry.getValue().stop();
+			}
+			if (game.getCurrentLvl().getLevelSong() != null) {
+				game.getCurrentLvl().getLevelSong().stop();
+			}
+			game.getMusic().get("Solar_Sailer").loop(-1);
 		}
 
 		for (Button btn : buttons) {
@@ -154,13 +162,13 @@ public class OptionMenu {
 
 		if (sfxVolumeSlider.isChanged()) {
 			GameSettings.setSFXVolume(sfxVolumeSlider.getPercentage());
-			game.getSounds().get(2).setVolume(GameSettings.getSFXVolume());
-			game.getSounds().get(2).play();
+			game.getSoundFX().get("playerHit").setVolume(GameSettings.getSFXVolume());
+			game.getSoundFX().get("playerHit").play();
 		}
 
 		if (musicVolumeSlider.isChanged()) {
 			GameSettings.setMusicVolume(musicVolumeSlider.getPercentage());
-			game.getSounds().get(5).setVolume(GameSettings.getMusicVolume());
+			game.getMusic().get("Solar_Sailer").setVolume(GameSettings.getMusicVolume());
 		}
 	}
 
@@ -168,13 +176,13 @@ public class OptionMenu {
 	 * Method to save settings.
 	 */
 	private void save() {
-		game.getSounds().get(0).setVolume(GameSettings.getSFXVolume());
-		game.getSounds().get(1).setVolume(GameSettings.getSFXVolume());
-		game.getSounds().get(2).setVolume(GameSettings.getSFXVolume());
-		game.getSounds().get(3).setVolume(GameSettings.getSFXVolume());
-		game.getSounds().get(4).setVolume(GameSettings.getSFXVolume());
-		game.getSounds().get(5).setVolume(GameSettings.getMusicVolume());
-		game.getSounds().get(6).setVolume(GameSettings.getMusicVolume());
+		for (Entry<String, Sound> entry : game.getSoundFX().entrySet()) {
+			entry.getValue().setVolume(GameSettings.getSFXVolume());
+		}
+
+		for (Entry<String, Sound> entry : game.getMusic().entrySet()) {
+			entry.getValue().setVolume(GameSettings.getMusicVolume());
+		}
 		GameSettings.setFullscreen(fullscreenCheckbox.isChecked());
 	}
 

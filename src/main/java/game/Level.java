@@ -16,6 +16,7 @@ import objects.Wall;
 import powerups.PowerUp;
 import utillities.Logger;
 import utillities.ObjectGenerator;
+import utillities.Sound;
 
 /**
  * Level Class: an object of this class represents a level in the game,
@@ -33,6 +34,7 @@ public class Level {
 	private static ArrayList<GameObject> popUpObjects = new ArrayList<GameObject>();
 	private Player player;
 	private String name = "";
+	private String music = "Derezzed";
 
 	private static Projectile pro;
 
@@ -114,8 +116,8 @@ public class Level {
 			Logger.add("projectile shot");
 			pro = projectile;
 			CollisionDetection.addCollider(pro);
-			if (!game.getSounds().isEmpty()) {
-				game.getSounds().get(2).play();
+			if (!game.getSoundFX().isEmpty()) {
+				game.getSoundFX().get("arrowShoot").play();
 			}
 		} else if (projectile == null) {
 			CollisionDetection.removeCollider(pro);
@@ -227,6 +229,8 @@ public class Level {
 						CollisionDetection.addCollider(player);
 					} else if (type.equals("name")) {
 						name = para[0];
+					} else if (type.equals("song")) {
+						music = param;
 					}
 				}
 			}
@@ -283,6 +287,15 @@ public class Level {
 	 */
 	public static final void setPopUpObjects(ArrayList<GameObject> popUpObjects) {
 		Level.popUpObjects = popUpObjects;
+	}
+
+	/**
+	 * returns the levels song.
+	 * 
+	 * @return the levels song
+	 */
+	public Sound getLevelSong() {
+		return game.getMusic().get(music);
 	}
 
 }
