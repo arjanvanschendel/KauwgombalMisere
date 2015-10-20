@@ -1,5 +1,6 @@
 package powerups;
 
+import game.Game;
 import game.GameVariables;
 import game.Launcher;
 
@@ -7,6 +8,7 @@ import java.awt.Color;
 
 import shapes.Box;
 import shapes.Point;
+import shapes.TextureBox;
 
 /**
  * 
@@ -44,9 +46,10 @@ public class FastArrowPowerUp extends PowerUp {
 	 */
 	public FastArrowPowerUp(final Point pos) {
 		super(pos, Color.CYAN);
+		setTexture(Game.getInstance().getTextures().get("FastArrow"));
 		Point iPos = new Point(Launcher.getCamWidth() / 2 - 40,
 				Launcher.getCamHeight() - 55);
-		indicator = new Box(iPos, 20, 20, Color.CYAN);
+		indicator = new TextureBox(iPos, 20, 20, Color.CYAN, getTexture());
 		setPowerDuration(3);
 	}
 

@@ -34,11 +34,8 @@ public abstract class PowerUpTest {
 		CollisionDetection.clear();
 		power = getPowerUp();
 		Point pF = new Point(-100, 0);
-		Point pC = new Point(-100, 20);
 		Wall floor = new Wall(pF, 200, 15, null);
-		Wall ceiling = new Wall(pC, 200, 15, null);
 		CollisionDetection.addCollider(floor);
-		CollisionDetection.addCollider(ceiling);
 	}
 
 	/**

@@ -14,6 +14,7 @@ import objects.Projectile;
 import objects.Wall;
 import shapes.Box;
 import shapes.Point;
+import shapes.TextureBox;
 import utillities.Logger;
 
 /**
@@ -23,7 +24,7 @@ import utillities.Logger;
  * @author Jasper
  *
  */
-public abstract class PowerUp extends Box implements GameObject {
+public abstract class PowerUp extends TextureBox implements GameObject {
 
 	/**
 	 * The deltaY with which the PowerUp is falling.
@@ -51,7 +52,7 @@ public abstract class PowerUp extends Box implements GameObject {
 	 *            color of the PowerUp.
 	 */
 	public PowerUp(final Point pos, final Color color) {
-		super(pos, 20, 20, color);
+		super(pos, 25, 25, color);
 	}
 
 	@Override
