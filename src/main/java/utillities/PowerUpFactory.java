@@ -2,8 +2,6 @@ package utillities;
 
 import java.util.Random;
 
-import game.Level;
-import objects.GameObject;
 import powerups.ExtraLifePowerUp;
 import powerups.FastArrowPowerUp;
 import powerups.MovementPowerUp;
@@ -23,9 +21,9 @@ public class PowerUpFactory {
 	 * @param c spawn position as Point object
 	 * @return powerup of any type
 	 */
-	public PowerUp getPowerUp(Point c) {
+	public PowerUp getPowerUp(Point c, Random r) {
 		Point pos = new Point(c);
-		double p = new Random().nextDouble();
+		double p = r.nextDouble();
 		if (p > 0.5) {
 			return new FastArrowPowerUp(pos);
 		} else if (p < 0.125) {

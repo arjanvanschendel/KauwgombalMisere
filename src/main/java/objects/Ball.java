@@ -10,10 +10,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-import powerups.ExtraLifePowerUp;
-import powerups.FastArrowPowerUp;
-import powerups.SlowBallPowerUp;
-import powerups.MovementPowerUp;
 import powerups.PowerUp;
 import shapes.Box;
 import shapes.Circle;
@@ -157,10 +153,11 @@ public class Ball extends Circle implements GameObject {
 	 * dropPowerUp: Randomly decides if a powerup is dropped.
 	 */
 	final void dropPowerUp() {
-		double r =  new Random().nextDouble();
+		Random random = new Random();
+		double r =  random.nextDouble();
+		PowerUpFactory factory = new PowerUpFactory();
 		if (r > 0.5) {
-			PowerUpFactory factory = new PowerUpFactory();
-			PowerUp p = factory.getPowerUp(new Point(getPosX(), getPosY()));
+			PowerUp p = factory.getPowerUp(new Point(getPosX(), getPosY()), random);
 			Level.addPowerUp(p);
 		}
 	}
