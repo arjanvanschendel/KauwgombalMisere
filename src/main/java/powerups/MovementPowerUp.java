@@ -1,5 +1,6 @@
 package powerups;
 
+import game.Game;
 import game.GameVariables;
 import game.Launcher;
 
@@ -7,6 +8,7 @@ import java.awt.Color;
 
 import shapes.Box;
 import shapes.Point;
+import shapes.TextureBox;
 
 /**
  * 
@@ -44,9 +46,10 @@ public class MovementPowerUp extends PowerUp {
 	 */
 	public MovementPowerUp(final Point pos) {
 		super(pos, Color.GREEN);
+		setTexture(Game.getInstance().getTextures().get("Movement"));
 		Point iPos = new Point(Launcher.getCamWidth() / 2 - 40,
 				Launcher.getCamHeight() - 30);
-		indicator = new Box(iPos, 20, 20, Color.GREEN);
+		indicator = new TextureBox(iPos, 20, 20, Color.GREEN, getTexture());
 		setPowerDuration(3);
 	}
 

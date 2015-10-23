@@ -119,6 +119,14 @@ public final class Game {
 				GL11.GL_REPEAT));
 		textures.put("arrow", new Texture("res/arrow.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP));
+		textures.put("Life", new Texture("res/powerup/Life.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("Movement", new Texture("res/powerup/Movement.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("FastArrow", new Texture("res/powerup/FastArrow.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("SlowMotion", new Texture("res/powerup/SlowMotion.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
 	}
 
 	/**
