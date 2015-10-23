@@ -8,6 +8,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -17,7 +19,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Matthias Tavasszy
  *
  */
-public class Sound {
+public class Sound implements LineListener {
 
 	/**
 	 * indicates whether there is an audio device or not.
@@ -100,26 +102,34 @@ public class Sound {
 	 *            loops
 	 */
 	public final void loop(final int n) {
+		playing = false;
 		try {
-			clip = null;
-
 			try {
-				audiostream = AudioSystem.getAudioInputStream(f);
-				clip = AudioSystem.getClip();
-				clip.open(audiostream);
-				FloatControl gainControl = (FloatControl) clip
-						.getControl(FloatControl.Type.MASTER_GAIN);
-				BooleanControl muteControl = (BooleanControl) clip
-						.getControl(BooleanControl.Type.MUTE);
-				if (volume == 0) {
-					muteControl.setValue(true);
-				} else {
-					muteControl.setValue(false);
-					gainControl.setValue((float) (Math.log(volume / 100d)
-							/ Math.log(10.0) * 20.0));
+				if ((clip == null) || (!clip.isOpen())) {
 
+					audiostream = AudioSystem.getAudioInputStream(f);
+					clip = AudioSystem.getClip();
+					clip.open(audiostream);
+					FloatControl gainControl = (FloatControl) clip
+							.getControl(FloatControl.Type.MASTER_GAIN);
+					BooleanControl muteControl = (BooleanControl) clip
+							.getControl(BooleanControl.Type.MUTE);
+					if (volume == 0) {
+						muteControl.setValue(true);
+					} else {
+						muteControl.setValue(false);
+						gainControl.setValue((float) (Math.log(volume / 100d)
+								/ Math.log(10.0) * 20.0));
+
+					}
+					clip.addLineListener(this);
+					clip.loop(n);
+				} else {
+					clip.stop();
+					clip.flush();
+					clip.setFramePosition(0);
+					clip.loop(n);
 				}
-				clip.loop(n);
 			} catch (UnsupportedAudioFileException | IOException
 					| LineUnavailableException e) {
 				e.printStackTrace();
@@ -183,5 +193,16 @@ public class Sound {
 						/ Math.log(10.0) * 20.0));
 			}
 		}
+	}
+
+	/**
+	 * Closes the clip when the clip has finished playing or is stopped.
+	 */
+	@Override
+	public void update(LineEvent event) {
+		if (event.getType().equals(LineEvent.Type.STOP) && playing) {
+			clip.close();
+		}
+
 	}
 }
