@@ -126,6 +126,10 @@ public class Launcher {
 		width = GLFWvidmode.width(vidmode);
 		height = GLFWvidmode.height(vidmode);
 
+		//Load settings
+		GameSettings.load();
+		GameSettings.setReload(false);
+		
 		if (GameSettings.isFullscreen()) {
 			// Fullscreen
 			long newwindow = glfwCreateWindow(width, height, "Hello World!",
@@ -248,10 +252,9 @@ public class Launcher {
 		game = Game.getInstance();
 		game.setup();
 		game.reset();
-
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
-		while (glfwWindowShouldClose(window) == GL_FALSE) {
+		while (glfwWindowShouldClose(window) == GL_FALSE && !GameSettings.exit()) {
 			glClear(GL_COLOR_BUFFER_BIT);
 			glLoadIdentity();
 

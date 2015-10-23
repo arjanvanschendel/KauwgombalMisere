@@ -2,6 +2,7 @@ package menu;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Game;
+import game.GameSettings;
 import game.Launcher;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class MainMenu {
 		}
 		if (exitBtn.isClicked()) {
 			System.out.println("Exiting system via exit button");
-			game.setState(4);
+			GameSettings.setExit(true);
 		}
 	}
 

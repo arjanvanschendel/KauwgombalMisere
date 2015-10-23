@@ -14,8 +14,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
-import utillities.Sound;
 import shapes.Point;
+import utillities.Sound;
 import utillities.Texture;
 
 /**
@@ -184,6 +184,7 @@ public class OptionMenu {
 			entry.getValue().setVolume(GameSettings.getMusicVolume());
 		}
 		GameSettings.setFullscreen(fullscreenCheckbox.isChecked());
+		GameSettings.save();
 	}
 
 	/**
