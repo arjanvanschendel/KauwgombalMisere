@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import menu.GameOverMenu;
 import menu.MainMenu;
 import menu.OptionMenu;
 
@@ -35,6 +36,7 @@ public final class Game {
 	private int lvl;
 	private int maxLvl;
 	private MainMenu menu;
+	private GameOverMenu gameOver;
 	private OptionMenu options;
 	private HashMap<String, Sound> soundFX = new HashMap<String, Sound>();
 	private HashMap<String, Sound> music = new HashMap<String, Sound>();
@@ -55,6 +57,7 @@ public final class Game {
 		loadSounds();
 		maxLvl = countLevels();
 		menu = new MainMenu();
+		gameOver = new GameOverMenu();
 		options = new OptionMenu();
 
 	}
@@ -115,6 +118,14 @@ public final class Game {
 		textures.put("Run", new Texture("res/Run.png", GL11.GL_NEAREST,
 				GL11.GL_REPEAT));
 		textures.put("arrow", new Texture("res/arrow.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("Life", new Texture("res/powerup/Life.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("Movement", new Texture("res/powerup/Movement.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("FastArrow", new Texture("res/powerup/FastArrow.png", GL11.GL_NEAREST,
+				GL11.GL_CLAMP));
+		textures.put("SlowMotion", new Texture("res/powerup/SlowMotion.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP));
 	}
 
@@ -217,6 +228,9 @@ public final class Game {
 		case (3):
 			options.update(deltaTime);
 			break;
+		case (5):
+			gameOver.update(deltaTime);
+			break;
 		default:
 			System.out.println("INVALID STATE: " + state
 					+ ". (Game.update method)");
@@ -274,6 +288,9 @@ public final class Game {
 			break;
 		case (3):
 			options.render();
+			break;
+		case (5):
+			gameOver.render();
 			break;
 		default:
 			System.out.println("INVALID STATE: " + state

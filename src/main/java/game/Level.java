@@ -167,7 +167,7 @@ public class Level {
 				readLevel();
 			} else {
 				Logger.add("Game reset");
-				game.reset();
+				game.setState(5);
 			}
 		}
 		remove();
