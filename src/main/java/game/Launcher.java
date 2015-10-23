@@ -76,6 +76,7 @@ public class Launcher {
 	private static long window;
 	private static TrueTypeFont font;
 	private Game game;
+	private static boolean close;
 
 	/**
 	 * Run method.
@@ -251,7 +252,7 @@ public class Launcher {
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
-		while (glfwWindowShouldClose(window) == GL_FALSE) {
+		while (glfwWindowShouldClose(window) == GL_FALSE && !close) {
 			glClear(GL_COLOR_BUFFER_BIT);
 			glLoadIdentity();
 
@@ -349,9 +350,17 @@ public class Launcher {
 	}
 
 	/**
+	 * Shuts down the game.
+	 */
+	public static void close() {
+		close = true;
+	}
+
+	/**
 	 * Convert a pixel position to an openGL position.
 	 * 
-	 * @param point To be converted
+	 * @param point
+	 *            To be converted
 	 */
 	public static void pixelToOpenGLPos(Point point) {
 		point.setX(((float) point.getX() / Launcher.getWidth())

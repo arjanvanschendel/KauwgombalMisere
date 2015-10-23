@@ -98,7 +98,7 @@ public class MainMenu {
 		}
 		if (exitBtn.isClicked()) {
 			System.out.println("Exiting system via exit button");
-			game.setState(4);
+			Launcher.close();
 		}
 	}
 
