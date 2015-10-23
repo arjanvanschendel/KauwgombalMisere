@@ -90,27 +90,8 @@ public class GameOverMenu {
 		for (Button btn : buttons) {
 			btn.update(deltaTime);
 		}
-
-		if (replayBtn.isClicked()) {
-			GameVariables.setLives(3);
-			game.setScore(0);
-			game.loadLevel(1);
-			game.setState(0);
-		}
-		if (menuBtn.isClicked()) {
-			System.out.println("Menu button clicked");
-			game.reset();
-		}
-		if (rageBtn.isClicked()) {
-			System.out.println("Exiting system via exit button");
-			Launcher.close();
-		}
-	}
-
-	/**
-	 * render: render the screen's background, text, and objects.
-	 */
-	public final void render() {
+		
+		//Switches between the different backgrounds, making the skull and text look animated
 		long time = System.currentTimeMillis();
 		if (time - lastUpdate > 500) {
 			lastUpdate = time;
@@ -133,7 +114,31 @@ public class GameOverMenu {
 				break;
 			}
 		}
-		switch(bgState){
+
+		if (replayBtn.isClicked()) {
+			GameVariables.setLives(3);
+			game.setScore(0);
+			game.loadLevel(1);
+			game.setState(0);
+		}
+		if (menuBtn.isClicked()) {
+			System.out.println("Menu button clicked");
+			game.reset();
+		}
+		if (rageBtn.isClicked()) {
+			System.out.println("Exiting system via exit button");
+			Launcher.close();
+		}
+	}
+
+	/**
+	 * render: render the screen's background, text, and objects.
+	 */
+	public final void render() {
+		
+		
+		//Renders the different backgrounds, making the skull and text look animated
+		switch (bgState) {
 		case(0):
 			background.bind();
 			break;
@@ -146,9 +151,10 @@ public class GameOverMenu {
 		case(3):
 			background4.bind();
 			break;
+		default:
+			System.out.println("Invalid bgState: " + bgState);
+			break;
 		}
-		
-		
 
 		GL11.glBegin(GL11.GL_QUADS);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
