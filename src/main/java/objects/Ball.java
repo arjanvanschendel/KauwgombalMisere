@@ -14,10 +14,12 @@ import powerups.ExtraLifePowerUp;
 import powerups.FastArrowPowerUp;
 import powerups.SlowBallPowerUp;
 import powerups.MovementPowerUp;
+import powerups.PowerUp;
 import shapes.Box;
 import shapes.Circle;
 import shapes.Point;
 import utillities.Logger;
+import utillities.PowerUpFactory;
 
 /**
  * Class Ball: an object of this class represents a bouncing ball in the game.
@@ -152,24 +154,14 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * dropPowerUp: Randomly decides if a powerup is dropped and if so which
-	 * one.
+	 * dropPowerUp: Randomly decides if a powerup is dropped.
 	 */
 	final void dropPowerUp() {
-		Random rand = new Random();
-		double randomNum = rand.nextDouble();
-		if (randomNum > 0.5) {
-			double randomNum2 = rand.nextDouble();
-			Point pos = new Point(getPosX(), getPosY());
-			if (randomNum2 > 0.5) {
-				Level.addPowerUp(new FastArrowPowerUp(pos));
-			} else if (randomNum2 < 0.125) {
-				Level.addPowerUp(new SlowBallPowerUp(pos));
-			} else if (randomNum2 >= 0.375 && randomNum2 <= 0.5) {
-				Level.addPowerUp(new ExtraLifePowerUp(pos));
-			} else if (randomNum2 >= 0.125 && randomNum2 < 0.375) {
-				Level.addPowerUp(new MovementPowerUp(pos));
-			}
+		double r =  new Random().nextDouble();
+		if (r > 0.5) {
+			PowerUpFactory factory = new PowerUpFactory();
+			PowerUp p = factory.getPowerUp(new Point(getPosX(), getPosY()));
+			Level.addPowerUp(p);
 		}
 	}
 
