@@ -1,10 +1,5 @@
 package game;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import objects.Ball;
@@ -17,6 +12,8 @@ import powerups.PowerUp;
 import utillities.Logger;
 import utillities.ObjectGenerator;
 import utillities.Sound;
+import filehandling.FileEntry;
+import filehandling.FileParser;
 
 /**
  * Level Class: an object of this class represents a level in the game,
@@ -196,50 +193,31 @@ public class Level {
 	 */
 	public void readLevel() {
 		clear();
-		InputStreamReader inputStreamReader;
-		try {
-			inputStreamReader = new InputStreamReader(new FileInputStream(loc),
-					StandardCharsets.UTF_8);
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
 
-				int parameterStart = line.indexOf('(');
-				int parameterEnd = line.indexOf(')');
-
-				if (parameterStart != -1 && parameterEnd != -1) {
-					String type = line.substring(0, parameterStart);
-					String param = line.substring(parameterStart + 1,
-							parameterEnd);
-					String[] para = param.split("\\,");
-					if (type.equals("gravity")) {
-						GameVariables.setGravity(Float.parseFloat(para[0]));
-					} else if (type.equals("box")) {
-						Wall wall = ObjectGenerator.genWall(para);
-						objects.add(wall);
-						CollisionDetection.addCollider(wall);
-					} else if (type.equals("ball")) {
-						Ball ball = ObjectGenerator.genBall(para);
-						objects.add(ball);
-						CollisionDetection.addCollider(ball);
-					} else if (type.equals("player")) {
-						player = ObjectGenerator.genPlayer(para);
-						objects.add(0, player);
-						CollisionDetection.addCollider(player);
-					} else if (type.equals("name")) {
-						name = para[0];
-					} else if (type.equals("song")) {
-						music = param;
-					}
-				}
+		FileParser fp = new FileParser(loc);
+		for (FileEntry entry : fp.getEntries()) {
+			String type = entry.getName();
+			ArrayList<String> para = entry.getParameters();
+			if (type.equals("gravity")) {
+				GameVariables.setGravity(Float.parseFloat(para.get(0)));
+			} else if (type.equals("box")) {
+				Wall wall = ObjectGenerator.genWall(para);
+				objects.add(wall);
+				CollisionDetection.addCollider(wall);
+			} else if (type.equals("ball")) {
+				Ball ball = ObjectGenerator.genBall(para);
+				objects.add(ball);
+				CollisionDetection.addCollider(ball);
+			} else if (type.equals("player")) {
+				player = ObjectGenerator.genPlayer(para);
+				objects.add(0, player);
+				CollisionDetection.addCollider(player);
+			} else if (type.equals("name")) {
+				name = para.get(0);
+			} else if (type.equals("song")) {
+				music = para.get(0);
 			}
-			bufferedReader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 	}
 
 	/**

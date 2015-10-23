@@ -5,15 +5,45 @@ import java.util.ArrayList;
 import org.lwjgl.glfw.GLFWKeyCallback;
 
 /**
- * 
+ * Handles keyboard input.
  * @author Jasper
  *
  */
 public class Keyboard extends GLFWKeyCallback {
 
-	private static boolean[] keys = new boolean[65536];
-	private static boolean[] releasedKeys = new boolean[65536];
-	private static ArrayList<Integer> released = new ArrayList<Integer>();
+	private static boolean[] keys;
+	private static boolean[] releasedKeys;
+	private static ArrayList<Integer> released;
+	
+	/**
+	 * Sets basic variables for the keyboard.
+	 */
+	public Keyboard() {
+		setKeys(new boolean[65536]);
+		setReleasedKeys(new boolean[65536]);
+		setReleased(new ArrayList<Integer>());
+	}
+
+	/**
+	 * @param keys the keys to set
+	 */
+	public static void setKeys(boolean[] keys) {
+		Keyboard.keys = keys.clone();
+	}
+
+	/**
+	 * @param releasedKeys the releasedKeys to set
+	 */
+	public static void setReleasedKeys(boolean[] releasedKeys) {
+		Keyboard.releasedKeys = releasedKeys.clone();
+	}
+
+	/**
+	 * @param released the released to set
+	 */
+	public static void setReleased(ArrayList<Integer> released) {
+		Keyboard.released = released;
+	}
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {

@@ -126,6 +126,12 @@ public class Launcher {
 		width = GLFWvidmode.width(vidmode);
 		height = GLFWvidmode.height(vidmode);
 
+		// Load settings
+		if (!GameSettings.reload()) {
+			GameSettings.load();
+		}
+		GameSettings.setReload(false);
+
 		if (GameSettings.isFullscreen()) {
 			// Fullscreen
 			long newwindow = glfwCreateWindow(width, height, "Hello World!",
@@ -225,7 +231,7 @@ public class Launcher {
 		});
 
 		glfwSetCallback(window, windowResize);
-
+		
 		keyCallback = new Keyboard();
 		mouseButtonsCallback = new MouseButtons();
 		cursorPositionCallback = new CursorPos();
@@ -248,10 +254,10 @@ public class Launcher {
 		game = Game.getInstance();
 		game.setup();
 		game.reset();
-
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
-		while (glfwWindowShouldClose(window) == GL_FALSE) {
+		while (glfwWindowShouldClose(window) == GL_FALSE
+				&& !GameSettings.exit()) {
 			glClear(GL_COLOR_BUFFER_BIT);
 			glLoadIdentity();
 
@@ -265,7 +271,6 @@ public class Launcher {
 			glfwPollEvents();
 
 			if (GameSettings.reload()) {
-				GameSettings.setReload(false);
 				init();
 				initOpenGL();
 			}
@@ -351,7 +356,8 @@ public class Launcher {
 	/**
 	 * Convert a pixel position to an openGL position.
 	 * 
-	 * @param point To be converted
+	 * @param point
+	 *            To be converted
 	 */
 	public static void pixelToOpenGLPos(Point point) {
 		point.setX(((float) point.getX() / Launcher.getWidth())

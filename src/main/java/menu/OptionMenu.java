@@ -1,5 +1,8 @@
 package menu;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_Y;
 import static org.lwjgl.opengl.GL11.glColor4f;
 import game.Game;
 import game.GameSettings;
@@ -14,9 +17,13 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.TextureImpl;
 
-import utillities.Sound;
 import shapes.Point;
+import utillities.Keyboard;
+import utillities.Sound;
 import utillities.Texture;
+import commands.MusicVolumeCommand;
+import commands.Remote;
+import commands.SfxVolumeCommand;
 
 /**
  * Draws and updates the option menu.
@@ -79,6 +86,8 @@ public class OptionMenu {
 	 * Slider used to control music volume slider.
 	 */
 	private Slider musicVolumeSlider;
+	private Remote r;
+	private boolean undo;
 
 	/**
 	 * A class to draw and maintain the main menu.
@@ -86,12 +95,12 @@ public class OptionMenu {
 	public OptionMenu() {
 		background = new Texture("res/KMmain.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP);
-		
+
 		Point savePos = new Point((float) -Launcher.getCamWidth() / 10,
 				(float) Launcher.getCamHeight() / 3 - 150);
 		saveBtn = new Button(savePos, 150f, 25f, java.awt.Color.white, "Save");
 		buttons.add(saveBtn);
-		
+
 		Point backPos = new Point((float) Launcher.getCamWidth() / 10,
 				(float) Launcher.getCamHeight() / 3 - 150);
 		backBtn = new Button(backPos, 150f, 25f, java.awt.Color.white, "Back");
@@ -118,6 +127,8 @@ public class OptionMenu {
 		width = Launcher.getCamWidth();
 		height = Launcher.getCamHeight();
 		System.out.println("WxH = " + width + "x" + height);
+
+		r = new Remote();
 
 	}
 
@@ -153,7 +164,7 @@ public class OptionMenu {
 
 		if (saveBtn.isClicked()) {
 			System.out.println("save");
-			save();
+			GameSettings.save();
 		}
 
 		if (backBtn.isClicked()) {
@@ -161,29 +172,49 @@ public class OptionMenu {
 		}
 
 		if (sfxVolumeSlider.isChanged()) {
-			GameSettings.setSFXVolume(sfxVolumeSlider.getPercentage());
-			game.getSoundFX().get("playerHit").setVolume(GameSettings.getSFXVolume());
+			r.setSfxCommand(new SfxVolumeCommand(sfxVolumeSlider
+					.getPercentage()));
+			r.adjustSfxVolume();
 			game.getSoundFX().get("playerHit").play();
 		}
 
 		if (musicVolumeSlider.isChanged()) {
-			GameSettings.setMusicVolume(musicVolumeSlider.getPercentage());
-			game.getMusic().get("Solar_Sailer").setVolume(GameSettings.getMusicVolume());
-		}
-	}
-
-	/**
-	 * Method to save settings.
-	 */
-	private void save() {
-		for (Entry<String, Sound> entry : game.getSoundFX().entrySet()) {
-			entry.getValue().setVolume(GameSettings.getSFXVolume());
+			r.setMusicCommand(new MusicVolumeCommand(musicVolumeSlider
+					.getPercentage()));
+			r.adjustMusicVolume();
 		}
 
-		for (Entry<String, Sound> entry : game.getMusic().entrySet()) {
-			entry.getValue().setVolume(GameSettings.getMusicVolume());
+		if (fullscreenCheckbox.isChecked() != GameSettings.isFullscreen()) {
+			if (fullscreenCheckbox.isChecked()) {
+				r.fullscreen();
+			} else {
+				r.windowed();
+			}
 		}
-		GameSettings.setFullscreen(fullscreenCheckbox.isChecked());
+
+		if (Keyboard.isKeyDown(GLFW_KEY_LEFT_CONTROL)
+				&& Keyboard.isKeyDown(GLFW_KEY_Z)) {
+			if (!undo) {
+
+				undo = true;
+				r.undo();
+				sfxVolumeSlider.setPercentage(GameSettings.getSFXVolume());
+				musicVolumeSlider.setPercentage(GameSettings.getMusicVolume());
+				fullscreenCheckbox.setClicked(GameSettings.isFullscreen());
+			}
+		} else if (Keyboard.isKeyDown(GLFW_KEY_LEFT_CONTROL)
+				&& Keyboard.isKeyDown(GLFW_KEY_Y)) {
+
+			if (!undo) {
+				undo = true;
+				r.redo();
+				sfxVolumeSlider.setPercentage(GameSettings.getSFXVolume());
+				musicVolumeSlider.setPercentage(GameSettings.getMusicVolume());
+				fullscreenCheckbox.setClicked(GameSettings.isFullscreen());
+			}
+		} else {
+			undo = false;
+		}
 	}
 
 	/**
