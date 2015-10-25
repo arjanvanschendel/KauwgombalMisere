@@ -94,14 +94,13 @@ public final class CollisionDetection {
 					if (collider instanceof Ball) {
 						int side = collideBoxBall((Ball) collider, (Box) col);
 						if (side != 0) {
-							if (side == 1) {
-								side = 3;
-							} else if (side == 2) {
-								side = 4;
-							} else if (side == 3) {
-								side = 1;
-							} else if (side == 4) {
-								side = 2;
+							switch (side) {
+								case 1 : side = 3; break;
+								case 2 : side = 4; break;
+								case 3 : side = 1; break;
+								case 4 : side = 2; break;
+							default:
+								break;
 							}
 							res.add(new Collision(collider, side));
 						}
