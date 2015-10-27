@@ -198,24 +198,39 @@ public class Level {
 		for (FileEntry entry : fp.getEntries()) {
 			String type = entry.getName();
 			ArrayList<String> para = entry.getParameters();
-			if (type.equals("gravity")) {
-				GameVariables.setGravity(Float.parseFloat(para.get(0)));
-			} else if (type.equals("box")) {
-				Wall wall = ObjectGenerator.genWall(para);
-				objects.add(wall);
-				CollisionDetection.addCollider(wall);
-			} else if (type.equals("ball")) {
-				Ball ball = ObjectGenerator.genBall(para);
-				objects.add(ball);
-				CollisionDetection.addCollider(ball);
-			} else if (type.equals("player")) {
-				player = ObjectGenerator.genPlayer(para);
-				objects.add(0, player);
-				CollisionDetection.addCollider(player);
-			} else if (type.equals("name")) {
-				name = para.get(0);
-			} else if (type.equals("song")) {
-				music = para.get(0);
+			
+			switch (type) {
+			
+				case "gravity" : GameVariables.setGravity(Float.parseFloat(para.get(0)));
+				break;
+				
+				case "box" : {
+					Wall wall = ObjectGenerator.genWall(para);
+					objects.add(wall);
+					CollisionDetection.addCollider(wall);
+				} break;
+				
+				case "ball" : {
+					Ball ball = ObjectGenerator.genBall(para);
+					objects.add(ball);
+					CollisionDetection.addCollider(ball);
+				} break;
+				
+				case "player" : {
+					player = ObjectGenerator.genPlayer(para);
+					objects.add(0, player);
+					CollisionDetection.addCollider(player);
+				} break;
+				
+				case "name" : name = para.get(0);
+				break;
+				
+				case "song" : music = para.get(0);
+				break;
+				
+			default:
+				break;
+
 			}
 		}
 	}
