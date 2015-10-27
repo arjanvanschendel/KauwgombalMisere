@@ -52,10 +52,11 @@ public class Ball extends Circle implements GameObject {
 	 *            the starting position of the circle in Point format
 	 * @param radius
 	 *            radius of the ball
+	 * @param dX
+	 *            delta X of the ball
 	 */
-	public Ball(final Point pos, final float radius) {
+	public Ball(final Point pos, final float radius, final float dX) {
 		super(pos, radius);
-
 		switch ((int) radius) {
 		case 50:
 			setColor(Color.red);
@@ -71,6 +72,7 @@ public class Ball extends Circle implements GameObject {
 			break;
 		}
 		height = getPosY();
+		deltaX = dX;
 	}
 
 	/**
@@ -133,8 +135,8 @@ public class Ball extends Circle implements GameObject {
 		ScorePopUp popUp = new ScorePopUp(new Point(p), this.getRadius());
 		Level.addPopUp(popUp);
 		Level.remove(this);
-		Ball ball = new Ball(p, getRadius() / 2);
-		Ball ball2 = new Ball(new Point(p), getRadius() / 2);	
+		Ball ball = new Ball(p, getRadius() / 2, deltaX);
+		Ball ball2 = new Ball(new Point(p), getRadius() / 2, deltaX);
 		if (ball.getRadius() > 10) {
 			Logger.add("ball splits");
 			ball2.setDeltaX(-deltaX);
@@ -154,10 +156,11 @@ public class Ball extends Circle implements GameObject {
 	 */
 	final void dropPowerUp() {
 		Random random = new Random();
-		double r =  random.nextDouble();
+		double r = random.nextDouble();
 		PowerUpFactory factory = new PowerUpFactory();
 		if (r > 0.5) {
-			PowerUp p = factory.getPowerUp(new Point(getPosX(), getPosY()), random);
+			PowerUp p = factory.getPowerUp(new Point(getPosX(), getPosY()),
+					random);
 			Level.addPowerUp(p);
 		}
 	}
@@ -256,7 +259,8 @@ public class Ball extends Circle implements GameObject {
 	}
 
 	/**
-	 * @param height the height to set
+	 * @param height
+	 *            the height to set
 	 */
 	public final void setHeight(float height) {
 		this.height = height;

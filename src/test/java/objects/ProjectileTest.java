@@ -56,7 +56,7 @@ public class ProjectileTest {
 	public void updateBallCollisionsTest() {
 		Point p = new Point(0, 0);
 		Projectile a = new Projectile(p);
-		Ball b = new Ball(new Point(0, 0), 1);
+		Ball b = new Ball(new Point(0, 0), 1, 2);
 		CollisionDetection.addCollider(b);
 		a.update(0);
 		assertTrue(a.getHitBall());

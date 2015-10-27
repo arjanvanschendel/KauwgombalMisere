@@ -12,7 +12,6 @@ import objects.GameObject;
 import objects.Player;
 import objects.Projectile;
 import objects.Wall;
-import shapes.Box;
 import shapes.Point;
 import shapes.TextureBox;
 import utillities.Logger;
