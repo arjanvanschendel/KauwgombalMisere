@@ -150,7 +150,7 @@ public class CollisionDetectionTest {
 
 		// Near hit Left of b
 		Point pA = new Point(-1, 0);
-		Point pB = new Point(10, 0);	
+		Point pB = new Point(10, 0);
 		Wall a = new Wall(pA, 10, 10, null);
 		Wall b = new Wall(pB, 10, 10, null);
 		CollisionDetection.clear();
@@ -197,7 +197,7 @@ public class CollisionDetectionTest {
 		Point p = new Point(0, 0);
 		Point pB = new Point(15, 5);
 		Wall a = new Wall(p, 10, 10, null);
-		Ball b = new Ball(pB, 5);
+		Ball b = new Ball(pB, 5, 2);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
@@ -259,7 +259,7 @@ public class CollisionDetectionTest {
 		Point p = new Point(-1, 0);
 		Point pB = new Point(15, 5);
 		Wall a = new Wall(p, 10, 10, null);
-		Ball b = new Ball(pB, 5);
+		Ball b = new Ball(pB, 5, 2);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);
 		ArrayList<Collision> collisions = CollisionDetection.collision(b);
@@ -304,7 +304,7 @@ public class CollisionDetectionTest {
 		// Hit Left of b
 		Point p = new Point(10, 0);
 		Point pB = new Point(5, 5);
-		Ball a = new Ball(pB, 5);
+		Ball a = new Ball(pB, 5, 2);
 		Wall b = new Wall(p, 10, 10, null);
 		CollisionDetection.clear();
 		CollisionDetection.addCollider(a);

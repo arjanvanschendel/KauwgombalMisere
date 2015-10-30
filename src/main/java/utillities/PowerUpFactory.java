@@ -11,14 +11,19 @@ import shapes.Point;
 
 /**
  * This object is a factory for powerups.
+ * 
  * @author Luke
  *
  */
 public class PowerUpFactory {
-	
+
 	/**
 	 * Choose random powerup and return this to the caller.
-	 * @param c spawn position as Point object
+	 * 
+	 * @param c
+	 *            spawn position as Point object
+	 * @param r
+	 *            Random value used to chose the powerup
 	 * @return powerup of any type
 	 */
 	public PowerUp getPowerUp(Point c, Random r) {
