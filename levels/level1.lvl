@@ -1,11 +1,13 @@
 //box(posx,posy,width,height,r,g,b)
 //player(posx,posy)
-name(The dungeon)
+//Ball limits 50, 25, 12.5
+//Level breedte is -450 tot 450 dus 900
+name(Push me..)
 box(-1000,0,2000,100,0.8,0.8,0.5)
 box(-1000,500,2000,100,1,0.2,0.2)
 box(-500,0,50,2000,0.8,0.8,0.5)
 box(450,0,50,2000,0.8,0.8,0.5)
 gravity(9.81)
-ball(0,400,25,2)
+ball(0,300,12.5,2)
 player(250,100)
 song(Satisfaction)

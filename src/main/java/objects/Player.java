@@ -36,7 +36,7 @@ public class Player extends Box implements GameObject {
 	private boolean alive = true;
 	private SpriteSheet selected = null;
 	private boolean mirrored;
-	private double targetDelta = 16.6666667;
+	private double targetDelta = 13.6666667;
 	private double target;
 
 	/**
@@ -45,7 +45,8 @@ public class Player extends Box implements GameObject {
 	 * @param pos position of the player in Point format
 	 */
 	public Player(Point pos) {
-		super(pos, 60, 100, new Color(1, 1, 1));
+		super(pos, 48, 80, new Color(1, 1, 1));
+		setPosX(getPosX()-getWidth()/1);
 		setState(new IdleState());
 		state.update(this);
 		mirrored = false;
