@@ -15,8 +15,6 @@ import java.awt.Color;
  *
  */
 public class Box {
-	// private float posx;
-	// private float posy;
 	private float width;
 	private float height;
 	private Point[] corners = new Point[4];
@@ -24,31 +22,6 @@ public class Box {
 
 	private Point pos;
 
-	// /**
-	// *
-	// * @param posx
-	// * x position
-	// * @param posy
-	// * y position
-	// * @param width
-	// * width of box
-	// * @param height
-	// * height of box
-	// * @param color
-	// * color of box
-	// */
-	// public Box(float posx, float posy, float width, float height, Color
-	// color) {
-	// this.posx = posx;
-	// this.posy = posy;
-	// this.width = width;
-	// this.height = height;
-	// this.color = color;
-	// corners[0] = new Point(posx, posy);
-	// corners[1] = new Point(posx + width, posy);
-	// corners[2] = new Point(posx + width, posy + height);
-	// corners[3] = new Point(posx, posy + height);
-	// }
 
 	/**
 	 * 
