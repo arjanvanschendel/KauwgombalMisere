@@ -7,7 +7,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import menu.Button;
 import menu.GameOverMenu;
+import menu.InGameOptionMenu;
 import menu.MainMenu;
 import menu.OptionMenu;
 
@@ -15,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.TextureImpl;
 
+import shapes.Point;
 import utillities.Keyboard;
 import utillities.Logger;
 import utillities.MouseButtons;
@@ -38,6 +41,20 @@ public final class Game {
 	private MainMenu menu;
 	private GameOverMenu gameOver;
 	private OptionMenu options;
+	private InGameOptionMenu inGameOptions;
+
+	private Button resume = new Button(new Point(-75f,
+			(float) Launcher.getCamHeight() / 3 + 135f), 150f, 25f,
+			java.awt.Color.white, "Resume");
+	private Button main = new Button(new Point(-75f,
+			(float) Launcher.getCamHeight() / 3 + 90f), 150f, 25f,
+			java.awt.Color.white, "Main menu");
+	private Button option = new Button(new Point(-75f,
+			(float) Launcher.getCamHeight() / 3 + 45f), 150f, 25f,
+			java.awt.Color.white, "Options");
+	private Button exit = new Button(new Point(-75f,
+			(float) Launcher.getCamHeight() / 3), 150f, 25f,
+			java.awt.Color.white, "Exit");
 	private HashMap<String, Sound> soundFX = new HashMap<String, Sound>();
 	private HashMap<String, Sound> music = new HashMap<String, Sound>();
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -59,6 +76,7 @@ public final class Game {
 		menu = new MainMenu();
 		gameOver = new GameOverMenu();
 		options = new OptionMenu();
+		inGameOptions = new InGameOptionMenu();
 
 	}
 
@@ -119,14 +137,14 @@ public final class Game {
 				GL11.GL_REPEAT));
 		textures.put("arrow", new Texture("res/arrow.png", GL11.GL_NEAREST,
 				GL11.GL_CLAMP));
-		textures.put("Life", new Texture("res/powerup/Life.png", GL11.GL_NEAREST,
-				GL11.GL_CLAMP));
-		textures.put("Movement", new Texture("res/powerup/Movement.png", GL11.GL_NEAREST,
-				GL11.GL_CLAMP));
-		textures.put("FastArrow", new Texture("res/powerup/FastArrow.png", GL11.GL_NEAREST,
-				GL11.GL_CLAMP));
-		textures.put("SlowMotion", new Texture("res/powerup/SlowMotion.png", GL11.GL_NEAREST,
-				GL11.GL_CLAMP));
+		textures.put("Life", new Texture("res/powerup/Life.png",
+				GL11.GL_NEAREST, GL11.GL_CLAMP));
+		textures.put("Movement", new Texture("res/powerup/Movement.png",
+				GL11.GL_NEAREST, GL11.GL_CLAMP));
+		textures.put("FastArrow", new Texture("res/powerup/FastArrow.png",
+				GL11.GL_NEAREST, GL11.GL_CLAMP));
+		textures.put("SlowMotion", new Texture("res/powerup/SlowMotion.png",
+				GL11.GL_NEAREST, GL11.GL_CLAMP));
 	}
 
 	/**
@@ -179,7 +197,8 @@ public final class Game {
 	 * Stops all current songs and plays the song for the current level.
 	 */
 	public void playCurrentLevelSong() {
-		if (currentLvl.getLevelSong() != null && !currentLvl.getLevelSong().isPlaying()) {
+		if (currentLvl.getLevelSong() != null
+				&& !currentLvl.getLevelSong().isPlaying()) {
 			for (Entry<String, Sound> entry : getMusic().entrySet()) {
 				entry.getValue().stop();
 			}
@@ -219,6 +238,22 @@ public final class Game {
 		case (1):
 			// Paused
 			playCurrentLevelSong();
+			resume.update(deltaTime);
+			main.update(deltaTime);
+			option.update(deltaTime);
+			exit.update(deltaTime);
+			if (resume.isClicked()) {
+				state = 0;
+			} else if (main.isClicked()) {
+				GameVariables.setLives(3);
+				setScore(0);
+				loadLevel(1);
+				state = 2;
+			} else if (option.isClicked()) {
+				state = 6;
+			} else if (exit.isClicked()) {
+				GameSettings.setExit(true);
+			}
 			break;
 
 		case (2):
@@ -230,6 +265,9 @@ public final class Game {
 			break;
 		case (5):
 			gameOver.update(deltaTime);
+			break;
+		case (6):
+			inGameOptions.update(deltaTime);
 			break;
 		default:
 			System.out.println("INVALID STATE: " + state
@@ -279,9 +317,13 @@ public final class Game {
 			currentLvl.render();
 			GL11.glScalef(1, -1, 1);
 			TextureImpl.bindNone();
-			Launcher.getFont().drawString(-50, -300, "PAUSED", Color.yellow);
+			Launcher.getFont().drawString(-50, -450, "PAUSED", Color.yellow);
 			GL11.glScalef(1, -1, 1);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			resume.render();
+			main.render();
+			option.render();
+			exit.render();
 			break;
 		case (2):
 			menu.render();
@@ -291,6 +333,10 @@ public final class Game {
 			break;
 		case (5):
 			gameOver.render();
+			break;
+		case (6):
+			currentLvl.render();
+			inGameOptions.render();
 			break;
 		default:
 			System.out.println("INVALID STATE: " + state
