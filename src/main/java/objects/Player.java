@@ -42,11 +42,12 @@ public class Player extends Box implements GameObject {
 	/**
 	 * Player: constructor.
 	 * 
-	 * @param pos position of the player in Point format
+	 * @param pos
+	 *            position of the player in Point format
 	 */
 	public Player(Point pos) {
 		super(pos, 48, 80, new Color(1, 1, 1));
-		setPosX(getPosX()-getWidth()/1);
+		setPosX(getPosX() - getWidth() / 1);
 		setState(new IdleState());
 		state.update(this);
 		mirrored = false;
@@ -140,8 +141,9 @@ public class Player extends Box implements GameObject {
 	 * Lets the player shoot a vertical beam or activate a powerup.
 	 */
 	public void shoot() {
-		
-		Point pos = new Point(this.getPosX() + (this.getWidth() / 2), this.getPosY());
+
+		Point pos = new Point(this.getPosX() + (this.getWidth() / 2),
+				this.getPosY());
 		Projectile p = new Projectile(pos);
 		Level.setProjectile(p);
 	}
